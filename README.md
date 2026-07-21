@@ -5,6 +5,9 @@
   <p align="center">Switch from confusion to confident financial decisions.</p>
 
   <p align="center">
+    <a href="https://github.com/OK45batwal/FINSWITCH/raw/master/assets/finswitch.apk">
+      <img src="https://img.shields.io/badge/Download_APK-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
+    </a>
     <a href="https://github.com/OK45batwal/FINSWITCH">
       <img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
     </a>

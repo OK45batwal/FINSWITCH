@@ -6,13 +6,15 @@
 - [x] Database schema
 - [x] Backend API structure
 - [x] Flutter app scaffold
-- [ ] User authentication (register/login)
-- [ ] Basic market data integration
-- [ ] Portfolio tracking (manual entry)
-- [ ] Watchlist CRUD
-- [ ] AI Copilot (basic chat)
-- [ ] News feed with categories
-- [ ] Mobile app bottom navigation
+- [x] User authentication (register/login) with JWT
+- [x] Basic market data (12 stocks, indices, gainers/losers)
+- [x] Portfolio tracking (holdings, summary, P&L)
+- [x] Watchlist CRUD
+- [x] AI Copilot (basic chat with contextual responses)
+- [x] News feed with categories and sentiment
+- [x] SIP calculator
+- [x] Learning courses listing
+- [ ] Mobile app bottom navigation (scaffold done, screens pending)
 
 ## Phase 2 — Analytics & Intelligence — Q3 2026
 - [ ] Stock screener with advanced filters

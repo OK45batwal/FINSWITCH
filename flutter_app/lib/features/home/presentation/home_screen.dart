@@ -16,26 +16,7 @@ class HomeScreen extends ConsumerWidget {
     final mq = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 28, height: 28,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryBlue,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Center(
-                child: Text('F', style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w800,
-                  color: Colors.white, letterSpacing: -1,
-                )),
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Text('FinSwitch'),
-          ],
-        ),
+        title: Image.asset('assets/logo-horizontal.png', height: 28, fit: BoxFit.contain, filterQuality: FilterQuality.high),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_rounded),

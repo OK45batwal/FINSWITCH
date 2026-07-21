@@ -81,26 +81,54 @@ Infra        →  Docker · Celery Workers
 
 ## ✦ Screenshots
 
+### Website
+
 <table>
   <tr>
-    <td width="50%"><img src="websitescreenshot1.png" alt="Landing Page" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"></td>
-    <td width="50%"><img src="websitescreenshot2.png" alt="Features" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"></td>
+    <td width="50%"><img src="assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="assets/website-desktop.png" alt="Desktop View" style="border-radius: 12px;"></td>
   </tr>
   <tr>
-    <td align="center"><em>Landing Page — Hero Section</em></td>
-    <td align="center"><em>Features & AI Demo</em></td>
+    <td align="center"><em>Hero Section — Bento Grid Layout</em></td>
+    <td align="center"><em>Full Desktop Viewport</em></td>
   </tr>
   <tr>
-    <td width="50%"><img src="websitescreenshot3.png" alt="Markets" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"></td>
-    <td width="50%"><img src="websitescreenshot4.png" alt="Portfolio" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"></td>
+    <td width="50%"><img src="assets/website-fullpage.png" alt="Full Page" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="assets/website-mobile.png" alt="Mobile View" style="border-radius: 12px;"></td>
   </tr>
   <tr>
-    <td align="center"><em>Live Market Data Table</em></td>
-    <td align="center"><em>Portfolio Dashboard Preview</em></td>
+    <td align="center"><em>Full Page — All Sections</em></td>
+    <td align="center"><em>Mobile Viewport</em></td>
   </tr>
 </table>
 
-> **Note:** Take screenshots by serving the website locally with `python3 -m http.server 3000` from the `website/` directory, then replace the image filenames above with actual screenshots.
+### Mobile App
+
+<table>
+  <tr>
+    <td width="20%"><img src="assets/App-Home.png" alt="App Home" style="border-radius: 12px; width: 100%;"></td>
+    <td width="20%"><img src="assets/App-Markets.png" alt="App Markets" style="border-radius: 12px; width: 100%;"></td>
+    <td width="20%"><img src="assets/App-AI.png" alt="App AI" style="border-radius: 12px; width: 100%;"></td>
+    <td width="20%"><img src="assets/App-Portfolio.png" alt="App Portfolio" style="border-radius: 12px; width: 100%;"></td>
+    <td width="20%"><img src="assets/App-News.png" alt="App News" style="border-radius: 12px; width: 100%;"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>Home</em></td>
+    <td align="center"><em>Markets</em></td>
+    <td align="center"><em>AI Chat</em></td>
+    <td align="center"><em>Portfolio</em></td>
+    <td align="center"><em>News</em></td>
+  </tr>
+</table>
+
+### Logo
+
+<p align="center">
+  <img src="assets/logo-horizontal.png" alt="FinSwitch Logo" height="60">
+  <br>
+  <img src="assets/logo-icon.png" alt="FinSwitch Icon" height="80" style="margin: 10px;">
+  <img src="assets/app-icon.png" alt="FinSwitch App Icon" height="80" style="margin: 10px; border-radius: 16px;">
+</p>
 
 ---
 

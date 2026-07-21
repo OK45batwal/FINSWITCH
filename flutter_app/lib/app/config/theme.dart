@@ -27,10 +27,7 @@ class AppTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
       centerTitle: true,
-      titleTextStyle: TextStyle(
-        color: text, fontSize: 18, fontWeight: FontWeight.700,
-        letterSpacing: -0.5,
-      ),
+      titleTextStyle: TextStyle(color: text, fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: -0.5),
     ),
     cardTheme: CardThemeData(
       color: card,

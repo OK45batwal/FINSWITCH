@@ -130,7 +130,7 @@ class _CategoryChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: selected ? AppTheme.primaryBlue : Colors.transparent,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: selected ? AppTheme.primaryBlue : Colors.white15),
+        border: Border.all(color: selected ? AppTheme.primaryBlue : Colors.white.withValues(alpha: 0.15)),
       ),
       child: Text(label, style: TextStyle(
         fontSize: 13, fontWeight: FontWeight.w600,

@@ -92,7 +92,7 @@ class _FilterChips extends StatelessWidget {
         decoration: BoxDecoration(
           color: f == 'NIFTY' ? AppTheme.primaryBlue.withValues(alpha: 0.2) : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: f == 'NIFTY' ? AppTheme.primaryBlue : Colors.white15),
+          border: Border.all(color: f == 'NIFTY' ? AppTheme.primaryBlue : Colors.white.withValues(alpha: 0.15)),
         ),
         child: Text(f, style: TextStyle(
           fontSize: 12, fontWeight: FontWeight.w600,

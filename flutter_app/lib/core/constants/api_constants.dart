@@ -5,11 +5,4 @@ class ApiConstants {
   static const String portfolio = '/portfolio';
   static const String news = '/news';
   static const String ai = '/ai';
-  static const String watchlist = '/watchlist';
-  static const String alerts = '/alerts';
-  static const String sip = '/sip';
-  static const String learning = '/learning';
-  static const String users = '/users';
-
-  // ponytail: single base URL, add staging/prod via env later
 }

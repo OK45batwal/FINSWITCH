@@ -16,7 +16,10 @@ class HomeScreen extends ConsumerWidget {
     final mq = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('assets/logo-horizontal.png', height: 28, fit: BoxFit.contain, filterQuality: FilterQuality.high),
+        title: SizedBox(
+          height: 28,
+          child: Image.asset('assets/logo-horizontal.png', fit: BoxFit.contain, filterQuality: FilterQuality.high),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_rounded),

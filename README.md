@@ -1,24 +1,24 @@
 <div align="center">
-  <img src="branding/logo.svg" alt="FinSwitch" width="80" height="80">
-  <h1 align="center" style="font-size: 3em; margin: 10px 0; background: linear-gradient(135deg, #2563EB, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">FinSwitch</h1>
+  <svg width="80" height="80" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:16px;"><rect width="512" height="512" rx="104" fill="#0B1220"/><path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#F8FAFC" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/></svg>
+  <h1 align="center" style="font-size: 3em; margin: 10px 0; background: linear-gradient(135deg, #2563EB, #38BDF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">FinSwitch</h1>
   <p align="center"><strong>AI-Powered Financial Intelligence Platform</strong></p>
   <p align="center">Switch from confusion to confident financial decisions.</p>
 
   <p align="center">
     <a href="https://github.com/OK45batwal/FINSWITCH">
-      <img src="https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge&labelColor=0A1628" alt="Version">
+      <img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
     </a>
     <a href="https://github.com/OK45batwal/FINSWITCH/stargazers">
-      <img src="https://img.shields.io/github/stars/OK45batwal/FINSWITCH?style=for-the-badge&labelColor=0A1628&color=10B981" alt="Stars">
+      <img src="https://img.shields.io/github/stars/OK45batwal/FINSWITCH?style=for-the-badge&labelColor=0B1220&color=10B981" alt="Stars">
     </a>
     <a href="LICENSE">
-      <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0A1628&color=10B981" alt="License">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0B1220&color=10B981" alt="License">
     </a>
     <br>
     <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
     <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-    <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis">
+    <img src="https://img.shields.io/badge/Material_3-757575?style=for-the-badge&logo=materialdesign&logoColor=white" alt="Material 3">
   </p>
 </div>
 
@@ -203,12 +203,20 @@ See [ROADMAP.md](ROADMAP.md) for details.
 
 | Token | Value |
 |-------|-------|
-| Primary | `#2563EB` — Deep Royal Blue |
-| Accent | `#10B981` — Emerald Green |
-| Background | `#0A1628` — Rich Dark Navy |
-| Font | Inter (UI) · Outfit (Display) |
+| Primary | `#2563EB` — Royal Blue |
+| Success | `#10B981` — Emerald |
+| Danger | `#EF4444` — Red |
+| Background | `#0B1220` — Deep Navy |
+| Card | `#131D2E` — Elevated Surface |
+| Accent | `#38BDF8` — Sky Blue |
+| Text | `#F8FAFC` — Off White |
+| Font Headings | SF Pro Display (system) |
+| Font Body | `Inter` |
+| Font Numbers | `JetBrains Mono` |
+| Card Radius | `20px` |
+| Button Radius | `14px` |
 
-Dark-first, premium glassmorphism design inspired by CRED, TradingView, and Apple.
+Modern minimal FinTech design: 40% Apple, 25% CRED, 20% TradingView, 10% Linear, 5% Glassmorphism. Bento Grid layout on web. Card-based on mobile. Dark first.
 
 ---
 

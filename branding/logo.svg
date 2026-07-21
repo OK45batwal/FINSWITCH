@@ -1,41 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0A1628"/>
-      <stop offset="100%" stop-color="#0F2239"/>
-    </linearGradient>
-    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2563EB"/>
-      <stop offset="100%" stop-color="#1D4ED8"/>
-    </linearGradient>
-    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#10B981"/>
-      <stop offset="100%" stop-color="#059669"/>
-    </linearGradient>
-    <linearGradient id="g3" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#34D399"/>
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
-  <!-- Arrow / Growth symbol -->
-  <g filter="url(#glow)">
-    <path d="M160 352 L256 192 L352 352" stroke="url(#g1)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <path d="M208 288 L256 224 L304 288" stroke="url(#g2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  </g>
-  <!-- Switch symbol - infinity-like -->
-  <g transform="translate(256,192)" filter="url(#glow)">
-    <path d="M-48 32 C-48 10 -28 -8 0 -8 C28 -8 48 10 48 32 C48 54 28 72 0 72 C-28 72 -48 54 -48 32Z" stroke="url(#g3)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.6"/>
-    <path d="M-32 24 C-20 10 0 10 12 24" stroke="url(#g3)" stroke-width="6" stroke-linecap="round" fill="none"/>
-  </g>
-  <!-- Dots / AI nodes -->
-  <circle cx="160" cy="352" r="4" fill="#60A5FA" opacity="0.8"/>
-  <circle cx="256" cy="192" r="5" fill="#34D399" opacity="0.8"/>
-  <circle cx="352" cy="352" r="4" fill="#60A5FA" opacity="0.8"/>
-  <circle cx="208" cy="288" r="3" fill="#34D399" opacity="0.6"/>
-  <circle cx="304" cy="288" r="3" fill="#34D399" opacity="0.6"/>
+  <rect width="512" height="512" rx="104" fill="#0B1220"/>
+  <path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#F8FAFC" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/>
 </svg>

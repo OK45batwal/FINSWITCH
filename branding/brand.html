@@ -4,350 +4,125 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinSwitch — Brand Guidelines</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --navy-900: #0A1628;
-      --navy-800: #0F2239;
-      --navy-700: #132D4A;
-      --navy-600: #1A3A5C;
-      --blue-500: #2563EB;
-      --blue-400: #3B82F6;
-      --blue-300: #60A5FA;
-      --green-500: #10B981;
-      --green-400: #34D399;
-      --green-300: #6EE7B7;
-      --white: #FFFFFF;
-      --gray-300: #D1D5DB;
-      --gray-400: #9CA3AF;
-      --gray-500: #6B7280;
-    }
-    body {
-      background: var(--navy-900);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-    }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    header {
-      padding: 40px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; gap: 20px;
-    }
-    header img { width: 48px; height: 48px; border-radius: 12px; }
-    header h1 { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; }
-    header span { color: var(--gray-400); font-size: 14px; }
-    .hero {
-      text-align: center; padding: 80px 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.08) 0%, transparent 70%);
-    }
-    .hero h2 { font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 800; margin-bottom: 16px; }
-    .hero p { color: var(--gray-400); font-size: 18px; max-width: 600px; margin: 0 auto; }
-    section { padding: 60px 0; }
-    section h3 {
-      font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700;
-      margin-bottom: 32px; display: flex; align-items: center; gap: 12px;
-    }
-    section h3::before { content: ''; width: 4px; height: 24px; background: var(--blue-500); border-radius: 2px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .card {
-      background: linear-gradient(135deg, rgba(15,34,57,0.8), rgba(19,45,74,0.4));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px; padding: 32px;
-      backdrop-filter: blur(20px);
-    }
-    .card h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-    .card p { color: var(--gray-400); font-size: 14px; }
-    .swatch {
-      width: 100%; height: 64px; border-radius: 12px; margin-bottom: 8px;
-      display: flex; align-items: flex-end; padding: 8px; font-size: 12px; font-weight: 500;
-    }
-    .swatch span { background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 4px; }
-    .logo-showcase {
-      display: flex; gap: 40px; align-items: center; flex-wrap: wrap;
-      padding: 40px; background: var(--navy-800); border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .logo-showcase img { height: 80px; }
-    .logo-showcase .dark-bg { background: var(--white); padding: 20px; border-radius: 16px; }
-    .typo-card { padding: 24px; }
-    .typo-card .font-name { font-size: 13px; color: var(--gray-400); margin-bottom: 4px; }
-    .typo-card .font-demo { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-    .typo-card .font-desc { font-size: 14px; color: var(--gray-400); }
-    .typo-card.inter { font-family: 'Inter', sans-serif; }
-    .typo-card.outfit { font-family: 'Outfit', sans-serif; }
-    .gradient-bar { height: 32px; border-radius: 8px; margin-bottom: 8px; }
-    .tag {
-      display: inline-flex; padding: 6px 14px; border-radius: 999px;
-      font-size: 13px; font-weight: 500; margin: 4px;
-    }
-    .tag.blue { background: rgba(37,99,235,0.15); color: var(--blue-300); }
-    .tag.green { background: rgba(16,185,129,0.15); color: var(--green-300); }
-    .tag.gray { background: rgba(107,114,128,0.15); color: var(--gray-300); }
-    .tone-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px;
-    }
-    .tone-card {
-      text-align: center; padding: 20px; border-radius: 12px;
-      background: var(--navy-700); border: 1px solid rgba(255,255,255,0.06);
-    }
-    .tone-card .icon { font-size: 32px; margin-bottom: 8px; }
-    .tone-card h5 { font-size: 14px; font-weight: 600; }
-    .voice-examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .voice-example { padding: 20px; background: var(--navy-700); border-radius: 12px; border-left: 3px solid var(--blue-500); }
-    .voice-example .context { font-size: 12px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-    .voice-example p { font-size: 15px; color: var(--gray-300); line-height: 1.7; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px; border-radius: 999px;
-      background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(16,185,129,0.15));
-      border: 1px solid rgba(37,99,235,0.2);
-      font-size: 13px; font-weight: 500;
-    }
-    footer { text-align: center; padding: 40px 0; color: var(--gray-500); font-size: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
-    @media (max-width: 768px) {
-      .hero h2 { font-size: 32px; }
-      header h1 { font-size: 22px; }
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root { --bg:#0B1220; --card:#131D2E; --blue:#2563EB; --emerald:#10B981; --accent:#38BDF8; --red:#EF4444; --text:#F8FAFC; --muted:#64748B; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.6; }
+    .container { max-width:1100px; margin:0 auto; padding:0 24px; }
+    header { padding:40px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:16px; }
+    header svg { width:44px; height:44px; border-radius:10px; }
+    header h1 { font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter',sans-serif; font-size:26px; font-weight:700; letter-spacing:-0.02em; }
+    header span { color:var(--muted); font-size:13px; }
+    .hero { text-align:center; padding:80px 0; }
+    .hero h2 { font-size:clamp(32px,5vw,44px); font-weight:700; letter-spacing:-0.03em; margin-bottom:12px; }
+    .hero p { color:var(--muted); font-size:17px; max-width:520px; margin:0 auto; }
+    section { padding:60px 0; }
+    section h3 { font-size:20px; font-weight:700; margin-bottom:28px; display:flex; align-items:center; gap:10px; }
+    section h3::before { content:''; width:3px; height:20px; background:var(--blue); border-radius:2px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; }
+    .card { background:var(--card); border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:28px; }
+    .card h4 { font-size:15px; font-weight:600; margin-bottom:8px; }
+    .card p { color:var(--muted); font-size:14px; }
+    .swatch { width:100%; height:56px; border-radius:14px; margin-bottom:8px; display:flex; align-items:flex-end; padding:8px; font-size:12px; font-weight:500; }
+    .swatch span { background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px; }
+    .logo-showcase { display:flex; gap:40px; align-items:center; flex-wrap:wrap; padding:40px; background:var(--card); border-radius:20px; border:1px solid rgba(255,255,255,0.06); }
+    .logo-showcase svg { height:80px; border-radius:16px; }
+    .logo-showcase .light-bg { background:#fff; padding:20px; border-radius:16px; }
+    .logo-showcase .light-bg svg rect:first-child { fill:#fff; }
+    .tag { display:inline-flex; padding:5px 12px; border-radius:999px; font-size:12px; font-weight:500; margin:3px; }
+    .tag.blue { background:rgba(37,99,235,0.1); color:var(--accent); }
+    .tag.green { background:rgba(16,185,129,0.1); color:var(--emerald); }
+    .tone-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; }
+    .tone-card { text-align:center; padding:20px; border-radius:14px; background:var(--card); border:1px solid rgba(255,255,255,0.06); }
+    .tone-card .icon { font-size:28px; margin-bottom:6px; }
+    .tone-card h5 { font-size:13px; font-weight:600; }
+    .gradient-bar { height:28px; border-radius:10px; margin-bottom:8px; }
+    footer { text-align:center; padding:40px 0; color:var(--muted); font-size:13px; border-top:1px solid rgba(255,255,255,0.06); }
+    @media (max-width:768px) { .hero h2 { font-size:28px; } }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <svg width="48" height="48" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:12px;flex-shrink:0;"><rect width="512" height="512" rx="96" fill="url(#blg)"/><path d="M160 352L256 192l96 160" stroke="url(#blg1)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M208 288l48-64 48 64" stroke="url(#blg2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="160" cy="352" r="4" fill="#60A5FA" opacity=".8"/><circle cx="256" cy="192" r="5" fill="#34D399" opacity=".8"/><circle cx="352" cy="352" r="4" fill="#60A5FA" opacity=".8"/><circle cx="208" cy="288" r="3" fill="#34D399" opacity=".6"/><circle cx="304" cy="288" r="3" fill="#34D399" opacity=".6"/><defs><linearGradient id="blg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A1628"/><stop offset="100%" stop-color="#0F2239"/></linearGradient><linearGradient id="blg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#1D4ED8"/></linearGradient><linearGradient id="blg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs></svg>
-      <div>
-        <h1>FinSwitch</h1>
-        <span>Brand Guidelines v1.0</span>
-      </div>
+      <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="104" fill="#0B1220"/><path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#F8FAFC" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/></svg>
+      <div><h1>FinSwitch</h1><span>Brand Guidelines v2.0</span></div>
     </header>
 
     <div class="hero">
-      <h2>From Confusion to Confidence</h2>
-      <p>FinSwitch helps users switch from confusion to confident financial decisions using AI, financial data, market intelligence, and personalized insights.</p>
-      <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <span class="badge">⚡ AI-Powered</span>
-        <span class="badge">📊 Market Intelligence</span>
-        <span class="badge">🔒 Trust First</span>
-      </div>
+      <h2>Switch From Confusion to Confidence</h2>
+      <p>AI-powered financial intelligence platform for the Indian market. Modern, minimal, premium.</p>
     </div>
 
     <section>
       <h3>Logo</h3>
       <div class="logo-showcase">
-        <img src="logo.svg" alt="FinSwitch Logo">
-        <div class="dark-bg">
-          <img src="logo.svg" alt="FinSwitch Logo Light" style="height:60px;">
+        <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:80px;"><rect width="512" height="512" rx="104" fill="#0B1220"/><path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#F8FAFC" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/></svg>
+        <div class="light-bg">
+          <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:60px;"><rect width="512" height="512" rx="104" fill="#F8FAFC"/><path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#0B1220" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/></svg>
         </div>
       </div>
-      <div class="grid-2" style="margin-top: 24px;">
-        <div class="card">
-          <h4>Symbolism</h4>
-          <p>The logo combines an upward growth arrow with an infinity-like switch symbol, representing financial growth powered by intelligent switching. The gradient from blue to emerald represents trust to growth.</p>
-        </div>
-        <div class="card">
-          <h4>Usage Guidelines</h4>
-          <p>Always use on dark navy background. Minimum clear space equals the height of the 'F' character. Never distort, recolor, or add effects.</p>
-        </div>
-      </div>
+      <p style="color:var(--muted);font-size:14px;margin-top:16px;">The logo combines the letter <strong>F</strong> with an upward arrow representing growth. Minimal, no coins or currency symbols. Inspired by Apple, CRED, Zerodha.</p>
     </section>
 
     <section>
       <h3>Color Palette</h3>
       <div class="grid-3">
-        <div>
-          <div class="swatch" style="background:#0A1628;"><span>Navy 900</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Primary Background</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#0F2239;"><span>Navy 800</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Card Background</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#132D4A;"><span>Navy 700</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Surface Elevated</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#2563EB;"><span>Blue 500</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Primary Action</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#3B82F6;"><span>Blue 400</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Interactive Hover</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#60A5FA;"><span>Blue 300</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Accent Light</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#10B981;"><span>Green 500</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Growth / Positive</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#34D399;"><span>Green 400</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Success State</p>
-        </div>
-        <div>
-          <div class="swatch" style="background:#6EE7B7;"><span>Green 300</span></div>
-          <p style="font-size:13px;color:var(--gray-400);">Highlight</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h3>Gradient System</h3>
-      <div class="grid-2">
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,#0A1628,#0F2239);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Background Gradient</p>
-        </div>
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,#2563EB,#1D4ED8);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Primary Gradient</p>
-        </div>
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,#10B981,#059669);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Growth Gradient</p>
-        </div>
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,#2563EB,#10B981);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Premium Accent</p>
-        </div>
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,rgba(15,34,57,0.8),rgba(19,45,74,0.4));border:1px solid rgba(255,255,255,0.06);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Glass Card</p>
-        </div>
-        <div>
-          <div class="gradient-bar" style="background:linear-gradient(135deg,rgba(37,99,235,0.15),rgba(16,185,129,0.15));border:1px solid rgba(37,99,235,0.2);"></div>
-          <p style="font-size:13px;color:var(--gray-400);">Tag / Badge</p>
-        </div>
+        <div><div class="swatch" style="background:#2563EB;"><span>Primary</span></div></div>
+        <div><div class="swatch" style="background:#10B981;"><span>Success</span></div></div>
+        <div><div class="swatch" style="background:#EF4444;"><span>Danger</span></div></div>
+        <div><div class="swatch" style="background:#0B1220;border:1px solid rgba(255,255,255,0.1);"><span>Background</span></div></div>
+        <div><div class="swatch" style="background:#131D2E;border:1px solid rgba(255,255,255,0.1);"><span>Card</span></div></div>
+        <div><div class="swatch" style="background:#38BDF8;"><span>Accent</span></div></div>
+        <div><div class="swatch" style="background:#F8FAFC;color:#0B1220;"><span>Text</span></div></div>
+        <div><div class="swatch" style="background:#64748B;"><span>Muted</span></div></div>
       </div>
     </section>
 
     <section>
       <h3>Typography</h3>
       <div class="grid-2">
-        <div class="card typo-card inter">
-          <div class="font-name">Primary Font</div>
-          <div class="font-demo">Inter</div>
-          <div class="font-desc">Designed by Rasmus Andersson. Used for all UI text, body copy, navigation, labels, and data displays. Clean, highly legible at all sizes.</div>
-          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-weight:300;">Light 300</span>
-            <span style="font-weight:400;">Regular 400</span>
-            <span style="font-weight:500;">Medium 500</span>
-            <span style="font-weight:600;">SemiBold 600</span>
-            <span style="font-weight:700;">Bold 700</span>
-            <span style="font-weight:800;">ExtraBold 800</span>
-          </div>
-        </div>
-        <div class="card typo-card outfit">
-          <div class="font-name">Display Font</div>
-          <div class="font-demo">Outfit</div>
-          <div class="font-desc">Designed by Tokotype. Used for headings, hero text, splash screen, and large display typography. Modern geometric feel.</div>
-          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;">
-            <span style="font-weight:300;">Light 300</span>
-            <span style="font-weight:400;">Regular 400</span>
-            <span style="font-weight:500;">Medium 500</span>
-            <span style="font-weight:600;">SemiBold 600</span>
-            <span style="font-weight:700;">Bold 700</span>
-            <span style="font-weight:800;">ExtraBold 800</span>
-          </div>
-        </div>
+        <div class="card"><h4>Headings</h4><p style="font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.02em;">SF Pro Display</p><p style="color:var(--muted);font-size:14px;margin-top:8px;">System font for headings. Clean, premium, Apple-inspired.</p></div>
+        <div class="card"><h4>Body</h4><p style="font-size:20px;font-weight:500;">Inter</p><p style="color:var(--muted);font-size:14px;margin-top:8px;">Designed by Rasmus Andersson. Used for all UI text, body copy, navigation.</p></div>
+        <div class="card"><h4>Numbers</h4><p style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;font-feature-settings:'tnum';">₹1,23,456.78</p><p style="color:var(--muted);font-size:14px;margin-top:8px;">JetBrains Mono for all financial figures, tables, and data displays.</p></div>
       </div>
     </section>
 
     <section>
-      <h3>Brand Voice & Tone</h3>
+      <h3>Corners & Spacing</h3>
+      <div class="grid-3">
+        <div class="card"><div style="width:60px;height:60px;background:var(--blue);border-radius:20px;margin-bottom:8px;"></div><p>Cards — 20px radius</p></div>
+        <div class="card"><div style="width:60px;height:40px;background:var(--blue);border-radius:14px;margin-bottom:8px;"></div><p>Buttons — 14px radius</p></div>
+        <div class="card"><div style="width:40px;height:40px;background:var(--blue);border-radius:12px;margin-bottom:8px;"></div><p>Icons — 12px radius</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Brand Voice</h3>
       <div class="tone-grid">
         <div class="tone-card"><div class="icon">🧠</div><h5>Intelligent</h5></div>
         <div class="tone-card"><div class="icon">🤝</div><h5>Trustworthy</h5></div>
         <div class="tone-card"><div class="icon">✨</div><h5>Premium</h5></div>
         <div class="tone-card"><div class="icon">💬</div><h5>Approachable</h5></div>
         <div class="tone-card"><div class="icon">🎯</div><h5>Confident</h5></div>
-        <div class="tone-card"><div class="icon">🚀</div><h5>Empowering</h5></div>
-      </div>
-      <div class="voice-examples" style="margin-top: 24px;">
-        <div class="voice-example">
-          <div class="context">AI Copilot Response</div>
-          <p>"HDFC Bank's P/E of 18.5 is below its 5-year average of 22.3, suggesting potential value. However, consider the recent merger impact on short-term margins."</p>
-        </div>
-        <div class="voice-example">
-          <div class="context">Marketing Copy</div>
-          <p>"Stop guessing. Start growing. FinSwitch brings AI-powered market intelligence to your pocket."</p>
-        </div>
-        <div class="voice-example">
-          <div class="context">Onboarding</div>
-          <p>"Welcome to FinSwitch. Let's build your financial intelligence, one insight at a time."</p>
-        </div>
       </div>
     </section>
 
     <section>
-      <h3>Icon System</h3>
-      <p style="color:var(--gray-400);margin-bottom:20px;">Use Lucide icons throughout the platform. Consistent 24px grid, 1.5px stroke width, rounded caps and joins.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <span class="tag blue">Trending Up</span>
-        <span class="tag green">Activity</span>
-        <span class="tag blue">Pie Chart</span>
-        <span class="tag green">Bar Chart 3</span>
-        <span class="tag blue">Line Chart</span>
-        <span class="tag green">Candlestick Chart</span>
-        <span class="tag gray">Sparkles</span>
-        <span class="tag blue">Wallet</span>
-        <span class="tag green">Shield</span>
-        <span class="tag blue">Bell</span>
-        <span class="tag green">Book Open</span>
-        <span class="tag gray">Brain</span>
-      </div>
-    </section>
-
-    <section>
-      <h3>Component Guidelines</h3>
+      <h3>Component Styles</h3>
       <div class="grid-3">
-        <div class="card">
-          <h4>Buttons</h4>
-          <p>12px horizontal padding, 6px internal. Rounded (8px). Primary: Solid blue. Secondary: Glass outline. Ghost: No background.</p>
-        </div>
-        <div class="card">
-          <h4>Cards</h4>
-          <p>16px-24px padding. Glass background with 1px stroke at 6% white. 12px-16px border radius. Subtle shadow.</p>
-        </div>
-        <div class="card">
-          <h4>Inputs</h4>
-          <p>Dark surface, 1px white/8% border on focus. 12px padding, 12px radius. Placeholder in gray-500.</p>
-        </div>
-        <div class="card">
-          <h4>Tags & Badges</h4>
-          <p>Pill shape. Gradient background (blue/green) at 15% opacity. 6px 14px padding. 13px font.</p>
-        </div>
-        <div class="card">
-          <h4>Loading States</h4>
-          <p>Shimmer animation on glass cards. Skeleton blocks matching content shape. 60fps, 1.5s cycle.</p>
-        </div>
-        <div class="card">
-          <h4>Charts</h4>
-          <p>Deep navy background. Use primary blue for lines, emerald for fills. Grid lines at 8% white. Crosshair with glow.</p>
-        </div>
+        <div class="card"><h4>Buttons</h4><p>Solid blue (#2563EB) for CTAs. Ghost with muted text for secondaries. 14px radius. 14px 28px padding for large.</p></div>
+        <div class="card"><h4>Cards</h4><p>#131D2E background, 20px radius, 1px border at 6% white. 28px padding.</p></div>
+        <div class="card"><h4>Inputs</h4><p>Dark fill, 12px radius, border on focus. Placeholder in #475569.</p></div>
+        <div class="card"><h4>Tags</h4><p>Pill shape. 10% opacity colored background. 12px font, 5px 12px padding.</p></div>
+        <div class="card"><h4>Icons</h4><p>Lucide Icons + Material Symbols Rounded. 24px grid. Never mix styles.</p></div>
+        <div class="card"><h4>Loading</h4><p>Skeleton cards matching content shape. 1.5s shimmer cycle. No flashy loaders.</p></div>
       </div>
     </section>
 
-    <section>
-      <h3>Mood Board</h3>
-      <div class="grid-2">
-        <div class="card">
-          <h4>Visual Direction</h4>
-          <p>Dark, minimal, spacious. Every element breathes. Content is king — UI disappears when not needed. Data visualizations are works of art. Gradients are subtle but purposeful.</p>
-        </div>
-        <div class="card">
-          <h4>Animation Philosophy</h4>
-          <p>60fps, 300ms standard transitions. Spring animations for interactive elements. Fade + scale for modals. Slide for page transitions. Micro-interactions on every tappable element.</p>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      FinSwitch Brand Guidelines v1.0 — Confidential
-    </footer>
+    <footer>FinSwitch Brand Guidelines v2.0 — Confidential</footer>
   </div>
 </body>
 </html>

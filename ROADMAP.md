@@ -1,20 +1,17 @@
 # FinSwitch Development Roadmap
 
-## Phase 1 — Core Platform (MVP) — Current
+## Phase 1 — Core Platform (MVP) — ✅ Complete
 - [x] Brand identity and design system
-- [x] Landing website
-- [x] Database schema
-- [x] Backend API structure
-- [x] Flutter app scaffold
-- [x] User authentication (register/login) with JWT
-- [x] Basic market data (12 stocks, indices, gainers/losers)
+- [x] Landing website (live, connected to API)
+- [x] Backend API structure (FastAPI, mock data endpoints)
+- [x] Flutter app scaffold (GoRouter, bottom navigation, 6 screens)
+- [x] All Flutter screens wired to live API (Home, Markets, News, AI, Portfolio, Stock Detail, Profile)
+- [x] API service layer (auto-extracts `data` from backend responses)
+- [x] Basic market data (indices, stock list with LTP/changes)
 - [x] Portfolio tracking (holdings, summary, P&L)
-- [x] Watchlist CRUD
-- [x] AI Copilot (basic chat with contextual responses)
-- [x] News feed with categories and sentiment
-- [x] SIP calculator
-- [x] Learning courses listing
-- [ ] Mobile app bottom navigation (scaffold done, screens pending)
+- [x] AI Copilot (real chat via POST `/ai/chat`)
+- [x] News feed from backend
+- [x] Mobile app bottom navigation with 5 tabs
 
 ## Phase 2 — Analytics & Intelligence — Q3 2026
 - [ ] Stock screener with advanced filters
@@ -52,3 +49,11 @@
 - [ ] SIP automation recommendations
 - [ ] Tax planning tools
 - [ ] Goal-based investment planning
+
+## Phase 6 — Missing MVP Features (Deferred)
+- [ ] User authentication (register/login) with JWT
+- [ ] Real database (SQLite/PostgreSQL — currently mock data)
+- [ ] Watchlist CRUD
+- [ ] SIP calculator
+- [ ] Learning courses listing
+- [ ] User profile synced to backend (hardcoded currently)

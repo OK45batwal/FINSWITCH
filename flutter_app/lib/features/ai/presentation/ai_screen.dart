@@ -31,8 +31,8 @@ class _AIScreenState extends State<AIScreen> {
     setState(() => _messages.add(_ChatMessage(text, false)));
     setState(() => _busy = true);
     try {
-      final r = await Api.post('/ai/chat', {'message': text, 'history': _messages.map((m) => {'role': m.isBot ? 'assistant' : 'user', 'content': m.text}).toList()});
-      final reply = r['reply'] ?? r['data']?['reply'] ?? 'Sorry, I couldn\'t process that.';
+      final r = await Api.post('/ai/chat', {'message': text});
+      final reply = r['response'] ?? 'Sorry, I couldn\'t process that.';
       if (mounted) setState(() => _messages.add(_ChatMessage(reply, true)));
     } catch (e) {
       if (mounted) setState(() => _messages.add(_ChatMessage('Error: Could not reach FinSwitch AI. Is the server running?', true)));

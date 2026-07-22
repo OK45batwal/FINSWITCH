@@ -78,7 +78,7 @@ class _PortfolioSummary extends StatelessWidget {
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           _SummaryItem(label: 'Total Value', value: '₹${summary?['current_value']?.toStringAsFixed(0) ?? '--'}'),
           _SummaryItem(label: 'Invested', value: '₹${summary?['total_invested']?.toStringAsFixed(0) ?? '--'}'),
-          _SummaryItem(label: 'Returns', value: '₹${summary?['total_pl']?.toStringAsFixed(0) ?? '--'}'),
+          _SummaryItem(label: 'Returns', value: '₹${summary?['total_returns']?.toStringAsFixed(0) ?? '--'}'),
         ]),
         const SizedBox(height: 16),
         Container(

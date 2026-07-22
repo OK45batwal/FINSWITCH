@@ -56,7 +56,7 @@ class _PriceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final badgeColor = up ? AppTheme.emeraldGreen : AppTheme.red;
     return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-      Text('₹${ltp.toStringAsFixed(2)}', style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w800, color: AppTheme.text, letterSpacing: -1)),
+      Text('₹${ltp.toStringAsFixed(2)}', style: TextStyle(fontSize: 36, fontWeight: FontWeight.w800, color: AppTheme.textOf(context), letterSpacing: -1)),
       const SizedBox(width: 12),
       Padding(
         padding: const EdgeInsets.only(bottom: 6),
@@ -87,7 +87,7 @@ class _StockBody extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _PriceRow(up: up, ltp: ltp, chg: chg, pct: pct),
         const SizedBox(height: 8),
-        Text('NSE: $symbol', style: const TextStyle(color: AppTheme.muted, fontSize: 13)),
+        Text('NSE: $symbol', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13)),
         const SizedBox(height: 24),
         SizedBox(height: 220, child: _Chart(data: d)),
         const SizedBox(height: 24),
@@ -97,7 +97,7 @@ class _StockBody extends StatelessWidget {
         const SizedBox(height: 24),
         Text('About $symbol', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        Text(d?['description'] ?? 'No description available.', style: const TextStyle(color: AppTheme.muted, fontSize: 14, height: 1.6)),
+        Text(d?['description'] ?? 'No description available.', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 14, height: 1.6)),
       ]),
     );
   }
@@ -113,7 +113,7 @@ class _Chart extends StatelessWidget {
       List.generate(20, (i) => FlSpot(i.toDouble(), 60 + i * 3 + (i % 5) * 10));
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.card, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
       child: LineChart(LineChartData(
         gridData: const FlGridData(show: false), titlesData: const FlTitlesData(show: false), borderData: FlBorderData(show: false),
         lineBarsData: [LineChartBarData(spots: spots, isCurved: true, color: AppTheme.primaryBlue, barWidth: 2, dotData: const FlDotData(show: false), belowBarData: BarAreaData(show: true, color: AppTheme.primaryBlue.withValues(alpha: 0.1)))],
@@ -147,11 +147,11 @@ class _StatCard extends StatelessWidget {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(right: 8), padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(color: AppTheme.card, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
         child: Column(children: [
-          Text(label, style: const TextStyle(color: AppTheme.muted, fontSize: 11)),
+          Text(label, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 11)),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.text)),
+          Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.textOf(context))),
         ]),
       ),
     );
@@ -164,7 +164,7 @@ class _ActionButtons extends StatelessWidget {
     return Row(children: [
       Expanded(child: ElevatedButton(onPressed: () {}, child: const Text('Buy'))),
       const SizedBox(width: 12),
-      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.text, side: const BorderSide(color: AppTheme.primaryBlue), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: const Text('Sell'))),
+      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.textOf(context), side: const BorderSide(color: AppTheme.primaryBlue), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: Text('Sell'))),
     ]);
   }
 }

@@ -71,7 +71,7 @@ class _MarketIndices extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF0F2239), Color(0xFF1A2538)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
-        child: const Center(child: Text('No indices available', style: TextStyle(color: AppTheme.muted))),
+        child: Center(child: Text('No indices available', style: TextStyle(color: AppTheme.mutedOf(context)))),
       );
     }
     return Container(
@@ -96,9 +96,9 @@ class _IndexStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(name, style: const TextStyle(color: AppTheme.muted, fontSize: 12)),
+      Text(name, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12)),
       const SizedBox(height: 4),
-      Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.text)),
+      Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textOf(context))),
       const SizedBox(height: 2),
       Text(change, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: up ? AppTheme.emeraldGreen : AppTheme.red)),
     ]);
@@ -112,25 +112,25 @@ class _StockList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (stocks.isEmpty) {
-      return const Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No stocks available', style: TextStyle(color: AppTheme.muted))));
+      return Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No stocks available', style: TextStyle(color: AppTheme.mutedOf(context)))));
     }
     return Column(
       children: stocks.map((s) => GestureDetector(
         onTap: () => context.push('/stock/${s['symbol']}'),
         child: Container(
           margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: AppTheme.card, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
           child: Row(children: [
             Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
               child: Center(child: Text((s['symbol'] as String? ?? '?')[0], style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w800, fontSize: 16)))),
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(s['symbol'] ?? '', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.text)),
-              Text(s['name'] ?? '', style: const TextStyle(color: AppTheme.muted, fontSize: 12)),
+              Text(s['symbol'] ?? '', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.textOf(context))),
+              Text(s['name'] ?? '', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12)),
             ])),
             const SizedBox(width: 8),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text('₹${(s['last_price'] ?? 0).toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.text)),
+              Text('₹${(s['last_price'] ?? 0).toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.textOf(context))),
               const SizedBox(height: 2),
               Text('${(s['change_percent'] ?? 0) >= 0 ? '+' : ''}${(s['change_percent'] ?? 0).toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: (s['change_percent'] ?? 0) >= 0 ? AppTheme.emeraldGreen : AppTheme.red)),
             ]),

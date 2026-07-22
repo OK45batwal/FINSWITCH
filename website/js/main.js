@@ -1,35 +1,68 @@
 const API = 'http://localhost:8000/api/v1';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Nav scroll
   const nav = document.querySelector('.nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  // Theme
+  const themeBtn = document.querySelector('.theme-toggle');
+  themeBtn?.addEventListener('click', () => {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
   });
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
 
   // Mobile menu
   document.querySelector('.mobile-toggle')?.addEventListener('click', () => {
     document.querySelector('.nav-links')?.classList.toggle('open');
     document.body.classList.toggle('mobile-nav-open');
   });
+  document.querySelectorAll('.nav-links a').forEach(a =>
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links')?.classList.remove('open');
+      document.body.classList.remove('mobile-nav-open');
+    })
+  );
 
-  // Intersection Observer for animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.animate-in, .bento-item, .stat-card, .testimonial-card').forEach(el => {
-    el.classList.add('animate-in');
-    observer.observe(el);
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries =>
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: .15 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Number counters
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseFloat(el.getAttribute('data-count'));
+      const isFloat = target % 1 !== 0;
+      const duration = 1500;
+      const start = performance.now();
+      const step = (now) => {
+        const pct = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - pct, 3);
+        const current = target * eased;
+        el.textContent = isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString();
+        if (pct < 1) requestAnimationFrame(step);
+        else el.textContent = isFloat ? target.toFixed(1) : Math.floor(target).toLocaleString();
+      };
+      requestAnimationFrame(step);
+      countObserver.unobserve(el);
+    });
   });
+  document.querySelectorAll('.hero-stats [data-count]').forEach(el => countObserver.observe(el));
 
-  // Load data
+  // Init all async data
   loadIndices();
   loadStocks();
   loadPortfolio();
-  loadNews();
   setupAIChat();
-  setupMarketTabs();
-  updateTicker();
-  setInterval(updateTicker, 30000);
 });
 
 async function api(path) {
@@ -40,169 +73,135 @@ async function api(path) {
   } catch { return []; }
 }
 
-async function updateTicker() {
+async function loadIndices() {
   const data = await api('/markets/indices');
-  const items = document.querySelectorAll('.ticker-item');
-  data.forEach((d, i) => {
-    if (items[i]) {
-      const up = d.change_percent >= 0;
-      items[i].innerHTML = `<span>${d.symbol}</span><span class="num" style="color:${up?'#10B981':'#EF4444'};">${d.last_value.toLocaleString()} <span style="color:${up?'#10B981':'#EF4444'};">${d.change_percent > 0 ? '+' : ''}${d.change_percent.toFixed(2)}%</span></span>`;
+  const rows = document.querySelectorAll('.phone-row');
+  if (!rows.length) return;
+  data.slice(0, 3).forEach((d, i) => {
+    if (!rows[i]) return;
+    const up = d.change_percent >= 0;
+    const sym = rows[i].querySelector('.sym');
+    const price = rows[i].querySelectorAll('.num');
+    if (sym) sym.textContent = d.symbol;
+    if (price[0]) price[0].textContent = d.last_value?.toLocaleString();
+    if (price[1]) {
+      price[1].textContent = `${up ? '+' : ''}${d.change_percent?.toFixed(2)}%`;
+      price[1].className = `num ${up ? 'up' : 'dn'}`;
     }
   });
 }
 
-async function loadIndices() {
-  const data = await api('/markets/indices');
-  const container = document.querySelector('.mockup-header + div');
-  if (!container || !data.length) return;
-  container.innerHTML = data.slice(0, 5).map(d => {
-    const up = d.change_percent >= 0;
-    return `<div class="mockup-line"><span class="sym">${d.symbol}</span><span class="prc num">₹${d.last_value.toLocaleString()}</span><span class="chg ${up?'up':'dn'} num">${d.change_percent > 0 ? '+' : ''}${d.change_percent.toFixed(2)}%</span></div>`;
-  }).join('');
-}
-
 async function loadStocks(sector) {
-  const data = await api(`/markets/stocks${sector ? '?sector='+sector : ''}`);
-  const tbody = document.querySelector('.stock-table tbody');
+  let data;
+  if (sector === 'gainers') data = await api('/markets/gainers?limit=8');
+  else if (sector === 'losers') data = await api('/markets/losers?limit=8');
+  else data = await api('/markets/stocks' + (sector ? '?sector='+encodeURIComponent(sector) : ''));
+  const tbody = document.getElementById('stock-body');
   if (!tbody) return;
-  tbody.innerHTML = (Array.isArray(data) ? data : []).map(s => {
-    const up = s.change >= 0;
-    return `<tr>
-      <td style="font-weight:600;">${s.symbol}</td>
-      <td style="color:#64748B;font-size:13px;">${s.name}</td>
-      <td style="text-align:right;font-family:'JetBrains Mono',monospace;">₹${s.last_price.toFixed(2)}</td>
-      <td style="text-align:right;"><span class="${up?'price-up':'price-down'} num">${s.change > 0 ? '+' : ''}${s.change.toFixed(2)}</span></td>
-      <td style="text-align:right;"><span class="${up?'price-up':'price-down'} num">${s.change_percent > 0 ? '+' : ''}${s.change_percent.toFixed(2)}%</span></td>
-      <td style="text-align:right;color:#64748B;font-family:'JetBrains Mono',monospace;">${(s.volume/1000000).toFixed(1)}M</td>
-    </tr>`;
-  }).join('');
+  tbody.innerHTML = (Array.isArray(data) ? data : []).map(s => `<tr>
+    <td style="font-weight:600;">${s.symbol}</td>
+    <td style="color:var(--muted);font-size:13px;">${s.name}</td>
+    <td class="num">₹${(s.last_price||0).toFixed(2)}</td>
+    <td><span class="${(s.change||0)>=0?'price-up':'price-down'} num">${(s.change||0)>=0?'+':''}${(s.change||0).toFixed(2)}</span></td>
+    <td><span class="${(s.change_percent||0)>=0?'price-up':'price-down'} num">${(s.change_percent||0)>=0?'+':''}${(s.change_percent||0).toFixed(2)}%</span></td>
+    <td class="num" style="color:var(--muted);">${((s.volume||0)/1e6).toFixed(1)}M</td>
+  </tr>`).join('');
 }
 
 function setupMarketTabs() {
-  document.querySelectorAll('.market-tab').forEach(t => {
-    t.addEventListener('click', () => {
-      document.querySelectorAll('.market-tab').forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      const sectorMap = { 'Nifty 50': 'oil & gas', 'Bank Nifty': 'banking', 'Gainers': 'gainers', 'Losers': 'losers' };
-      const sector = sectorMap[t.textContent];
-      if (sector === 'gainers') loadGainers();
-      else if (sector === 'losers') loadLosers();
-      else loadStocks(sector);
-    });
+  const container = document.querySelector('.market-controls');
+  if (!container) return;
+  container.addEventListener('click', e => {
+    const tab = e.target.closest('.market-tab');
+    if (!tab) return;
+    document.querySelectorAll('.market-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.getAttribute('data-filter');
+    loadStocks(filter);
   });
-}
-
-async function loadGainers() {
-  const data = await api('/markets/gainers?limit=8');
-  const tbody = document.querySelector('.stock-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = (Array.isArray(data) ? data : []).map(s => {
-    return `<tr>
-      <td style="font-weight:600;">${s.symbol}</td>
-      <td style="color:#64748B;font-size:13px;">${s.name}</td>
-      <td style="text-align:right;font-family:'JetBrains Mono',monospace;">₹${s.last_price.toFixed(2)}</td>
-      <td style="text-align:right;"><span class="price-up num">+${s.change.toFixed(2)}</span></td>
-      <td style="text-align:right;"><span class="price-up num">+${s.change_percent.toFixed(2)}%</span></td>
-      <td style="text-align:right;color:#64748B;font-family:'JetBrains Mono',monospace;">${(s.volume/1000000).toFixed(1)}M</td>
-    </tr>`;
-  }).join('');
-}
-
-async function loadLosers() {
-  const data = await api('/markets/losers?limit=8');
-  const tbody = document.querySelector('.stock-table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = (Array.isArray(data) ? data : []).map(s => {
-    return `<tr>
-      <td style="font-weight:600;">${s.symbol}</td>
-      <td style="color:#64748B;font-size:13px;">${s.name}</td>
-      <td style="text-align:right;font-family:'JetBrains Mono',monospace;">₹${s.last_price.toFixed(2)}</td>
-      <td style="text-align:right;"><span class="price-down num">${s.change.toFixed(2)}</span></td>
-      <td style="text-align:right;"><span class="price-down num">${s.change_percent.toFixed(2)}%</span></td>
-      <td style="text-align:right;color:#64748B;font-family:'JetBrains Mono',monospace;">${(s.volume/1000000).toFixed(1)}M</td>
-    </tr>`;
-  }).join('');
+  setupMarketTabs = () => {};
 }
 
 async function loadPortfolio() {
   const summary = await api('/portfolio/summary');
   const holdings = await api('/portfolio/holdings');
-  if (!summary) return;
-
-  const summaryEl = document.querySelector('.portfolio-summary');
-  if (summaryEl) {
-    summaryEl.innerHTML = `
-      <div class="stat-card"><div class="stat-label">Total Invested</div><div class="stat-value" style="color:#38BDF8;">₹${summary.total_invested?.toLocaleString()}</div></div>
-      <div class="stat-card"><div class="stat-label">Current Value</div><div class="stat-value" style="color:#10B981;">₹${summary.current_value?.toLocaleString()}</div><div class="stat-change pos">+${summary.returns_percent?.toFixed(1)}% overall</div></div>
-      <div class="stat-card"><div class="stat-label">Today's P&L</div><div class="stat-value" style="color:#10B981;">+₹${summary.today_pl?.toLocaleString()}</div><div class="stat-change pos">+${summary.today_pl_percent?.toFixed(2)}% today</div></div>`;
+  const cards = document.querySelectorAll('.stat-card .stat-value');
+  const changes = document.querySelectorAll('.stat-card .stat-change');
+  if (summary) {
+    if (cards[0]) cards[0].textContent = '₹' + (summary.total_invested||0).toLocaleString();
+    if (cards[1]) cards[1].textContent = '₹' + (summary.current_value||0).toLocaleString();
+    if (cards[2]) cards[2].textContent = (summary.today_pl||0) >= 0 ? '+₹' + (summary.today_pl||0).toLocaleString() : '-₹' + Math.abs(summary.today_pl||0).toLocaleString();
+    if (changes[1]) changes[1].textContent = '+' + (summary.returns_percent||0).toFixed(1) + '% overall';
+    if (changes[2]) {
+      changes[2].textContent = ((summary.today_pl_percent||0) >= 0 ? '+' : '') + (summary.today_pl_percent||0).toFixed(2) + '% today';
+      changes[2].className = 'stat-change ' + ((summary.today_pl||0) >= 0 ? 'pos' : '');
+    }
+    // Update cards[2] color
+    if (cards[2]) cards[2].style.color = (summary.today_pl||0) >= 0 ? 'var(--green)' : 'var(--red)';
   }
-
-  const holdingsEl = document.querySelector('.portfolio-holdings');
-  if (holdingsEl && Array.isArray(holdings)) {
-    const header = holdingsEl.querySelector('div:first-child');
-    const rows = holdings.map(h => {
-      const up = h.pl >= 0;
-      return `<div class="holding-row"><div><div class="h-symbol">${h.symbol}</div><div class="h-name">${h.name}</div></div><span class="num" style="color:#64748B;">${h.quantity}</span><span class="num" style="color:#64748B;">${h.avg_price.toFixed(0)}</span><span class="num" style="color:#F8FAFC;">${h.ltp.toFixed(0)}</span><span class="h-value" style="color:#F8FAFC;">₹${h.value.toLocaleString()}</span><span class="h-pl" style="color:${up?'#10B981':'#EF4444'};">${up?'+':''}${h.pl_percent.toFixed(2)}%</span></div>`;
-    }).join('');
-    holdingsEl.innerHTML = (header ? header.outerHTML : '') + rows;
-  }
+  const tbody = document.getElementById('holdings-body');
+  if (!tbody) return;
+  tbody.innerHTML = (Array.isArray(holdings) ? holdings : []).map(h => {
+    const up = (h.pl||0) >= 0;
+    return `<tr>
+      <td><div style="font-weight:600;">${h.symbol}</div><div style="font-size:12px;color:var(--muted);">${h.name}</div></td>
+      <td class="num" style="color:var(--muted);">${h.quantity}</td>
+      <td class="num" style="color:var(--muted);">${Math.round(h.avg_price||0)}</td>
+      <td class="num">${(h.ltp||0).toFixed(0)}</td>
+      <td class="num">₹${(h.value||0).toLocaleString()}</td>
+      <td class="num" style="color:${up?'var(--green)':'var(--red)'};">${up?'+':''}${(h.pl_percent||0).toFixed(2)}%</td>
+    </tr>`;
+  }).join('');
 }
 
-async function loadNews() {
-  const data = await api('/news');
-  const container = document.querySelector('.ai-section + .portfolio-section') || document.querySelector('#portfolio');
-  if (!container || !Array.isArray(data)) return;
-
-  const newsSection = document.createElement('section');
-  newsSection.className = 'testimonials';
-  newsSection.innerHTML = `<div class="container">
-    <div class="section-header" style="justify-content:center;text-align:center;">
-      <div><div class="section-label">News Feed</div><h2 class="section-title">Market News</h2></div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
-      ${data.slice(0, 6).map(n => `
-        <div style="background:#131D2E;border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:24px;">
-          <div style="display:flex;gap:8px;margin-bottom:8px;">
-            <span style="background:rgba(56,189,248,.15);padding:2px 8px;border-radius:4px;font-size:11px;color:#38BDF8;font-weight:600;">${n.category}</span>
-            <span style="color:#64748B;font-size:11px;">${n.sentiment}</span>
-          </div>
-          <h3 style="font-size:16px;margin-bottom:4px;">${n.title}</h3>
-          <p style="color:#64748B;font-size:13px;line-height:1.6;">${n.summary}</p>
-          <div style="margin-top:8px;font-size:12px;color:#475569;">${n.source}</div>
-        </div>
-      `).join('')}
-    </div>
-  </div>`;
-  container.parentNode.insertBefore(newsSection, container.nextSibling);
-}
-
+let chatHistory = [];
 function setupAIChat() {
-  const input = document.querySelector('.ai-input input');
-  const demoChat = document.querySelector('.ai-demo');
-  if (!input || !demoChat) return;
+  const input = document.getElementById('chat-input');
+  const send = document.getElementById('chat-send');
+  const messages = document.getElementById('chat-messages');
+  const clear = document.getElementById('chat-clear');
+  if (!input || !messages) return;
 
-  input.addEventListener('keydown', async (e) => {
-    if (e.key !== 'Enter' || !input.value.trim()) return;
-    const msg = input.value.trim();
+  const sendMsg = async () => {
+    const text = input.value.trim();
+    if (!text) return;
     input.value = '';
+    appendMsg('user', text);
+    appendMsg('bot', 'Thinking...', true);
+    try {
+      const res = await fetch(API + '/ai/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({message: text, history: chatHistory}),
+      });
+      const json = await res.json();
+      const reply = json.data?.response || 'Sorry, try again.';
+      chatHistory.push({role:'user', content:text}, {role:'assistant', content:reply});
+      const thinking = messages.querySelector('.thinking');
+      if (thinking) thinking.remove();
+      appendMsg('bot', reply);
+    } catch {
+      const thinking = messages.querySelector('.thinking');
+      if (thinking) thinking.remove();
+      appendMsg('bot', 'Error: Could not reach FinSwitch AI. Make sure the backend is running.');
+    }
+  };
 
-    const userBubble = document.createElement('div');
-    userBubble.className = 'ai-msg user';
-    userBubble.innerHTML = `<div class="sender">You</div>${msg}`;
-    demoChat.insertBefore(userBubble, demoChat.lastElementChild);
+  const appendMsg = (role, content, isThinking) => {
+    const div = document.createElement('div');
+    div.className = `msg ${role}` + (isThinking ? ' thinking' : '');
+    div.innerHTML = role === 'bot' ? `<div class="sender">FinSwitch AI</div>${content}` : content;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  };
 
-    const loading = document.createElement('div');
-    loading.className = 'ai-msg bot';
-    loading.innerHTML = `<div class="sender">FinSwitch AI</div>Thinking...`;
-    demoChat.insertBefore(loading, demoChat.lastElementChild);
-
-    const res = await fetch(API + '/ai/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: msg }),
-    });
-    const json = await res.json();
-
-    loading.innerHTML = `<div class="sender">FinSwitch AI</div>${json.data?.response || 'Sorry, try again.'}`;
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+  send?.addEventListener('click', sendMsg);
+  clear?.addEventListener('click', () => {
+    messages.innerHTML = '<div class="msg bot"><div class="sender">FinSwitch AI</div>Hi! I\'m your financial intelligence assistant. Ask me about any stock or market trend.</div>';
+    chatHistory = [];
   });
+
+  setupAIChat = () => {};
+  setupMarketTabs();
 }

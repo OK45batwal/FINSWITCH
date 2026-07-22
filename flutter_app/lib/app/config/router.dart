@@ -12,33 +12,52 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
-  static final router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
-    initialLocation: '/home',
-    routes: [
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => AppShell(child: child),
-        routes: [
-          GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
-          GoRoute(path: '/markets', builder: (_, __) => const MarketsScreen()),
-          GoRoute(path: '/news', builder: (_, __) => const NewsScreen()),
-          GoRoute(path: '/ai', builder: (_, __) => const AIScreen()),
-          GoRoute(path: '/portfolio', builder: (_, __) => const PortfolioScreen()),
-        ],
-      ),
-      GoRoute(
-        path: '/stock/:symbol',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, state) => StockDetailScreen(symbol: state.pathParameters['symbol']!),
-      ),
-      GoRoute(
-        path: '/profile',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (_, __) => const ProfileScreen(),
-      ),
-    ],
-  );
+  static GoRouter router() {
+    return GoRouter(
+      navigatorKey: _rootNavigatorKey,
+      initialLocation: '/home',
+      routes: [
+        ShellRoute(
+          navigatorKey: _shellNavigatorKey,
+          builder: (context, state, child) => AppShell(child: child),
+          routes: [
+            GoRoute(path: '/home', pageBuilder: (_, __) => _slidePage(const HomeScreen())),
+            GoRoute(path: '/markets', pageBuilder: (_, __) => _slidePage(const MarketsScreen())),
+            GoRoute(path: '/news', pageBuilder: (_, __) => _slidePage(const NewsScreen())),
+            GoRoute(path: '/ai', pageBuilder: (_, __) => _slidePage(const AIScreen())),
+            GoRoute(path: '/portfolio', pageBuilder: (_, __) => _slidePage(const PortfolioScreen())),
+          ],
+        ),
+        GoRoute(
+          path: '/stock/:symbol',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (_, state) => StockDetailScreen(symbol: state.pathParameters['symbol']!),
+        ),
+        GoRoute(
+          path: '/profile',
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (_, __) => _slidePage(const ProfileScreen(), fromRight: true),
+        ),
+      ],
+    );
+  }
+
+  static Page _slidePage(Widget child, {bool fromRight = false}) {
+    return CustomTransitionPage(
+      key: ValueKey(child.runtimeType),
+      child: child,
+      transitionsBuilder: (_, animation, __, child) {
+        if (fromRight) {
+          return SlideTransition(
+            position: Tween<Offset>(begin: const Offset(0.15, 0), end: Offset.zero).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
+            child: child,
+          );
+        }
+        return FadeTransition(opacity: Tween<double>(begin: 0.85, end: 1).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)), child: child);
+      },
+      transitionDuration: const Duration(milliseconds: 300),
+    );
+  }
 }
 
 class AppShell extends StatelessWidget {

@@ -1,282 +1,223 @@
 <div align="center">
-  <svg width="80" height="80" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:16px;"><rect width="512" height="512" rx="104" fill="#0B1220"/><path d="M200 380V132h80c32 0 56 8 72 24s24 36 24 60c0 28-10 50-30 66s-48 24-84 24h-38l92 74" stroke="#F8FAFC" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M280 200l-80 0" stroke="#2563EB" stroke-width="20" stroke-linecap="round" fill="none"/></svg>
-  <h1 align="center" style="font-size: 3em; margin: 10px 0; background: linear-gradient(135deg, #2563EB, #38BDF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">FinSwitch</h1>
-  <p align="center"><strong>AI-Powered Financial Intelligence Platform</strong></p>
-  <p align="center">Switch from confusion to confident financial decisions.</p>
+  <img src="assets/logo-horizontal.png" alt="FinSwitch Banner" width="480">
+  
+  <br><br>
+
+  <p align="center">
+    <strong>The AI-Powered Financial Decision Intelligence Platform for Indian Markets</strong>
+  </p>
+
+  <p align="center">
+    <em>Switch from market noise to confident, data-driven investment decisions.</em>
+  </p>
+
+  <br>
 
   <p align="center">
     <a href="https://finswitch.pages.dev">
-      <img src="https://img.shields.io/badge/Live_Website-finswitch.pages.dev-2563EB?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=0B1220" alt="Live Website">
+      <img src="https://img.shields.io/badge/🌐_Live_Website-finswitch.pages.dev-2563EB?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=0B1220" alt="Live Website">
     </a>
     <a href="https://finswitch.pages.dev/downloads/finswitch.apk">
-      <img src="https://img.shields.io/badge/Download_APK-54.5MB-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
+      <img src="https://img.shields.io/badge/📱_Download_APK-54.6MB-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
     </a>
     <a href="https://github.com/OK45batwal/FINSWITCH">
-      <img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
-    </a>
-    <a href="https://github.com/OK45batwal/FINSWITCH/stargazers">
-      <img src="https://img.shields.io/github/stars/OK45batwal/FINSWITCH?style=for-the-badge&labelColor=0B1220&color=10B981" alt="Stars">
+      <img src="https://img.shields.io/badge/version-v2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
     </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0B1220&color=10B981" alt="License">
     </a>
-    <br>
+  </p>
+
+  <p align="center">
     <img src="https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js">
     <img src="https://img.shields.io/badge/Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white" alt="Cloudflare Pages">
-    <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
+    <img src="https://img.shields.io/badge/Flutter_3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
     <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
+    <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
   </p>
+
 </div>
 
 <br>
 
 ---
 
+## 📌 Navigation & Quick Links
+
+<p align="center">
+  <a href="#-overview">Overview</a> •
+  <a href="#-key-features">Key Features</a> •
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-screenshots">Screenshots</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-api-endpoints">API Docs</a> •
+  <a href="#-security--hardening">Security</a>
+</p>
+
+---
+
 ## ✦ Overview
 
-**FinSwitch** is a modern, AI-powered financial intelligence platform designed for the Indian market. It helps users understand markets, analyze stocks, track portfolios, and make smarter financial decisions — all powered by advanced AI.
+> [!IMPORTANT]
+> **FinSwitch is a Decision Intelligence Platform, NOT a Stock Broker.**
+> FinSwitch does not execute direct stock trades. Instead, it provides real-time market data, technical indicator analysis, AI-driven stock evaluation, and portfolio optimization.
 
-> **FinSwitch is NOT a broker.** Users cannot buy or sell stocks directly. Instead, it's a complete financial decision intelligence platform.
-
----
-
-## ✦ Features
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
-
-### 📊 Market Intelligence
-Real-time Nifty, Sensex, and stock data with interactive charts, sector heatmaps, and market movers. Live tracking of 10,000+ stocks.
-
-### 🤖 AI Copilot
-Natural language chat that explains stocks, compares companies, analyzes markets, and answers financial questions. Like ChatGPT for finance.
-
-### 💼 Portfolio Tracker
-Track holdings, view allocation, analyze returns, and get AI-powered insights to optimize your investments.
-
-### 📰 Smart News Feed
-Curated financial news with AI summaries, sentiment analysis, and related stock impact assessments. Never miss a market-moving event.
-
-### 📈 Stock Screener
-Advanced filters, financial ratios, peer comparison, and fundamental analysis tools for deep research.
-
-### 🎓 Learning Platform
-Courses, tutorials, quizzes, and certificates covering finance basics to advanced investing strategies.
-
-### 💰 SIP Planner
-Goal-based planning with AI recommendations, future value projections, and inflation-adjusted targets.
-
-### 🔔 Smart Alerts
-Price, news, dividend, IPO, and volatility alerts with push notifications.
-
-</div>
+**FinSwitch** empowers retail investors in India with institution-grade market insights. By combining real-time Nifty & Sensex market feeds, LLM-powered financial intelligence (Gemini / OpenAI), deterministic technical indicators (RSI-14, SMA-20), and 2-step OTP authentication, FinSwitch bridges the gap between raw data and smart financial action.
 
 ---
 
-## ✦ Tech Stack
+## ✦ Key Features
 
-```
-Frontend     →  Flutter (iOS, Android, Web)
-Backend      →  Python FastAPI
-Database     →  PostgreSQL 15 + Redis Cache
-AI           →  LLM-powered Financial Intelligence
-Auth         →  JWT + Firebase Authentication
-Infra        →  Docker · Celery Workers
+| Feature | Description | Platform |
+| :--- | :--- | :--- |
+| **🤖 AI Financial Copilot** | Natural language analysis powered by LLMs (Gemini / OpenAI) with context-grounded stock insights. | Web & Mobile |
+| **🔐 6-Digit OTP Auth** | 2-step passwordless OTP verification for fast, secure user registration and sign-in. | Web & Mobile |
+| **📊 Real-Time Market Data** | Live tracking of Nifty 50, Sensex, Bank Nifty, and 10,000+ Indian stocks with interactive charts. | Web & Mobile |
+| **💼 Portfolio Tracker** | Track holdings, analyze sector allocation, and view real-time P&L with dynamic positive/negative formatting. | Web & Mobile |
+| **📈 Technical Indicators** | Mathematical, deterministic 14-period Wilder's RSI and 20-period Simple Moving Averages (SMA). | Web & Mobile |
+| **📰 Smart News Feed** | Curated financial market news with sentiment classification and related stock impact. | Web & Mobile |
+| **📲 Android Deep Linking** | Direct `https://finswitch.pages.dev/stock/:symbol` intent filters for seamless sharing. | Mobile |
+| **⚡ 4-Layer Edge Redundancy** | Cloudflare Edge `_redirects` and `_headers` ensuring zero 404s for app downloads. | Infrastructure |
+
+---
+
+## ✦ System Architecture
+
+```mermaid
+graph TD
+    User([User Client]) --> |HTTPS / Deep Links| WebApp[Next.js 16 Web App]
+    User --> |Mobile App| FlutterApp[Flutter 3.x Mobile App]
+    
+    WebApp --> |Edge Routing| CF[Cloudflare Pages CDN & Workers]
+    FlutterApp --> |REST API| Backend[Python FastAPI Backend]
+    
+    CF --> |Static / Data| StocksJSON[Single Source: stocks.json]
+    Backend --> |REST Client| Supabase[(Supabase Database)]
+    Backend --> |LLM Prompts| LLM[Gemini 1.5 Flash / OpenAI API]
 ```
 
 ---
 
 ## ✦ Screenshots
 
-### Website
+### 🌐 Next.js Web Platform (Bento Grid)
 
 <table>
   <tr>
     <td width="50%"><img src="assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
-    <td width="50%"><img src="assets/website-desktop.png" alt="Desktop View" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="assets/website-desktop.png" alt="Desktop Dashboard" style="border-radius: 12px;"></td>
   </tr>
   <tr>
-    <td align="center"><em>Hero Section — Bento Grid Layout</em></td>
-    <td align="center"><em>Full Desktop Viewport</em></td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="assets/website-fullpage.png" alt="Full Page" style="border-radius: 12px;"></td>
-    <td width="50%"><img src="assets/website-mobile.png" alt="Mobile View" style="border-radius: 12px;"></td>
-  </tr>
-  <tr>
-    <td align="center"><em>Full Page — All Sections</em></td>
-    <td align="center"><em>Mobile Viewport</em></td>
+    <td align="center"><em>Bento Grid Hero Section</em></td>
+    <td align="center"><em>Desktop Market Dashboard</em></td>
   </tr>
 </table>
 
-### Mobile App
+### 📱 Flutter Cross-Platform Mobile App
 
 <table>
   <tr>
-    <td width="20%"><img src="assets/App-Home.png" alt="App Home" style="border-radius: 12px; width: 100%;"></td>
-    <td width="20%"><img src="assets/App-Markets.png" alt="App Markets" style="border-radius: 12px; width: 100%;"></td>
-    <td width="20%"><img src="assets/App-AI.png" alt="App AI" style="border-radius: 12px; width: 100%;"></td>
-    <td width="20%"><img src="assets/App-Portfolio.png" alt="App Portfolio" style="border-radius: 12px; width: 100%;"></td>
-    <td width="20%"><img src="assets/App-News.png" alt="App News" style="border-radius: 12px; width: 100%;"></td>
+    <td width="20%"><img src="assets/App-Home.png" alt="App Home" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="assets/App-Markets.png" alt="App Markets" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="assets/App-AI.png" alt="App AI Chat" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="assets/App-Portfolio.png" alt="App Portfolio" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="assets/App-News.png" alt="App News" style="border-radius: 12px;"></td>
   </tr>
   <tr>
-    <td align="center"><em>Home</em></td>
-    <td align="center"><em>Markets</em></td>
-    <td align="center"><em>AI Chat</em></td>
+    <td align="center"><em>Home Dashboard</em></td>
+    <td align="center"><em>Live Markets</em></td>
+    <td align="center"><em>AI Copilot</em></td>
     <td align="center"><em>Portfolio</em></td>
-    <td align="center"><em>News</em></td>
+    <td align="center"><em>Financial News</em></td>
   </tr>
 </table>
-
-### Logo
-
-<p align="center">
-  <img src="assets/logo-horizontal.png" alt="FinSwitch Logo" height="60">
-  <br>
-  <img src="assets/logo-icon.png" alt="FinSwitch Icon" height="80" style="margin: 10px;">
-  <img src="assets/app-icon.png" alt="FinSwitch App Icon" height="80" style="margin: 10px; border-radius: 16px;">
-</p>
-
----
-
-## ✦ Project Structure
-
-```
-finswitch/
-├── branding/              # Logo, brand guidelines, favicon
-├── website/               # Premium landing page (HTML/CSS/JS)
-│   ├── index.html         # Main landing page
-│   ├── css/               # Design system + page styles
-│   ├── js/                # Animations, interactions
-│   └── assets/            # Logo, favicon
-├── backend/               # FastAPI backend
-│   ├── app/
-│   │   ├── api/v1/        # REST API routes (auth, markets, portfolio, AI...)
-│   │   ├── core/           # Config, security, database
-│   │   ├── models/         # SQLAlchemy ORM models
-│   │   ├── schemas/        # Pydantic request/response schemas
-│   │   ├── services/       # Business logic
-│   │   └── workers/        # Celery background tasks
-│   ├── database/           # PostgreSQL schema
-│   ├── Dockerfile
-│   └── docker-compose.yml
-├── flutter_app/            # Mobile app (iOS + Android)
-│   └── lib/
-│       ├── app/            # App shell, theme, navigation
-│       ├── core/           # Networking, storage, constants
-│       └── features/       # Feature modules
-├── admin/                  # Admin dashboard
-├── API.md                  # API documentation
-├── ARCHITECTURE.md         # Architecture overview
-├── DEPLOYMENT.md           # Deployment strategy
-├── PERSONAS.md             # User personas
-└── ROADMAP.md              # Development roadmap
-```
 
 ---
 
 ## ✦ Quick Start
 
-### Backend
+### 1. Web Application (Next.js 16)
 ```bash
-cd backend
-cp .env.example .env
-docker-compose up
-# API available at http://localhost:8000
-# Docs at http://localhost:8000/api/docs
+# Navigate to website directory
+cd website
+
+# Install dependencies
+npm install
+
+# Run local dev server
+npm run dev
+# Open http://localhost:3000
 ```
 
-### Flutter App
+### 2. Mobile App (Flutter 3.x)
 ```bash
+# Navigate to flutter_app directory
 cd flutter_app
+
+# Fetch packages & run linter
 flutter pub get
+flutter analyze
+
+# Launch on connected device / emulator
 flutter run
 ```
 
-### Website
+### 3. Backend Service (FastAPI)
 ```bash
-cd website
-python3 -m http.server 3000
-# Open http://localhost:3000
+# Navigate to backend directory
+cd backend
+
+# Create virtual environment & install requirements
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Run FastAPI dev server
+uvicorn app.main:app --reload --port 8000
+# API docs available at http://localhost:8000/docs
 ```
 
 ---
 
 ## ✦ API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/auth/register` | Create account |
-| POST | `/api/v1/auth/login` | Sign in |
-| GET | `/api/v1/markets/indices` | Nifty, Sensex, Bank Nifty |
-| GET | `/api/v1/markets/stocks` | Stock screener with filters |
-| GET | `/api/v1/markets/gainers` | Top gainers |
-| GET | `/api/v1/markets/losers` | Top losers |
-| GET | `/api/v1/portfolio/summary` | Portfolio overview |
-| GET | `/api/v1/portfolio/holdings` | Portfolio holdings |
-| POST | `/api/v1/ai/chat` | AI Copilot chat |
-| GET | `/api/v1/news` | Financial news feed |
-| POST | `/api/v1/sip/calculate` | SIP calculator |
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/v1/auth/send-otp` | Generate and dispatch 6-digit verification code | No |
+| `POST` | `/api/v1/auth/verify-otp` | Verify 6-digit code & obtain access token | No |
+| `GET` | `/api/v1/markets/indices` | Fetch live market indices (Nifty, Sensex, Bank Nifty) | No |
+| `GET` | `/api/v1/markets/stocks` | Fetch stock screener list with filters & volume | No |
+| `GET` | `/api/v1/markets/stocks/{symbol}` | Fetch stock details, RSI, SMA, and historical chart | No |
+| `POST` | `/api/v1/ai/chat` | AI Copilot conversational analysis | Optional |
+| `GET` | `/api/v1/portfolio/summary` | Portfolio total value, invested capital, and P&L | Yes |
+| `GET` | `/api/v1/news` | Financial news feed with sentiment tags | No |
 
-Full documentation: [API.md](API.md)
+Full API Specification: [`API.md`](API.md)
 
 ---
 
-## ✦ Roadmap
+## ✦ Security & Production Hardening
 
-- **Phase 1** ✅ Core Platform — Market data, portfolio, AI chat, news
-- **Phase 2** 🔄 Advanced Analytics — Stock screener, technical indicators, comparisons
-- **Phase 3** 📅 Learning Platform — Courses, quizzes, certificates
-- **Phase 4** 📅 Advanced AI — Predictive analytics, sentiment analysis
-- **Phase 5** 📅 Ecosystem — International markets, premium tiers
-
-See [ROADMAP.md](ROADMAP.md) for details.
-
----
-
-## ✦ Design System
-
-| Token | Value |
-|-------|-------|
-| Primary | `#2563EB` — Royal Blue |
-| Success | `#10B981` — Emerald |
-| Danger | `#EF4444` — Red |
-| Background | `#0B1220` — Deep Navy |
-| Card | `#131D2E` — Elevated Surface |
-| Accent | `#38BDF8` — Sky Blue |
-| Text | `#F8FAFC` — Off White |
-| Font Headings | SF Pro Display (system) |
-| Font Body | `Inter` |
-| Font Numbers | `JetBrains Mono` |
-| Card Radius | `20px` |
-| Button Radius | `14px` |
-
-Modern minimal FinTech design: 40% Apple, 25% CRED, 20% TradingView, 10% Linear, 5% Glassmorphism. Bento Grid layout on web. Card-based on mobile. Dark first.
-
----
-
-## ✦ Security
-
-- 🔒 JWT authentication with refresh tokens
-- 🛡️ Password hashing with bcrypt
-- 🔐 HTTPS enforced everywhere
-- 📋 Audit logging for sensitive actions
-- 🚦 Rate limiting on API endpoints
-- ✅ OWASP best practices
+- 🔒 **Zero Hardcoded Secrets**: Credentials, Supabase keys, and tokens are read exclusively from environment variables / GitHub Secrets.
+- 🛡️ **Enforced Production `SECRET_KEY`**: FastAPI startup validator rejects default development keys when `DEBUG=False`.
+- 🔐 **Restricted Production CORS**: Cross-Origin Resource Sharing is strictly scoped to production domain (`https://finswitch.pages.dev`).
+- 🔑 **Guarded Dev OTP Bypass**: Test OTP bypass (`123456`) is restricted to `kDebugMode` in Flutter and `NODE_ENV === 'development'` on the web.
+- ⏱️ **Auto-Resetting Network Retry Timer**: 30-second cooldown timer for transient backend offline fallbacks.
+- 🚦 **CI/CD Quality Gates**: Automated `flutter analyze`, `npm run lint`, and Python syntax checks on all pull requests and pushes.
 
 ---
 
 ## ✦ License
 
-MIT License — see [LICENSE](LICENSE) for details.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
----
+<br>
 
 <div align="center">
   <p>Built with ❤️ for smarter investing in India</p>
   <p>
     <a href="https://finswitch.pages.dev">🌐 Live Website</a> ·
-    <a href="https://finswitch.pages.dev/downloads/finswitch.apk">📱 Download APK</a> ·
-    <a href="https://github.com/OK45batwal/FINSWITCH">GitHub</a> ·
-    <a href="API.md">API Docs</a>
+    <a href="https://finswitch.pages.dev/downloads/finswitch.apk">📱 Download APK (54.6 MB)</a> ·
+    <a href="https://github.com/OK45batwal/FINSWITCH">GitHub Repository</a>
   </p>
 </div>

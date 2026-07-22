@@ -23,15 +23,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _load() async {
-    final p = await Api.get('/portfolio/summary');
-    final i = await Api.get('/markets/indices');
-    final n = await Api.get('/news');
-    if (mounted) setState(() {
-      _portfolio = p is Map ? p : null;
-      _indices = (i is List ? i : <dynamic>[]).cast<Map<String, dynamic>>();
-      _news = (n is List ? n : <dynamic>[]).take(3).toList();
-      _loading = false;
-    });
+    try {
+      final results = await Future.wait([
+        Api.get('/portfolio/summary'),
+        Api.get('/markets/indices'),
+        Api.get('/news'),
+      ]);
+      if (mounted) setState(() {
+        _portfolio = results[0] is Map ? results[0] : null;
+        _indices = (results[1] is List ? results[1] : <dynamic>[]).cast<Map<String, dynamic>>();
+        _news = (results[2] is List ? results[2] : <dynamic>[]).take(3).toList();
+        _loading = false;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override

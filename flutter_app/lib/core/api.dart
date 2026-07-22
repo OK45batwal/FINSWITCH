@@ -1,8 +1,18 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
 
 class Api {
-  static const host = 'http://10.0.2.2:8000/api/v1';
+  static String _host = '';
+
+  static String get host {
+    if (_host.isEmpty) {
+      _host = Platform.isAndroid ? 'http://10.0.2.2:8000/api/v1' : 'http://localhost:8000/api/v1';
+    }
+    return _host;
+  }
+
+  static set host(String h) => _host = h;
 
   static Future<dynamic> get(String path) async {
     final res = await http.get(Uri.parse('$host$path'));

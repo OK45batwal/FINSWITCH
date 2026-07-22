@@ -1,7 +1,5 @@
-// Cloudflare Pages Function — ported from backend/app/services/local_ai.py
-import { NextRequest, NextResponse } from 'next/server';
-
-const STOCKS: Record<string, any> = {
+// Cloudflare Pages Function: /api/ai
+const STOCKS = {
   RELIANCE: { name: 'Reliance Industries Ltd', sector: 'Oil & Gas', price: 2845.30, change: 32.50, change_pct: 1.16, pe: 24.5, high_52w: 3200, low_52w: 2200, mcap: 1925000, div_yield: 0.35, volume: 12400000 },
   TCS: { name: 'Tata Consultancy Services', sector: 'IT', price: 3920.00, change: -18.40, change_pct: -0.47, pe: 28.6, high_52w: 4200, low_52w: 3300, mcap: 1450000, div_yield: 1.20, volume: 3800000 },
   HDFCBANK: { name: 'HDFC Bank Ltd', sector: 'Banking', price: 1635.75, change: 8.90, change_pct: 0.55, pe: 18.5, high_52w: 1800, low_52w: 1360, mcap: 940000, div_yield: 1.05, volume: 18200000 },
@@ -16,15 +14,15 @@ const STOCKS: Record<string, any> = {
   BAJFINANCE: { name: 'Bajaj Finance Ltd', sector: 'NBFC', price: 7245.30, change: 56.80, change_pct: 0.79, pe: 31.5, high_52w: 8200, low_52w: 5800, mcap: 430000, div_yield: 0.30, volume: 1200000 },
 };
 
-const INDICES: Record<string, any> = {
+const INDICES = {
   NIFTY: { name: 'Nifty 50', value: 23456.80, change: 128.45, change_pct: 0.55 },
   SENSEX: { name: 'S&P BSE Sensex', value: 77123.45, change: 342.10, change_pct: 0.44 },
   BANKNIFTY: { name: 'Bank Nifty', value: 49234.55, change: -87.30, change_pct: -0.18 },
 };
 
-function rnd(min: number, max: number) { return Math.random() * (max - min) + min; }
+function rnd(min, max) { return Math.random() * (max - min) + min; }
 
-function rsiStr(price: number): string {
+function rsiStr(price) {
   const g = price * rnd(0.005, 0.02), l = price * rnd(0.005, 0.015);
   const rs = (g / 14) / (l / 14 + 0.001);
   const rsi = 100 - 100 / (1 + rs);
@@ -33,20 +31,20 @@ function rsiStr(price: number): string {
   return `RSI ${rsi.toFixed(1)} (neutral)`;
 }
 
-function smaTrend(prices: number[]): string {
+function smaTrend(prices) {
   if (prices.length < 25) return 'Insufficient data';
   const sma = prices.slice(-20).reduce((a, b) => a + b, 0) / 20;
   const above = prices[prices.length - 1] > sma;
   return `Price ${above ? 'above' : 'below'} SMA(20) — ${above ? 'uptrend' : 'downtrend'}`;
 }
 
-function analyzeStock(symbol: string, message: string): string {
+function analyzeStock(symbol, message) {
   const s = STOCKS[symbol.toUpperCase()];
   if (!s) {
     const guesses = Object.keys(STOCKS).filter(k => symbol.toUpperCase().slice(0, 3) === k.slice(0, 3));
     return guesses.length ? `Did you mean ${guesses.join(', ')}?` : `No data for '${symbol}'. Available: ${Object.keys(STOCKS).join(', ')}.`;
   }
-  const msg = message.toLowerCase();
+  const msg = (message || '').toLowerCase();
   const { price: p, change: ch, change_pct: cp, pe, mcap, div_yield: div } = s;
   const pos = ((p - s.low_52w) / (s.high_52w - s.low_52w)) * 100;
   const support = +(p * 0.95).toFixed(2), resistance = +(p * 1.08).toFixed(2);
@@ -76,12 +74,12 @@ function analyzeStock(symbol: string, message: string): string {
   return lines.join('\n');
 }
 
-function marketSummary(): string {
+function marketSummary() {
   const lines = ['📊 **Market Summary**', ''];
   for (const [sym, ix] of Object.entries(INDICES)) {
     lines.push(`${ix.change >= 0 ? '🟢' : '🔴'} ${ix.name}: ${ix.value.toLocaleString('en-IN')} (${ix.change_pct >= 0 ? '+' : ''}${ix.change_pct.toFixed(2)}%)`);
   }
-  const sectors: Record<string, { stocks: number; up: number; sum: number }> = {};
+  const sectors = {};
   for (const s of Object.values(STOCKS)) {
     const sec = s.sector;
     if (!sectors[sec]) sectors[sec] = { stocks: 0, up: 0, sum: 0 };
@@ -96,14 +94,14 @@ function marketSummary(): string {
   return lines.join('\n');
 }
 
-function portfolioAnalysis(): string {
-  const holdings: [string, number, number][] = [
+function portfolioAnalysis() {
+  const holdings = [
     ['RELIANCE', 50, 2450], ['HDFCBANK', 100, 1420], ['TCS', 20, 3850],
     ['ICICIBANK', 150, 980], ['INFY', 60, 1450], ['SBIN', 200, 650], ['ITC', 300, 380],
   ];
   let totalInv = 0, totalCur = 0;
-  const lines: string[] = ['💼 **Portfolio Analysis**', ''];
-  const secAlloc: Record<string, number> = {};
+  const lines = ['💼 **Portfolio Analysis**', ''];
+  const secAlloc = {};
   for (const [sym, qty, avg] of holdings) {
     const s = STOCKS[sym]; if (!s) continue;
     const inv = qty * avg, cur = qty * s.price;
@@ -122,11 +120,11 @@ function portfolioAnalysis(): string {
   return lines.join('\n');
 }
 
-function compareStocks(symbols: string[]): string {
-  const data = symbols.map(s => [s, STOCKS[s.toUpperCase()]] as [string, any]).filter(([_, d]) => d);
+function compareStocks(symbols) {
+  const data = symbols.map(s => [s, STOCKS[s.toUpperCase()]]).filter(([_, d]) => d);
   if (data.length < 2) return 'Need 2 known stocks to compare.';
-  const lines: string[] = ['📊 **Stock Comparison**', ''];
-  const metrics: [string, (d: any) => string][] = [
+  const lines = ['📊 **Stock Comparison**', ''];
+  const metrics = [
     ['Price', d => `₹${d.price.toFixed(2)}`],
     ['Change%', d => `${d.change_pct > 0 ? '+' : ''}${d.change_pct.toFixed(2)}%`],
     ['P/E', d => `${d.pe}`],
@@ -140,7 +138,7 @@ function compareStocks(symbols: string[]): string {
   return lines.join('\n');
 }
 
-function generateChart(symbol: string, days = 60) {
+function generateChart(symbol, days = 60) {
   const s = STOCKS[symbol.toUpperCase()];
   if (!s) return [];
   let price = s.price * 0.95;
@@ -159,8 +157,8 @@ function generateChart(symbol: string, days = 60) {
   });
 }
 
-function chat(message: string): string {
-  const msg = message.toLowerCase().trim();
+function chat(message) {
+  const msg = (message || '').toLowerCase().trim();
   const syms = Object.keys(STOCKS).sort((a, b) => b.length - a.length);
   let symFound = syms.find(s => msg.includes(s.toLowerCase()));
   if (symFound && !/compare|vs /.test(msg)) return analyzeStock(symFound, message);
@@ -184,33 +182,39 @@ function chat(message: string): string {
   return `I can analyze ${Object.keys(STOCKS).length} Indian stocks: ${Object.keys(STOCKS).join(', ')}`;
 }
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const type = searchParams.get('type') || 'indices';
-  if (type === 'indices') {
-    return NextResponse.json({ success: true, data: Object.entries(INDICES).map(([symbol, ix]) => ({ symbol, name: ix.name, price: ix.value, change: ix.change, change_percent: ix.change_pct })) });
-  }
-  if (type === 'stocks') {
-    return NextResponse.json({ success: true, data: Object.entries(STOCKS).map(([symbol, s]) => ({ symbol, name: s.name, sector: s.sector, price: s.price, change: s.change, change_percent: s.change_pct, volume: s.volume, pe_ratio: s.pe, high_52w: s.high_52w, low_52w: s.low_52w, market_cap: s.mcap * 100000, dividend_yield: s.div_yield, avg_volume: s.volume, industry: '', description: '' })) });
-  }
-  if (type === 'stock') {
-    const sym = searchParams.get('symbol') || '';
-    const s = STOCKS[sym.toUpperCase()];
-    if (!s) return NextResponse.json({ success: false, error: 'Not found' }, { status: 404 });
-    return NextResponse.json({ success: true, data: { symbol: sym.toUpperCase(), name: s.name, sector: s.sector, price: s.price, change: s.change, change_percent: s.change_pct, volume: s.volume, pe_ratio: s.pe, high_52w: s.high_52w, low_52w: s.low_52w, market_cap: s.mcap * 100000, dividend_yield: s.div_yield, avg_volume: s.volume, industry: '', description: '' } });
-  }
-  return NextResponse.json({ success: false, error: 'Unknown type' }, { status: 400 });
-}
+export async function onRequest(context) {
+  const { request } = context;
+  const url = new URL(request.url);
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { action, message, symbol, days } = body;
-  try {
-    if (action === 'chat') return NextResponse.json({ success: true, data: { response: chat(message || '') } });
-    if (action === 'analyze') return NextResponse.json({ success: true, data: analyzeStock(symbol || '', message || '') });
-    if (action === 'chart') return NextResponse.json({ success: true, data: generateChart(symbol || '', days || 60) });
-    return NextResponse.json({ success: false, error: 'Unknown action' }, { status: 400 });
-  } catch (e: any) {
-    return NextResponse.json({ success: false, error: e.message }, { status: 500 });
+  if (request.method === 'GET') {
+    const type = url.searchParams.get('type') || 'indices';
+    if (type === 'indices') {
+      return Response.json({ success: true, data: Object.entries(INDICES).map(([symbol, ix]) => ({ symbol, name: ix.name, price: ix.value, change: ix.change, change_percent: ix.change_pct })) });
+    }
+    if (type === 'stocks') {
+      return Response.json({ success: true, data: Object.entries(STOCKS).map(([symbol, s]) => ({ symbol, name: s.name, sector: s.sector, price: s.price, change: s.change, change_percent: s.change_pct, volume: s.volume, pe_ratio: s.pe, high_52w: s.high_52w, low_52w: s.low_52w, market_cap: s.mcap * 100000, dividend_yield: s.div_yield, avg_volume: s.volume, industry: '', description: '' })) });
+    }
+    if (type === 'stock') {
+      const sym = url.searchParams.get('symbol') || '';
+      const s = STOCKS[sym.toUpperCase()];
+      if (!s) return Response.json({ success: false, error: 'Not found' }, { status: 404 });
+      return Response.json({ success: true, data: { symbol: sym.toUpperCase(), name: s.name, sector: s.sector, price: s.price, change: s.change, change_percent: s.change_pct, volume: s.volume, pe_ratio: s.pe, high_52w: s.high_52w, low_52w: s.low_52w, market_cap: s.mcap * 100000, dividend_yield: s.div_yield, avg_volume: s.volume, industry: '', description: '' } });
+    }
+    return Response.json({ success: false, error: 'Unknown type' }, { status: 400 });
   }
+
+  if (request.method === 'POST') {
+    try {
+      const body = await request.json();
+      const { action, message, symbol, days } = body;
+      if (action === 'chat') return Response.json({ success: true, data: { response: chat(message || '') } });
+      if (action === 'analyze') return Response.json({ success: true, data: analyzeStock(symbol || '', message || '') });
+      if (action === 'chart') return Response.json({ success: true, data: generateChart(symbol || '', days || 60) });
+      return Response.json({ success: false, error: 'Unknown action' }, { status: 400 });
+    } catch (e) {
+      return Response.json({ success: false, error: e.message }, { status: 500 });
+    }
+  }
+
+  return new Response('Method Not Allowed', { status: 405 });
 }

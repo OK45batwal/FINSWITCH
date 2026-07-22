@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
+import 'supabase_service.dart';
 
 class Api {
   static String _host = '';
@@ -19,37 +20,149 @@ class Api {
   static set useLocal(bool v) => _useLocal = v;
 
   static Future<dynamic> get(String path) async {
-    if (_useLocal) return _localData(path);
-    try {
-      final res = await http
-          .get(Uri.parse('$host$path'))
-          .timeout(const Duration(seconds: 3));
-      final body = jsonDecode(res.body);
-      if (body is Map && body['data'] != null) return body['data'];
-      return body;
-    } catch (_) {
-      _useLocal = true;
-      return _localData(path);
+    // 1. Attempt fetching from Supabase Database first
+    final supabaseData = await _supabaseData(path);
+    if (supabaseData != null) return supabaseData;
+
+    // 2. If Supabase is empty/offline, attempt HTTP API backend
+    if (!_useLocal) {
+      try {
+        final res = await http
+            .get(Uri.parse('$host$path'))
+            .timeout(const Duration(seconds: 3));
+        final body = jsonDecode(res.body);
+        if (body is Map && body['data'] != null) return body['data'];
+        return body;
+      } catch (_) {
+        _useLocal = true;
+      }
     }
+
+    // 3. Fallback to local static mock data
+    return _localData(path);
   }
 
   static Future<dynamic> post(String path, Map<String, dynamic> body) async {
-    if (_useLocal) return _localPost(path, body);
-    try {
-      final res = await http
-          .post(Uri.parse('$host$path'),
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode(body))
-          .timeout(const Duration(seconds: 3));
-      final decoded = jsonDecode(res.body);
-      if (decoded is Map && decoded['data'] != null) return decoded['data'];
-      return decoded;
-    } catch (_) {
-      _useLocal = true;
-      return _localPost(path, body);
+    if (!_useLocal) {
+      try {
+        final res = await http
+            .post(Uri.parse('$host$path'),
+                headers: {'Content-Type': 'application/json'},
+                body: jsonEncode(body))
+            .timeout(const Duration(seconds: 3));
+        final decoded = jsonDecode(res.body);
+        if (decoded is Map && decoded['data'] != null) return decoded['data'];
+        return decoded;
+      } catch (_) {
+        _useLocal = true;
+      }
     }
+    return _localPost(path, body);
   }
 
+  // ---- Live Supabase Database Query Layer ----
+  static Future<dynamic> _supabaseData(String path) async {
+    try {
+      if (!SupabaseService.isAuthenticated &&
+          (path.startsWith('/portfolio') || path.startsWith('/watchlist'))) {
+        return null;
+      }
+
+      if (path == '/markets/indices') {
+        final res = await SupabaseService.client.from('indices').select();
+        if (res.isNotEmpty) {
+          return res.map((r) => {
+            'symbol': r['symbol'],
+            'name': r['name'],
+            'last_value': (r['price'] as num).toDouble(),
+            'change': (r['change'] as num).toDouble(),
+            'change_percent': (r['change_percent'] as num).toDouble(),
+          }).toList();
+        }
+      }
+
+      if (path == '/markets/stocks') {
+        final res = await SupabaseService.client.from('stocks').select();
+        if (res.isNotEmpty) {
+          return res.map((r) => _mapStock(r)).toList();
+        }
+      }
+
+      if (path.startsWith('/markets/stocks/')) {
+        final sym = path.split('/').last.toUpperCase();
+        final res = await SupabaseService.client.from('stocks').select().eq('symbol', sym).maybeSingle();
+        if (res != null) return _mapStock(res);
+      }
+
+      if (path == '/markets/gainers') {
+        final res = await SupabaseService.client.from('stocks').select().order('change_percent', ascending: false).limit(5);
+        if (res.isNotEmpty) return res.map((r) => _mapStock(r)).toList();
+      }
+
+      if (path == '/markets/losers') {
+        final res = await SupabaseService.client.from('stocks').select().order('change_percent', ascending: true).limit(5);
+        if (res.isNotEmpty) return res.map((r) => _mapStock(r)).toList();
+      }
+
+      if (path == '/news') {
+        final res = await SupabaseService.client.from('news_articles').select().order('published_at', ascending: false).limit(20);
+        if (res.isNotEmpty) {
+          return res.map((r) => {
+            'id': r['id'].toString(),
+            'title': r['title'],
+            'summary': r['summary'] ?? '',
+            'category': 'Markets',
+            'sentiment': 'positive',
+            'source': r['source'] ?? 'FinSwitch',
+            'published_at': r['published_at'] ?? 'Just now',
+          }).toList();
+        }
+      }
+
+      if (path == '/portfolio/summary') {
+        final userId = SupabaseService.currentUser?.id;
+        if (userId != null) {
+          final res = await SupabaseService.client.from('portfolios').select().eq('user_id', userId).maybeSingle();
+          if (res != null) {
+            final cur = (res['current_value'] as num).toDouble();
+            final inv = (res['total_invested'] as num).toDouble();
+            final ret = (res['total_returns'] as num).toDouble();
+            final retPct = (res['returns_percent'] as num).toDouble();
+            return {
+              'total_invested': inv,
+              'current_value': cur,
+              'total_returns': ret,
+              'returns_percent': retPct,
+              'today_pl': ret * 0.01,
+              'today_pl_percent': 0.21,
+            };
+          }
+        }
+      }
+    } catch (_) {
+      // Fallback silently if query fails
+    }
+    return null;
+  }
+
+  static Map<String, dynamic> _mapStock(Map<String, dynamic> r) {
+    return {
+      'symbol': r['symbol'],
+      'name': r['name'],
+      'sector': r['sector'],
+      'last_price': (r['price'] as num).toDouble(),
+      'change': (r['change'] as num).toDouble(),
+      'change_percent': (r['change_percent'] as num).toDouble(),
+      'volume': r['volume'] ?? 0,
+      'pe_ratio': (r['pe_ratio'] as num?)?.toDouble() ?? 20.0,
+      'open': (r['price'] as num).toDouble() * 0.99,
+      'high': (r['high_52w'] as num?)?.toDouble() ?? (r['price'] as num).toDouble() * 1.05,
+      'low': (r['low_52w'] as num?)?.toDouble() ?? (r['price'] as num).toDouble() * 0.95,
+      'description': r['description'] ?? '',
+    };
+  }
+
+  // ---- Local Static Mock Data Fallback ----
   static dynamic _localData(String path) {
     if (path.startsWith('/portfolio/summary')) return _portfolioSummary;
     if (path.startsWith('/portfolio/holdings')) return _holdings;
@@ -229,7 +342,7 @@ class Api {
       'high': 2902.21,
       'low': 2788.39,
       'description':
-          'Reliance Industries Limited is an Indian multinational conglomerate with businesses in energy, petrochemicals, textiles, retail, and telecommunications.'
+          'Reliance Industries Limited is an Indian multinational conglomerate with businesses in energy, petrochemicals, retail, and telecommunications.'
     },
     {
       'symbol': 'TCS',

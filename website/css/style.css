@@ -242,6 +242,9 @@ h1, h2, h3, h4, h5 { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Dis
   .footer-grid { grid-template-columns: 1fr; }
 }
 
+.nav-links.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(11,18,32,0.98); backdrop-filter: blur(20px); padding: 20px 24px; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.mobile-nav-open { overflow: hidden; }
+
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #0B1220; }
 ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }

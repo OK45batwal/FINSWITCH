@@ -1,65 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/config/theme.dart';
 
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: IconButton(icon: const Icon(Icons.arrow_back_rounded), onPressed: () => Navigator.pop(context)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Container(
-                width: 80, height: 80,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)],
-                    begin: Alignment.topLeft, end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: const Center(
-                  child: Text('OK', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)),
-                ),
-              ),
-              const SizedBox(height: 12),
-              const Text('Omkar Batwal', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppTheme.text)),
-              const SizedBox(height: 4),
-              const Text('omkar.batwal@example.com', style: TextStyle(fontSize: 14, color: AppTheme.muted)),
-              const SizedBox(height: 24),
-              _MenuTile(icon: Icons.account_balance_wallet_rounded, title: 'Portfolio', subtitle: 'View your investments'),
-              _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
-              _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
-              _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
-              _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version 1.0.0'),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppTheme.red,
-                    side: BorderSide(color: AppTheme.red.withValues(alpha: 0.3)),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  ),
-                  child: const Text('Sign Out'),
-                ),
-              ),
-            ],
-          ),
+          child: Column(children: [
+            const SizedBox(height: 20),
+            Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(24)),
+              child: const Center(child: Text('OK', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)))),
+            const SizedBox(height: 12),
+            const Text('Omkar Batwal', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: AppTheme.text)),
+            const SizedBox(height: 4),
+            const Text('omkar.batwal@example.com', style: TextStyle(fontSize: 14, color: AppTheme.muted)),
+            const SizedBox(height: 24),
+            _MenuTile(icon: Icons.account_balance_wallet_rounded, title: 'Portfolio', subtitle: 'View your investments'),
+            _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
+            _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
+            _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
+            _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version 1.0.0'),
+            const SizedBox(height: 24),
+            SizedBox(width: double.infinity, child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.red, side: BorderSide(color: AppTheme.red.withValues(alpha: 0.3)), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: const Text('Sign Out'))),
+          ]),
         ),
       ),
     );
@@ -76,19 +47,12 @@ class _MenuTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Container(
-          width: 44, height: 44,
-          decoration: BoxDecoration(
-            color: AppTheme.primaryBlue.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: AppTheme.primaryBlue, size: 22),
-        ),
+        leading: Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+          child: Icon(icon, color: AppTheme.primaryBlue, size: 22)),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: AppTheme.text)),
         subtitle: Text(subtitle, style: const TextStyle(fontSize: 12, color: AppTheme.muted)),
         trailing: const Icon(Icons.chevron_right_rounded, color: AppTheme.muted, size: 20),
-        contentPadding: EdgeInsets.zero,
-        onTap: () {},
+        contentPadding: EdgeInsets.zero, onTap: () {},
       ),
     );
   }

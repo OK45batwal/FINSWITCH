@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../app/config/theme.dart';
+import '../../../core/api.dart';
 
-final f = NumberFormat('#,##0.00');
-final fp = NumberFormat('#,##0');
-
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mq = MediaQuery.of(context);
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Map? _portfolio;
+  List _indices = [];
+  List _news = [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final p = await Api.get('/portfolio/summary');
+    final i = await Api.get('/markets/indices');
+    final n = await Api.get('/news');
+    if (mounted) setState(() {
+      _portfolio = p is Map ? p : null;
+      _indices = (i is List ? i : <dynamic>[]).cast<Map<String, dynamic>>();
+      _news = (n is List ? n : <dynamic>[]).take(3).toList();
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: SizedBox(
@@ -28,110 +50,71 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PortfolioOverview(),
-              const SizedBox(height: 20),
-              _QuickActions(),
-              const SizedBox(height: 24),
-              _SectionHeader(title: 'Market Overview'),
-              const SizedBox(height: 12),
-              _MarketTicker(),
-              const SizedBox(height: 24),
-              _SectionHeader(title: 'Latest News'),
-              const SizedBox(height: 12),
-              _NewsPreview(),
-            ],
-          ),
-        ),
+        child: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  _PortfolioOverview(portfolio: _portfolio),
+                  const SizedBox(height: 20),
+                  _QuickActions(),
+                  const SizedBox(height: 24),
+                  Text('Market Overview', style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: 12),
+                  _MarketTicker(indices: _indices),
+                  const SizedBox(height: 24),
+                  Text('Latest News', style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: 12),
+                  ..._news.map((n) => _buildNewsItem(n as Map<String, dynamic>)),
+                ]),
+              ),
+            ),
       ),
     );
   }
-}
 
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  final Widget? trailing;
-  const _SectionHeader({required this.title, this.trailing});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
-        trailing ?? Text('See all', style: TextStyle(color: AppTheme.primaryBlue, fontSize: 13, fontWeight: FontWeight.w600)),
-      ],
+  Widget _buildNewsItem(Map n) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: AppTheme.card, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+          child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22)),
+        const SizedBox(width: 12),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(n['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppTheme.text)),
+          const SizedBox(height: 2),
+          Text(n['summary'] ?? '', style: const TextStyle(fontSize: 12, color: AppTheme.muted), maxLines: 2),
+        ])),
+      ]),
     );
   }
 }
 
 class _PortfolioOverview extends StatelessWidget {
+  final Map? portfolio;
+  const _PortfolioOverview({this.portfolio});
+
   @override
   Widget build(BuildContext context) {
+    final p = portfolio;
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)],
-          begin: Alignment.topLeft, end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Portfolio Value', style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 4),
-          Text('\u{20B9}12,45,890', style: TextStyle(
-            fontSize: 32, fontWeight: FontWeight.w800,
-            color: Colors.white, letterSpacing: -1,
-          )),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: AppTheme.emeraldGreen.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text('+2.34% today', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 12, fontWeight: FontWeight.w600)),
-              ),
-              const SizedBox(width: 12),
-              Text('Net +₹28,450', style: TextStyle(color: Colors.white70, fontSize: 13)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _StatChip(label: 'Invested', value: '₹11,20,000'),
-              const SizedBox(width: 16),
-              _StatChip(label: 'Returns', value: '₹1,25,890'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  final String label, value;
-  const _StatChip({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(color: Colors.white60, fontSize: 12)),
-        const SizedBox(height: 2),
-        Text(value, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
-      ],
+      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('Portfolio Value', style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500)),
+        const SizedBox(height: 4),
+        Text('₹${p?['current_value']?.toStringAsFixed(0) ?? '--'}', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -1)),
+        const SizedBox(height: 6),
+        Row(children: [
+          Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3), decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),
+            child: Text('+${p?['today_pl_percent']?.toStringAsFixed(2) ?? '--'}% today', style: const TextStyle(color: AppTheme.emeraldGreen, fontSize: 12, fontWeight: FontWeight.w600))),
+          const SizedBox(width: 12),
+          Text('Net +₹${p?['today_pl']?.toStringAsFixed(0) ?? '--'}', style: const TextStyle(color: Colors.white70, fontSize: 13)),
+        ]),
+      ]),
     );
   }
 }
@@ -140,136 +123,44 @@ class _QuickActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actions = [
-      _ActionItem(icon: Icons.add_circle_outline, label: 'Invest', color: AppTheme.primaryBlue),
-      _ActionItem(icon: Icons.swap_horiz_rounded, label: 'SIP', color: AppTheme.accent),
-      _ActionItem(icon: Icons.sell_outlined, label: 'Sell', color: AppTheme.emeraldGreen),
-      _ActionItem(icon: Icons.history_rounded, label: 'History', color: const Color(0xFFA78BFA)),
+      (Icons.add_circle_outline, 'Invest', AppTheme.primaryBlue),
+      (Icons.swap_horiz_rounded, 'SIP', AppTheme.accent),
+      (Icons.sell_outlined, 'Sell', AppTheme.emeraldGreen),
+      (Icons.history_rounded, 'History', const Color(0xFFA78BFA)),
     ];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: actions.map((a) => Column(
-        children: [
-          Container(
-            width: 52, height: 52,
-            decoration: BoxDecoration(
-              color: a.color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(a.icon, color: a.color, size: 24),
-              padding: EdgeInsets.zero,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(a.label, style: TextStyle(color: AppTheme.muted, fontSize: 12, fontWeight: FontWeight.w500)),
-        ],
-      )).toList(),
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: actions.map((a) => Column(children: [
+        Container(width: 52, height: 52, decoration: BoxDecoration(color: a.$3.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(16)),
+          child: IconButton(onPressed: () {}, icon: Icon(a.$1, color: a.$3, size: 24), padding: EdgeInsets.zero)),
+        const SizedBox(height: 6),
+        Text(a.$2, style: const TextStyle(color: AppTheme.muted, fontSize: 12, fontWeight: FontWeight.w500)),
+      ])).toList(),
     );
   }
 }
 
-class _ActionItem {
-  final IconData icon;
-  final String label;
-  final Color color;
-  _ActionItem({required this.icon, required this.label, required this.color});
-}
-
 class _MarketTicker extends StatelessWidget {
+  final List indices;
+  const _MarketTicker({required this.indices});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppTheme.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white10),
-      ),
-      child: Column(
-        children: [
-          _IndexRow(name: 'NIFTY 50', value: '24,682.75', change: '+185.40 (+0.76%)', up: true),
-          const Divider(height: 20),
-          _IndexRow(name: 'SENSEX', value: '81,523.40', change: '+612.80 (+0.76%)', up: true),
-          const Divider(height: 20),
-          _IndexRow(name: 'BANK NIFTY', value: '52,891.15', change: '-124.30 (-0.23%)', up: false),
-        ],
-      ),
-    );
-  }
-}
-
-class _IndexRow extends StatelessWidget {
-  final String name, value, change;
-  final bool up;
-  const _IndexRow({required this.name, required this.value, required this.change, required this.up});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(name, style: TextStyle(color: AppTheme.muted, fontSize: 14, fontWeight: FontWeight.w500)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.text)),
-            const SizedBox(height: 1),
-            Text(change, style: TextStyle(
-              fontSize: 12, fontWeight: FontWeight.w600,
-              color: up ? AppTheme.emeraldGreen : AppTheme.red,
-            )),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _NewsPreview extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final items = [
-      ('SEBI New F&O Rules', 'SEBI tightens index derivatives norms effective April 2026', '2h ago'),
-      ('RBI Repo Rate', 'RBI keeps repo rate unchanged at 6.50% for eighth straight meet', '5h ago'),
-      ('Q3 Earnings', 'TCS beats estimates with 12% net profit growth in Q3 FY26', '8h ago'),
-    ];
-    return Column(
-      children: items.map((n) => Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppTheme.card,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white10),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 48, height: 48,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryBlue.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(n.$1, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppTheme.text)),
-                  const SizedBox(height: 2),
-                  Text(n.$2, style: TextStyle(fontSize: 12, color: AppTheme.muted), maxLines: 2),
-                  const SizedBox(height: 4),
-                  Text(n.$3, style: TextStyle(fontSize: 11, color: AppTheme.muted.withValues(alpha: 0.7))),
-                ],
-              ),
-            ),
-          ],
-        ),
-      )).toList(),
+      decoration: BoxDecoration(color: AppTheme.card, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      child: Column(children: indices.map((d) {
+        final up = (d['change_percent'] ?? 0) >= 0;
+        return Column(children: [
+          if (indices.indexOf(d) > 0) const Divider(height: 20),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(d['symbol'] ?? '', style: const TextStyle(color: AppTheme.muted, fontSize: 14, fontWeight: FontWeight.w500)),
+            Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              Text(d['last_value']?.toStringAsFixed(2) ?? '', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.text)),
+              Text('${d['change_percent'] >= 0 ? '+' : ''}${d['change_percent']?.toStringAsFixed(2) ?? ''}%', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: up ? AppTheme.emeraldGreen : AppTheme.red)),
+            ]),
+          ]),
+        ]);
+      }).toList()),
     );
   }
 }

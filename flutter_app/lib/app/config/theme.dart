@@ -17,10 +17,6 @@ class AppTheme {
   static const darkNav = Color(0xFF0A1628);
   static const darkInput = Color(0xFF1A2538);
   static const darkBorder = Colors.white10;
-  static Color textOf(BuildContext c) => Theme.of(c).colorScheme.onSurface;
-  static Color mutedOf(BuildContext c) => Theme.of(c).colorScheme.onSurface.withValues(alpha: 0.6);
-  static Color cardOf(BuildContext c) => Theme.of(c).colorScheme.surface;
-
   // Light
   static const lightBg = Color(0xFFF8FAFC);
   static const lightCard = Color(0xFFFFFFFF);

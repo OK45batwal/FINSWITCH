@@ -31,12 +31,4 @@ async def get_news_detail(news_id: str):
     article = next((n for n in NEWS if n["id"] == news_id), None)
     if not article:
         return {"success": False, "error": "Article not found"}
-    return {"success": True, "data": {**article, "content": article["summary"] + " " * 200}}
-
-
-@router.get("/{news_id}/ai-summary")
-async def get_ai_summary(news_id: str):
-    article = next((n for n in NEWS if n["id"] == news_id), None)
-    if not article:
-        return {"success": False, "error": "Article not found"}
-    return {"success": True, "data": {"summary": f"AI analysis: {article['title']} - This is {'positive' if article['sentiment'] == 'positive' else 'negative' if article['sentiment'] == 'negative' else 'neutral'} market news. Impact on relevant sectors is expected to be moderate.", "sentiment": article["sentiment"], "impact": "moderate"}}
+    return {"success": True, "data": {**article, "content": article["summary"]}}

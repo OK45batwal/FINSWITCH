@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('finswitch74@gmail.com');
   const [password, setPassword] = useState('password123');
   const [confirmPassword, setConfirmPassword] = useState('password123');
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('Omkar Batwal');
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -70,7 +71,6 @@ export default function LoginPage() {
 
       router.push('/dashboard');
     } catch (_) {
-      // Direct smooth entry
       if (typeof window !== 'undefined') {
         localStorage.setItem(
           'finswitch_session',
@@ -105,7 +105,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-muted text-xs mt-1">
             {mode === 'login'
-              ? 'Enter your email and password to access your dashboard'
+              ? 'Enter your credentials to access your market intelligence dashboard'
               : 'Sign up to start tracking your portfolio with AI insights'}
           </p>
         </div>
@@ -162,21 +162,31 @@ export default function LoginPage() {
 
           <div>
             <label className="text-xs font-semibold text-muted mb-1 block">Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
-              className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand text-foreground"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full bg-background border border-border rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-brand text-foreground"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground text-sm font-medium px-1"
+                title={showPassword ? 'Hide Password' : 'Show Password'}
+              >
+                {showPassword ? '🙈 Hide' : '👁️ Show'}
+              </button>
+            </div>
           </div>
 
           {mode === 'register' && (
             <div>
               <label className="text-xs font-semibold text-muted mb-1 block">Confirm Password</label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -232,6 +242,14 @@ export default function LoginPage() {
               </button>
             </span>
           )}
+        </div>
+
+        {/* Website Email Contact Display */}
+        <div className="mt-6 pt-4 border-t border-border text-center text-xs text-muted flex items-center justify-center gap-1.5">
+          <span>📧 Official Support Email:</span>
+          <a href="mailto:finswitch74@gmail.com" className="text-brand font-mono font-medium hover:underline">
+            finswitch74@gmail.com
+          </a>
         </div>
       </div>
     </div>

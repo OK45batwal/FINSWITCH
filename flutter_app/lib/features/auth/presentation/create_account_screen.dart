@@ -4,6 +4,8 @@ import '../../../app/config/theme.dart';
 import '../../../app/config/brand_logo_header.dart';
 import '../../../core/auth_state.dart';
 
+const String kOfficialSupportEmail = 'finswitch74@gmail.com';
+
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
@@ -19,6 +21,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   bool _isRegisterMode = false;
   bool _rememberMe = true;
+  bool _showPassword = false;
   bool _busy = false;
   String? _error;
 
@@ -49,7 +52,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   void _skip() {
-    AuthState.login('demo-token', 'finswitch74@gmail.com', 'Demo User');
+    AuthState.login('demo-token', kOfficialSupportEmail, 'Demo User');
     context.go('/dashboard');
   }
 
@@ -86,7 +89,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Mode Toggle Segmented Button
+                // Mode Toggle Segmented Control
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
@@ -168,10 +171,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
                 TextFormField(
                   controller: _passwordCtl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
+                  obscureText: !_showPassword,
+                  decoration: InputDecoration(
                     labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock_outline),
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(_showPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                      onPressed: () => setState(() => _showPassword = !_showPassword),
+                      tooltip: _showPassword ? 'Hide Password' : 'Show Password',
+                    ),
                   ),
                   validator: (v) => (v?.trim().length ?? 0) < 6 ? 'Password must be at least 6 characters' : null,
                 ),
@@ -193,7 +201,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                       TextButton(
                         onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Password reset instructions sent to ${_emailCtl.text}')),
+                          SnackBar(content: Text('Password reset link sent to ${_emailCtl.text}')),
                         ),
                         child: const Text('Forgot password?', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 13)),
                       ),
@@ -234,6 +242,30 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+
+                const SizedBox(height: 28),
+
+                // Official Support Email Display
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.cardOf(context),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppTheme.borderOf(context), width: 0.5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.mark_email_read_outlined, size: 16, color: AppTheme.emeraldGreen),
+                      SizedBox(width: 8),
+                      Text('Official Support: ', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                      Text(
+                        kOfficialSupportEmail,
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emeraldGreen),
+                      ),
+                    ],
                   ),
                 ),
               ],

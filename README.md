@@ -1,30 +1,34 @@
 <div align="center">
-  <img src="assets/logo-horizontal.png" alt="FinSwitch Banner" width="480">
+  <img src="website/public/logo.svg" alt="FinSwitch Monogram" width="120" height="120">
   
-  <br><br>
+  <br>
 
-  <p align="center">
-    <strong>The AI-Powered Financial Decision Intelligence Platform for Indian Markets</strong>
+  <h1 align="center" style="font-size: 2.8em; margin: 10px 0; font-weight: 800; color: #0A192F;">
+    FinSwitch
+  </h1>
+  
+  <p align="center" style="font-size: 1.1em; letter-spacing: 3px; font-weight: 700; color: #10B981;">
+    S W I T C H . &nbsp; S A V E . &nbsp; S M A R T E R .
   </p>
 
   <p align="center">
-    <em>Switch from market noise to confident, data-driven investment decisions.</em>
+    <strong>The AI-Powered Financial Decision Intelligence Platform for Indian Markets</strong>
   </p>
 
   <br>
 
   <p align="center">
     <a href="https://finswitch.pages.dev">
-      <img src="https://img.shields.io/badge/🌐_Live_Website-finswitch.pages.dev-2563EB?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=0B1220" alt="Live Website">
+      <img src="https://img.shields.io/badge/🌐_Live_Website-finswitch.pages.dev-0A192F?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=0A192F" alt="Live Website">
     </a>
     <a href="https://finswitch.pages.dev/downloads/finswitch.apk">
-      <img src="https://img.shields.io/badge/📱_Download_APK-54.6MB-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
+      <img src="https://img.shields.io/badge/📱_Download_APK-54.6MB-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0A192F" alt="Download APK">
     </a>
     <a href="https://github.com/OK45batwal/FINSWITCH">
-      <img src="https://img.shields.io/badge/version-v2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
+      <img src="https://img.shields.io/badge/version-v2.0.0-blue?style=for-the-badge&labelColor=0A192F&color=2563EB" alt="Version">
     </a>
     <a href="LICENSE">
-      <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0B1220&color=10B981" alt="License">
+      <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0A192F&color=10B981" alt="License">
     </a>
   </p>
 
@@ -46,6 +50,7 @@
 
 <p align="center">
   <a href="#-overview">Overview</a> •
+  <a href="#-brand-identity--concept">Brand Identity</a> •
   <a href="#-key-features">Key Features</a> •
   <a href="#-system-architecture">Architecture</a> •
   <a href="#-screenshots">Screenshots</a> •
@@ -59,25 +64,47 @@
 ## ✦ Overview
 
 > [!IMPORTANT]
-> **FinSwitch is a Decision Intelligence Platform, NOT a Stock Broker.**
-> FinSwitch does not execute direct stock trades. Instead, it provides real-time market data, technical indicator analysis, AI-driven stock evaluation, and portfolio optimization.
+> **FinSwitch is a Financial Decision Intelligence Engine, NOT a Stock Broker.**
+> FinSwitch does not execute direct stock trades. Instead, it provides real-time market data, deterministic technical indicator analysis, AI-driven stock evaluation, and portfolio optimization.
 
-**FinSwitch** empowers retail investors in India with institution-grade market insights. By combining real-time Nifty & Sensex market feeds, LLM-powered financial intelligence (Gemini / OpenAI), deterministic technical indicators (RSI-14, SMA-20), and 2-step OTP authentication, FinSwitch bridges the gap between raw data and smart financial action.
+**FinSwitch** empowers retail investors in India with institution-grade financial market intelligence. By combining real-time Nifty & Sensex market feeds, LLM-powered financial reasoning (Gemini / OpenAI), 14-period Wilder's RSI, 20-period Simple Moving Averages, and 2-step OTP authentication, FinSwitch bridges the gap between complex market data and confident financial decisions.
 
 ---
 
-## ✦ Key Features
+## ✦ Brand Identity & Concept
 
-| Feature | Description | Platform |
-| :--- | :--- | :--- |
-| **🤖 AI Financial Copilot** | Natural language analysis powered by LLMs (Gemini / OpenAI) with context-grounded stock insights. | Web & Mobile |
-| **🔐 6-Digit OTP Auth** | 2-step passwordless OTP verification for fast, secure user registration and sign-in. | Web & Mobile |
-| **📊 Real-Time Market Data** | Live tracking of Nifty 50, Sensex, Bank Nifty, and 10,000+ Indian stocks with interactive charts. | Web & Mobile |
-| **💼 Portfolio Tracker** | Track holdings, analyze sector allocation, and view real-time P&L with dynamic positive/negative formatting. | Web & Mobile |
-| **📈 Technical Indicators** | Mathematical, deterministic 14-period Wilder's RSI and 20-period Simple Moving Averages (SMA). | Web & Mobile |
-| **📰 Smart News Feed** | Curated financial market news with sentiment classification and related stock impact. | Web & Mobile |
-| **📲 Android Deep Linking** | Direct `https://finswitch.pages.dev/stock/:symbol` intent filters for seamless sharing. | Mobile |
-| **⚡ 4-Layer Edge Redundancy** | Cloudflare Edge `_redirects` and `_headers` ensuring zero 404s for app downloads. | Infrastructure |
+```
+  ₹ (Rupee) + F (Finance) = ₹ Monogram Symbol
+```
+
+* **Symbolism**: The top bar structure forms the letter **F** (Finance) in **Midnight Navy (`#0A192F`)**, fused with the iconic double bars of the **Indian Rupee symbol (`₹`)**.
+* **Growth Swoop**: The bottom curved leg swoops downwards and arches dynamically upwards in **Emerald Mint Green (`#10B981`)**, symbolizing market growth and switching to better options.
+
+<div align="center">
+
+| Value | Focus | Description |
+| :---: | :---: | :--- |
+| 🔄 | **SWITCH** | Access better financial options and smarter market alternatives |
+| 🐷 | **SAVE** | Preserve capital and optimize return-to-risk ratio |
+| 📈 | **GROW** | Achieve compound long-term wealth expansion |
+| 🛡️ | **SMARTER** | Make confident, data-backed investment choices |
+
+</div>
+
+---
+
+## ✦ Key Features & Dual Theme Engine
+
+| Feature | Description | Light & Dark Mode | Platform |
+| :--- | :--- | :---: | :--- |
+| **🤖 AI Financial Copilot** | Natural language analysis powered by LLMs (Gemini / OpenAI) with context-grounded stock insights. | ✅ Supported | Web & Mobile |
+| **🎨 Light & Dark Themes** | Seamless theme switching (☀️ Light / 🌙 Dark) on Web and Flutter Mobile App. | ✅ Supported | Web & Mobile |
+| **🔐 6-Digit OTP Auth** | 2-step passwordless OTP verification for fast, secure user registration and sign-in. | ✅ Supported | Web & Mobile |
+| **📊 Real-Time Market Data** | Live tracking of Nifty 50, Sensex, Bank Nifty, and 10,000+ Indian stocks with interactive charts. | ✅ Supported | Web & Mobile |
+| **💼 Portfolio Tracker** | Track holdings, analyze sector allocation, and view real-time P&L with dynamic positive/negative formatting. | ✅ Supported | Web & Mobile |
+| **📈 Technical Indicators** | Mathematical, deterministic 14-period Wilder's RSI and 20-period Simple Moving Averages (SMA). | ✅ Supported | Web & Mobile |
+| **📰 Smart News Feed** | Curated financial market news with sentiment classification and related stock impact. | ✅ Supported | Web & Mobile |
+| **📲 Android Deep Linking** | Direct `https://finswitch.pages.dev/stock/:symbol` intent filters for seamless sharing. | ✅ Supported | Mobile |
 
 ---
 
@@ -88,7 +115,7 @@ graph TD
     User([User Client]) --> |HTTPS / Deep Links| WebApp[Next.js 16 Web App]
     User --> |Mobile App| FlutterApp[Flutter 3.x Mobile App]
     
-    WebApp --> |Edge Routing| CF[Cloudflare Pages CDN & Workers]
+    WebApp --> |Theme Engine & Edge Routing| CF[Cloudflare Pages CDN & Workers]
     FlutterApp --> |REST API| Backend[Python FastAPI Backend]
     
     CF --> |Static / Data| StocksJSON[Single Source: stocks.json]

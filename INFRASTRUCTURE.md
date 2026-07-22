@@ -72,8 +72,8 @@ graph TB
 | **Database** | Supabase PostgreSQL | Managed Postgres with built-in Auth, Storage, and Row-Level Security. Reduces operational overhead by 60% compared to self-hosted. |
 | **Auth** | Supabase Auth | Drop-in Google OAuth, magic link, password reset. JWT validation middleware in FastAPI validates Supabase JWTs. No custom auth server. |
 | **AI** | OpenAI (analysis) + Gemini (fallback) | OpenAI for structured financial analysis. Gemini as cheaper fallback for simpler queries. Both called server-side only. |
-| **Hosting (MVP)** | Railway | Fast setup, per-container pricing, automatic HTTPS, DB hosting included. Single `railway.toml` deploys everything. |
-| **Hosting (Prod)** | DigitalOcean App Platform | Dedicated CPU, predictable pricing ($12-168/mo), managed Postgres option, 99.99% SLA. Easy to migrate from Railway. |
+| **Hosting (MVP)** | Render | Free tier (512MB RAM), auto-deploy from GitHub, Docker support, automatic HTTPS, no credit card needed. |
+| **Hosting (Prod)** | DigitalOcean App Platform | Dedicated CPU, predictable pricing ($12-168/mo), managed Postgres option, 99.99% SLA. Easy to migrate from Render. |
 | **CI/CD** | GitHub Actions | Tight GitHub integration, free for public repos, matrix builds for Flutter (Android + iOS). |
 | **Monitoring** | Sentry + Grafana + UptimeRobot | Sentry for errors, Grafana Cloud for metrics, UptimeRobot for free uptime alerts. |
 
@@ -350,7 +350,7 @@ jobs:
 
 ```
 main          → Production (protected, auto-deploy)
-├── develop   → Staging (auto-deploy to Railway)
+├── develop   → Staging (auto-deploy to Render)
 ├── feat/*    → Feature branches
 ├── fix/*     → Bug fixes
 └── release/* → Release candidates
@@ -446,24 +446,24 @@ psql "$SUPABASE_DB_URL" -f database/schema.sql
 #    news-images (public read)
 ```
 
-### 9.2 Backend Deployment (Railway — MVP)
+### 9.2 Backend Deployment (Render — MVP)
 
 ```bash
-# 1. Install Railway CLI
-npm i -g @railway/cli
+# 1. Push code to GitHub (already done)
 
-# 2. Login and init
-railway login
-railway init
+# 2. Go to https://dashboard.render.com
+#    New → Web Service → Connect GitHub repo
 
-# 3. Deploy
-railway up
+# 3. Settings:
+#    Runtime: Docker
+#    Dockerfile Path: backend/Dockerfile
+#    Health Check Path: /health
 
-# 4. Set environment variables
-railway variables set SUPABASE_URL=... SUPABASE_SERVICE_KEY=...
+# 4. Add env vars in Render Dashboard:
+#    SUPABASE_URL, SUPABASE_SERVICE_KEY, OPENAI_API_KEY, etc.
 
-# 5. Add volume for persistent data
-#    Or connect Railway Postgres plugin
+# 5. Deploy — Render auto-builds from Dockerfile
+#    Auto-deploy on every git push to main
 ```
 
 ### 9.3 Website Deployment (Cloudflare Pages)
@@ -536,23 +536,23 @@ Tier 3 (nice): AI chat history, learning progress
 
 | Stage | Users | Bottleneck | Solution | Est. Cost |
 |-------|-------|------------|----------|-----------|
-| **MVP** | 100 | Backend cold start | Railway auto-sleep | ~$15/mo |
-| **Launch** | 1,000 | API latency | Dedicated Railway container (1CPU/2GB) | ~$50/mo |
+| **MVP** | 100 | Backend cold start | Render free tier (sleeps on idle) | ~$0/mo |
+| **Launch** | 1,000 | API latency | Render Starter (1CPU/2GB) + no sleep | ~$29/mo |
 | **Growth** | 10,000 | DB queries | Supabase Pro ($25) + PgBouncer + API caching (Redis) | ~$150/mo |
-| **Scale** | 100,000 | Backend CPU | Horizontal scaling: 3× API containers behind Railway TCP proxy | ~$500/mo |
+| **Scale** | 100,000 | Backend CPU | Horizontal scaling: multiple containers behind Render LB | ~$500/mo |
 | **Enterprise** | 1M+ | Everything | DigitalOcean dedicated droplets, read replicas, CDN, Redis cluster, Kubernetes | ~$3k/mo |
 
 **Caching strategy in order:**
 1. **Cloudflare Cache** — Static assets, stock quotes (TTL 60s)
 2. **FastAPI in-memory** — Market snapshot (TTL 15s) per worker
-3. **Redis** — Session data, AI rate limit counters (Railway Redis or Upstash)
+3. **Redis** — Session data, AI rate limit counters (Render Redis or Upstash)
 4. **Database** — Connection pooling with PgBouncer, read replicas for news/courses
 
 ## 13. Production Checklist
 
 - [ ] Supabase project created with RLS on all tables
 - [ ] Google OAuth + Email auth enabled in Supabase
-- [ ] Environment variables set in Railway, Cloudflare, GitHub Secrets
+- [ ] Environment variables set in Render, Cloudflare, GitHub Secrets
 - [ ] JWT validation middleware implemented in FastAPI
 - [ ] CORS restricted to production domains
 - [ ] Rate limiting enabled (100 req/hr per user, 1000/hr per IP)
@@ -574,7 +574,7 @@ Tier 3 (nice): AI chat history, learning progress
 
 | Service | Cost/mo |
 |---------|---------|
-| Railway (1 container, no DB) | $5 |
+| Render (free tier, 512MB RAM) | $0 |
 | Supabase Free (500MB DB, 5GB bandwidth) | $0 |
 | Cloudflare Pages (free tier) | $0 |
 | OpenAI API (100 chats/mo) | ~$2 |
@@ -588,7 +588,7 @@ Tier 3 (nice): AI chat history, learning progress
 
 | Service | Cost/mo |
 |---------|---------|
-| Railway Pro (2 containers, 4GB RAM) | $50 |
+| Render Starter (1CPU/2GB RAM) | $29 |
 | Supabase Pro (8GB DB, 50GB bandwidth, PITR) | $25 |
 | Cloudflare Pages (free) | $0 |
 | Redis (Upstash, 100MB) | $5 |
@@ -601,7 +601,7 @@ Tier 3 (nice): AI chat history, learning progress
 ## 15. Future Improvements
 
 1. **WebSocket for live prices** — Replace polling with real-time stock updates via Supabase Realtime or WebSocket
-2. **Kubernetes migration** — When Railway costs exceed $200/mo, migrate to DigitalOcean K8s ($40/mo + nodes)
+2. **Kubernetes migration** — When Render costs exceed $200/mo, migrate to DigitalOcean K8s ($40/mo + nodes)
 3. **Multi-region** — Supabase doesn't support read replicas yet. When needed: AWS Aurora for DB, Cloudflare for edge
 4. **Feature flags** — LaunchDarkly or custom Supabase-based flags for gradual rollouts
 5. **Terraform/Pulumi** — Infrastructure-as-code for reproducible environments

@@ -70,7 +70,7 @@ export default function LoginPage() {
       }
 
       router.push('/dashboard');
-    } catch (_) {
+    } catch {
       if (typeof window !== 'undefined') {
         localStorage.setItem(
           'finswitch_session',

@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           router.replace('/login');
           return;
         }
-      } catch (_) {
+      } catch {
         // Fallback
       }
       setCheckingAuth(false);
@@ -53,7 +53,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
     try {
       await supabase.auth.signOut();
-    } catch (_) {}
+    } catch {}
     router.replace('/login');
   };
 

@@ -31,6 +31,34 @@ export interface ChartPoint {
   date: string; close: number; high: number; low: number; volume: number; sma_20: number; rsi: number;
 }
 
+interface DbRecord {
+  id?: string | number;
+  symbol?: string;
+  name?: string;
+  sector?: string;
+  industry?: string;
+  price?: number;
+  change?: number;
+  change_percent?: number;
+  volume?: number;
+  avg_volume?: number;
+  pe_ratio?: number;
+  dividend_yield?: number;
+  high_52w?: number;
+  low_52w?: number;
+  market_cap?: number;
+  description?: string;
+  quantity?: number;
+  avg_price?: number;
+  current_price?: number;
+  title?: string;
+  summary?: string;
+  source?: string;
+  url?: string;
+  published_at?: string;
+  symbols?: string[];
+}
+
 // Fallback: hit the local AI endpoint which has all data hardcoded
 async function fallbackGet(path: string) {
   const res = await fetch(`/api/ai?type=${path}${path === 'stock' ? `&symbol=${new URLSearchParams(window.location.search).get('symbol') || ''}` : ''}`);
@@ -41,13 +69,13 @@ async function fallbackGet(path: string) {
 
 export async function getIndices(): Promise<Index[]> {
   const { data } = await supabase.from('indices').select('*');
-  if (data?.length) return data.map((r: any) => ({ symbol: r.symbol, name: r.name, price: r.price, change: r.change, change_percent: r.change_percent }));
+  if (data?.length) return data.map((r: DbRecord) => ({ symbol: r.symbol || '', name: r.name || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0 }));
   return fallbackGet('indices');
 }
 
 export async function getStocks(): Promise<Stock[]> {
   const { data } = await supabase.from('stocks').select('*');
-  if (data?.length) return data.map((r: any) => ({ symbol: r.symbol, name: r.name, sector: r.sector, price: r.price, change: r.change, change_percent: r.change_percent, volume: r.volume }));
+  if (data?.length) return data.map((r: DbRecord) => ({ symbol: r.symbol || '', name: r.name || '', sector: r.sector || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0, volume: r.volume || 0 }));
   return fallbackGet('stocks');
 }
 
@@ -58,20 +86,20 @@ export async function getStockDetail(symbol: string): Promise<StockDetail | null
   return fallback.data ? mapDetail(fallback.data) : null;
 }
 
-function mapDetail(r: any): StockDetail {
-  return { symbol: r.symbol, name: r.name, sector: r.sector, industry: r.industry || '', price: r.price, change: r.change, change_percent: r.change_percent, volume: r.volume || 0, avg_volume: r.avg_volume || 0, pe_ratio: r.pe_ratio, dividend_yield: r.dividend_yield, high_52w: r.high_52w, low_52w: r.low_52w, market_cap: r.market_cap, description: r.description || '' };
+function mapDetail(r: DbRecord): StockDetail {
+  return { symbol: r.symbol || '', name: r.name || '', sector: r.sector || '', industry: r.industry || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0, volume: r.volume || 0, avg_volume: r.avg_volume || 0, pe_ratio: r.pe_ratio || 0, dividend_yield: r.dividend_yield || 0, high_52w: r.high_52w || 0, low_52w: r.low_52w || 0, market_cap: r.market_cap || 0, description: r.description || '' };
 }
 
 export async function getGainers(): Promise<Stock[]> {
   const { data } = await supabase.from('stocks').select('*').order('change_percent', { ascending: false }).limit(5);
-  if (data?.length) return data.map((r: any) => ({ symbol: r.symbol, name: r.name, sector: r.sector, price: r.price, change: r.change, change_percent: r.change_percent, volume: r.volume }));
+  if (data?.length) return data.map((r: DbRecord) => ({ symbol: r.symbol || '', name: r.name || '', sector: r.sector || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0, volume: r.volume || 0 }));
   const stocks = await getStocks();
   return [...stocks].sort((a, b) => b.change_percent - a.change_percent).slice(0, 5);
 }
 
 export async function getLosers(): Promise<Stock[]> {
   const { data } = await supabase.from('stocks').select('*').order('change_percent', { ascending: true }).limit(5);
-  if (data?.length) return data.map((r: any) => ({ symbol: r.symbol, name: r.name, sector: r.sector, price: r.price, change: r.change, change_percent: r.change_percent, volume: r.volume }));
+  if (data?.length) return data.map((r: DbRecord) => ({ symbol: r.symbol || '', name: r.name || '', sector: r.sector || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0, volume: r.volume || 0 }));
   const stocks = await getStocks();
   return [...stocks].sort((a, b) => a.change_percent - b.change_percent).slice(0, 5);
 }
@@ -89,19 +117,22 @@ export async function getHoldings(userId?: string): Promise<Holding[]> {
   if (!pf) return [];
   const { data } = await supabase.from('holdings').select('symbol, quantity, avg_price').eq('portfolio_id', pf.id);
   const { data: stocks } = await supabase.from('stocks').select('symbol, name, price');
-  const stockMap = new Map((stocks || []).map((s: any) => [s.symbol, s]));
-  return (data || []).map((h: any) => {
-    const s = stockMap.get(h.symbol) || { name: h.symbol, price: 0 };
-    const value = h.quantity * s.price;
-    const invested = h.quantity * h.avg_price;
-    return { symbol: h.symbol, name: s.name, quantity: h.quantity, avg_price: h.avg_price, current_price: s.price, total_value: value, total_returns: value - invested, returns_percent: invested ? ((value - invested) / invested) * 100 : 0 };
+  const stockMap = new Map((stocks || []).map((s: DbRecord) => [s.symbol || '', s]));
+  return (data || []).map((h: DbRecord) => {
+    const s = stockMap.get(h.symbol || '') || { name: h.symbol || '', price: 0 };
+    const qty = h.quantity || 0;
+    const avgP = h.avg_price || 0;
+    const sPrice = s.price || 0;
+    const value = qty * sPrice;
+    const invested = qty * avgP;
+    return { symbol: h.symbol || '', name: s.name || '', quantity: qty, avg_price: avgP, current_price: sPrice, total_value: value, total_returns: value - invested, returns_percent: invested ? ((value - invested) / invested) * 100 : 0 };
   });
 }
 
 export async function getWatchlist(userId?: string): Promise<string[]> {
   if (!userId || !supabase) return [];
   const { data } = await supabase.from('watchlist_items').select('symbol').eq('user_id', userId);
-  return (data || []).map((r: any) => r.symbol);
+  return (data || []).map((r: DbRecord) => r.symbol || '');
 }
 
 export async function addToWatchlist(userId: string, symbol: string): Promise<void> {
@@ -114,7 +145,7 @@ export async function removeFromWatchlist(userId: string, symbol: string): Promi
 
 export async function getNews(): Promise<NewsItem[]> {
   const { data } = await supabase.from('news_articles').select('*').order('published_at', { ascending: false }).limit(20);
-  if (data?.length) return data.map((r: any) => ({ id: String(r.id), title: r.title, summary: r.summary || '', source: r.source || '', url: r.url || '', published_at: r.published_at, symbols: r.symbols || [] }));
+  if (data?.length) return data.map((r: DbRecord) => ({ id: String(r.id), title: r.title || '', summary: r.summary || '', source: r.source || '', url: r.url || '', published_at: r.published_at || '', symbols: r.symbols || [] }));
   return [];
 }
 
@@ -122,19 +153,19 @@ export async function getNews(): Promise<NewsItem[]> {
 
 const AI_URL = '/api/ai';
 
-async function aiPost(body: any) {
+async function aiPost(body: { action: string; message?: string; symbol?: string }): Promise<{ data?: { response?: string } | ChartPoint[] | StockDetail }> {
   const res = await fetch(AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   return res.json();
 }
 
 export function chatWithAI(message: string): Promise<{ response: string }> {
-  return aiPost({ action: 'chat', message }).then(r => ({ response: r.data?.response || '' }));
+  return aiPost({ action: 'chat', message }).then(r => ({ response: (r.data as { response?: string })?.response || '' }));
 }
 
 export function analyzeStockAI(symbol: string): Promise<{ response: string }> {
-  return aiPost({ action: 'analyze', symbol }).then(r => ({ response: r.data || '' }));
+  return aiPost({ action: 'analyze', symbol }).then(r => ({ response: (r.data as unknown as string) || '' }));
 }
 
 export function getChartData(symbol: string): Promise<ChartPoint[]> {
-  return aiPost({ action: 'chart', symbol }).then(r => r.data || []);
+  return aiPost({ action: 'chart', symbol }).then(r => (r.data as ChartPoint[]) || []);
 }

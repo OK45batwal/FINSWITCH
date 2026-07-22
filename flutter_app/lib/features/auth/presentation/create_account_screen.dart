@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
+import '../../../app/config/brand_logo_header.dart';
 import '../../../core/api.dart';
 import '../../../core/auth_state.dart';
 
@@ -121,6 +122,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
+          const Center(child: BrandLogoHeader(height: 48, showSlogan: true)),
+          const SizedBox(height: 24),
           Text('Welcome to FinSwitch', style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 8),
           Text('Enter your mobile number or email to receive a 6-digit verification code.', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),

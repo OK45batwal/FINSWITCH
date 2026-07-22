@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
+import '../../../app/config/brand_logo_header.dart';
 import '../../../core/api.dart';
 import '../../../core/app_update_service.dart';
 
@@ -59,10 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: SizedBox(
-          height: 28,
-          child: Image.asset('assets/logo-horizontal.png', fit: BoxFit.contain, filterQuality: FilterQuality.high),
-        ),
+        title: const BrandLogoHeader(height: 32),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_rounded),

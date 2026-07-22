@@ -1,49 +1,43 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
 import 'config/router.dart';
-import '../features/profile/presentation/profile_screen.dart';
+import '../core/auth_state.dart';
 
-class FinSwitchApp extends StatelessWidget {
+class FinSwitchApp extends StatefulWidget {
   const FinSwitchApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return _AppWithTheme();
-  }
+  State<FinSwitchApp> createState() => _FinSwitchAppState();
 }
 
-class _AppWithTheme extends StatefulWidget {
-  @override
-  State<_AppWithTheme> createState() => _AppWithThemeState();
-}
-
-class _AppWithThemeState extends State<_AppWithTheme> {
+class _FinSwitchAppState extends State<FinSwitchApp> {
   @override
   void initState() {
     super.initState();
-    themeNotifier.addListener(_onThemeChange);
+    themeNotifier.addListener(_rebuild);
+    AuthState.isLoggedIn.addListener(_rebuild);
+    AuthState.onboardingDone.addListener(_rebuild);
   }
 
   @override
   void dispose() {
-    themeNotifier.removeListener(_onThemeChange);
+    themeNotifier.removeListener(_rebuild);
+    AuthState.isLoggedIn.removeListener(_rebuild);
+    AuthState.onboardingDone.removeListener(_rebuild);
     super.dispose();
   }
 
-  void _onThemeChange() => setState(() {});
+  void _rebuild() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: themeNotifier,
-      builder: (_, mode, __) => MaterialApp.router(
-        title: 'FinSwitch',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: mode,
-        routerConfig: AppRouter.router(),
-      ),
+    return MaterialApp.router(
+      title: 'FinSwitch',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeNotifier.value,
+      routerConfig: AppRouter.router(),
     );
   }
 }

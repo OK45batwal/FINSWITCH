@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../app/config/theme.dart';
 
-final themeNotifier = ValueNotifier(ThemeMode.dark);
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 

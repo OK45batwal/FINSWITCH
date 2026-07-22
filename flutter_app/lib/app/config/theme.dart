@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+final themeNotifier = ValueNotifier(ThemeMode.dark);
+
 class AppTheme {
   static const primaryBlue = Color(0xFF2563EB);
   static const emeraldGreen = Color(0xFF10B981);

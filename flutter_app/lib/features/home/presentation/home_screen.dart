@@ -14,6 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map? _portfolio;
   List _indices = [];
   List _news = [];
+  List _insights = [];
   bool _loading = true;
 
   @override
@@ -28,17 +29,27 @@ class _HomeScreenState extends State<HomeScreen> {
         Api.get('/portfolio/summary'),
         Api.get('/markets/indices'),
         Api.get('/news'),
+        Api.post('/ai/chat', {'message': 'Daily market insights and key levels for today July 22, 2026'}),
       ]);
       if (mounted) setState(() {
         _portfolio = results[0] is Map ? results[0] : null;
         _indices = (results[1] is List ? results[1] : <dynamic>[]).cast<Map<String, dynamic>>();
         _news = (results[2] is List ? results[2] : <dynamic>[]).take(3).toList();
+        final aiResponse = results[3] is Map ? results[3]['response'] as String? : null;
+        _insights = aiResponse != null ? aiResponse.split('\n').where((l) => l.trim().isNotEmpty && !l.startsWith('**')).take(4).toList() : _defaultInsights();
         _loading = false;
       });
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _insights = _defaultInsights(); _loading = false; });
     }
   }
+
+  List<String> _defaultInsights() => [
+    'Nifty support at 23,200, resistance at 23,600. Banking and energy leading.',
+    'FII outflows of ₹2,100 Cr offset by DII buying of ₹1,850 Cr.',
+    'IT sector under pressure from global rate uncertainty. Watch INFY, TCS.',
+    'Gold hits all-time high at ₹76,500. Safe-haven demand rising.',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +81,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Market Overview', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 12),
                   _MarketTicker(indices: _indices),
+                  const SizedBox(height: 24),
+                  Row(children: [
+                    Text('AI Insights', style: Theme.of(context).textTheme.titleLarge),
+                    const Spacer(),
+                    Icon(Icons.auto_awesome_rounded, color: AppTheme.accent, size: 16),
+                  ]),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity, padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(gradient: LinearGradient(colors: [AppTheme.cardOf(context), const Color(0xFF0F1D35)]), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _insights.map((i) => Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 6, right: 10), decoration: BoxDecoration(color: AppTheme.accent, shape: BoxShape.circle)),
+                        Expanded(child: Text(i, style: TextStyle(color: AppTheme.textOf(context), fontSize: 13, height: 1.4))),
+                      ]),
+                    )).toList()),
+                  ),
                   const SizedBox(height: 24),
                   Text('Latest News', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 12),

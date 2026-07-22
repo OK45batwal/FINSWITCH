@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
 import '../../../core/api.dart';
 
@@ -36,7 +37,10 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
       appBar: AppBar(
         title: Text(widget.symbol),
         leading: IconButton(icon: const Icon(Icons.arrow_back_rounded), onPressed: () => Navigator.pop(context)),
-        actions: [IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () {})],
+        actions: [
+        IconButton(icon: const Icon(Icons.auto_awesome_rounded, color: AppTheme.accent), onPressed: () => context.push('/stock/${widget.symbol}/analysis')),
+        IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () {}),
+      ],
       ),
       body: SafeArea(
         child: _loading

@@ -1,8 +1,8 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  static const String _defaultUrl = 'https://dgvtznykoyyxgwgtpbqf.supabase.co';
-  static const String _defaultAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndnR6bnlrb3l5eGd3Z3RwYnFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTgzMTUsImV4cCI6MjA5OTY5NDMxNX0.a3dgjgZbXbCK6_DTPvjn99eb_T9HDvfPKTcNq-M49Ac';
+  static const String _defaultUrl = String.fromEnvironment('SUPABASE_URL');
+  static const String _defaultAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
   static bool _initialized = false;
 

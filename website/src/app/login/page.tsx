@@ -14,6 +14,8 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  const isDev = process.env.NODE_ENV === 'development';
+
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!identifier.trim()) return;
@@ -24,9 +26,9 @@ export default function LoginPage() {
       if (identifier.includes('@')) {
         await supabase.auth.signInWithOtp({ email: identifier.trim() });
       }
-      setSentOtp('123456');
+      setSentOtp(isDev ? '123456' : '');
     } catch (_) {
-      setSentOtp('123456');
+      setSentOtp(isDev ? '123456' : '');
     }
 
     setLoading(false);
@@ -44,7 +46,9 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
-    if (entered === sentOtp || entered === '123456') {
+    const isValid = (sentOtp && entered === sentOtp) || (isDev && entered === '123456');
+
+    if (isValid) {
       try {
         if (identifier.includes('@')) {
           await supabase.auth.verifyOtp({
@@ -58,7 +62,7 @@ export default function LoginPage() {
       }
       router.push('/dashboard');
     } else {
-      setError('Invalid OTP code. Try 123456');
+      setError(isDev ? 'Invalid OTP code. Try 123456 in dev mode' : 'Invalid OTP code');
       setLoading(false);
     }
   };
@@ -133,10 +137,12 @@ export default function LoginPage() {
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-6">
-            <div className="bg-brand/10 border border-brand/20 rounded-xl p-3 text-xs text-brand flex items-center justify-between">
-              <span>Demo Verification Code:</span>
-              <span className="font-mono font-bold text-sm">{sentOtp}</span>
-            </div>
+            {sentOtp && (
+              <div className="bg-brand/10 border border-brand/20 rounded-xl p-3 text-xs text-brand flex items-center justify-between">
+                <span>Demo Verification Code:</span>
+                <span className="font-mono font-bold text-sm">{sentOtp}</span>
+              </div>
+            )}
 
             <div className="flex justify-between gap-2">
               {otp.map((digit, idx) => (

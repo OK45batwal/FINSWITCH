@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
@@ -49,9 +50,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         'target': input,
         'name': _nameCtl.text.trim(),
       });
-      _sentOtp = res['otp']?.toString() ?? '123456';
+      _sentOtp = res['otp']?.toString() ?? (kDebugMode ? '123456' : null);
     } catch (_) {
-      _sentOtp = '123456';
+      _sentOtp = kDebugMode ? '123456' : null;
     }
 
     if (mounted) {
@@ -74,7 +75,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       _error = null;
     });
 
-    if (entered == _sentOtp || entered == '123456') {
+    const isDev = kDebugMode;
+    final isValid = (_sentOtp != null && entered == _sentOtp) || (isDev && entered == '123456');
+
+    if (isValid) {
       final name = _nameCtl.text.trim().isEmpty ? 'FinSwitch User' : _nameCtl.text.trim();
       final identifier = _phoneOrEmailCtl.text.trim();
       AuthState.login('token_$entered', identifier, name);
@@ -82,7 +86,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     } else {
       setState(() {
         _busy = false;
-        _error = 'Invalid OTP code. Try 123456';
+        _error = isDev ? 'Invalid OTP code. Try 123456 in dev mode' : 'Invalid OTP code';
       });
     }
   }

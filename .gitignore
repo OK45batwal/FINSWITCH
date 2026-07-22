@@ -6,7 +6,9 @@ dist/
 build/
 .eggs/
 *.egg
-.env
+**/.env
+*.env
+.env*
 *.db
 
 # IDE

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { ThemeToggle } from '@/components/ThemeProvider';
 
 const links = [
   { href: '/dashboard', label: 'Home', icon: '📊' },
@@ -89,9 +90,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <header className="h-14 border-b border-border flex items-center justify-between px-4 bg-surface/50 backdrop-blur-sm sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <button className="md:hidden text-gray-400" onClick={() => setOpen(!open)}>☰</button>
-            <h1 className="text-sm font-medium text-gray-300">Dashboard</h1>
+            <h1 className="text-sm font-medium text-muted">Dashboard</h1>
           </div>
-          <button onClick={handleSignOut} className="text-xs text-gray-400 hover:text-white md:hidden">Sign Out</button>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button onClick={handleSignOut} className="text-xs text-red-400 hover:text-red-300 font-medium">Sign Out</button>
+          </div>
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>

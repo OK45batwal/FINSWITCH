@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -5,7 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 class AppUpdateService {
   static const String currentVersion = '1.0.0';
   static const String apkDownloadUrl =
-      'https://github.com/OK45batwal/FINSWITCH/raw/master/assets/finswitch.apk';
+      'https://finswitch.pages.dev/downloads/finswitch.apk';
+  static const String githubReleaseApiUrl =
+      'https://api.github.com/repos/OK45batwal/FINSWITCH/releases/latest';
   static const String remotePubspecUrl =
       'https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/flutter_app/pubspec.yaml';
 
@@ -28,9 +31,10 @@ class AppUpdateService {
       }
 
       if (latestVersion != null && _isVersionHigher(latestVersion, currentVersion)) {
+        final changelog = await _fetchChangelog();
         if (!_dialogShown && context.mounted) {
           _dialogShown = true;
-          _showUpdateDialog(context, latestVersion);
+          _showUpdateDialog(context, latestVersion, changelog);
         }
       } else if (!silent && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -49,6 +53,22 @@ class AppUpdateService {
     }
   }
 
+  static Future<String> _fetchChangelog() async {
+    try {
+      final res = await http
+          .get(Uri.parse(githubReleaseApiUrl), headers: {'Accept': 'application/vnd.github+json'})
+          .timeout(const Duration(seconds: 3));
+      if (res.statusCode == 200) {
+        final json = jsonDecode(res.body);
+        final body = json['body']?.toString().trim();
+        if (body != null && body.isNotEmpty) {
+          return body;
+        }
+      }
+    } catch (_) {}
+    return '• Performance improvements\n• Supabase real-time sync\n• AI Copilot enhancements';
+  }
+
   static bool _isVersionHigher(String latest, String current) {
     try {
       final lParts = latest.split('.').map(int.parse).toList();
@@ -63,15 +83,15 @@ class AppUpdateService {
     }
   }
 
-  static void _showUpdateDialog(BuildContext context, String newVersion) {
+  static void _showUpdateDialog(BuildContext context, String newVersion, String changelog) {
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF131D2E),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             Icon(Icons.system_update_rounded, color: Color(0xFF2563EB), size: 28),
             SizedBox(width: 10),
             Text('Update Available', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
@@ -86,9 +106,9 @@ class AppUpdateService {
               style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
             ),
             const SizedBox(height: 12),
-            const Text(
-              '• Performance improvements\n• Supabase real-time sync\n• AI Copilot enhancements',
-              style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.4),
+            Text(
+              changelog,
+              style: const TextStyle(color: Colors.white70, fontSize: 13, height: 1.4),
             ),
           ],
         ),

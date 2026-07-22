@@ -139,6 +139,12 @@ class _PortfolioOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = portfolio;
+    final todayPl = (p?['today_pl'] as num?)?.toDouble() ?? 0.0;
+    final todayPlPct = (p?['today_pl_percent'] as num?)?.toDouble() ?? 0.0;
+    final isPos = todayPl >= 0;
+    final plColor = isPos ? AppTheme.emeraldGreen : AppTheme.red;
+    final prefix = isPos ? '+' : '';
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
@@ -148,10 +154,13 @@ class _PortfolioOverview extends StatelessWidget {
         Text('₹${p?['current_value']?.toStringAsFixed(0) ?? '--'}', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -1)),
         const SizedBox(height: 6),
         Row(children: [
-          Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3), decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),
-            child: Text('+${p?['today_pl_percent']?.toStringAsFixed(2) ?? '--'}% today', style: const TextStyle(color: AppTheme.emeraldGreen, fontSize: 12, fontWeight: FontWeight.w600))),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(color: plColor.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),
+            child: Text('$prefix${todayPlPct.toStringAsFixed(2)}% today', style: TextStyle(color: plColor, fontSize: 12, fontWeight: FontWeight.w600)),
+          ),
           const SizedBox(width: 12),
-          Text('Net +₹${p?['today_pl']?.toStringAsFixed(0) ?? '--'}', style: const TextStyle(color: Colors.white70, fontSize: 13)),
+          Text('Net $prefix₹${todayPl.abs().toStringAsFixed(0)}', style: const TextStyle(color: Colors.white70, fontSize: 13)),
         ]),
       ]),
     );

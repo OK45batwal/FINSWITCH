@@ -44,8 +44,33 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
       ),
       body: SafeArea(
         child: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _StockBody(data: _data, symbol: widget.symbol),
+            ? const Center(child: CircularProgressIndicator())
+            : _data == null
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.error_outline_rounded, size: 48, color: Colors.amber),
+                          const SizedBox(height: 16),
+                          Text('Unable to load details for ${widget.symbol}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          const SizedBox(height: 8),
+                          Text('Check your connection and try again', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13)),
+                          const SizedBox(height: 24),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() => _loading = true);
+                              _load();
+                            },
+                            icon: const Icon(Icons.refresh_rounded),
+                            label: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : _StockBody(data: _data, symbol: widget.symbol),
       ),
     );
   }

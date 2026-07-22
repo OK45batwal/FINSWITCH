@@ -1,0 +1,19 @@
+{
+  "indices": [
+    { "name": "NIFTY 50", "symbol": "NIFTY", "value": "22,419.65", "change": "+142.30", "changePercent": "+0.64%", "isPositive": true },
+    { "name": "SENSEX", "symbol": "SENSEX", "value": "73,876.82", "change": "+486.12", "changePercent": "+0.66%", "isPositive": true },
+    { "name": "BANK NIFTY", "symbol": "BANKNIFTY", "value": "47,835.20", "change": "-112.45", "changePercent": "-0.23%", "isPositive": false }
+  ],
+  "stocks": [
+    { "name": "Reliance Industries", "symbol": "RELIANCE", "price": "2,980.50", "change": "+42.10", "changePercent": "+1.43%", "isPositive": true, "marketCap": "₹20.17L Cr", "pe": "28.4", "volume": "5.2M", "sector": "Energy" },
+    { "name": "Tata Consultancy Services", "symbol": "TCS", "price": "4,120.00", "change": "+18.50", "changePercent": "+0.45%", "isPositive": true, "marketCap": "₹14.90L Cr", "pe": "32.1", "volume": "2.1M", "sector": "IT" },
+    { "name": "HDFC Bank", "symbol": "HDFCBANK", "price": "1,445.20", "change": "-12.30", "changePercent": "-0.84%", "isPositive": false, "marketCap": "₹10.98L Cr", "pe": "18.6", "volume": "8.4M", "sector": "Banking" },
+    { "name": "Infosys", "symbol": "INFY", "price": "1,620.80", "change": "+24.60", "changePercent": "+1.54%", "isPositive": true, "marketCap": "₹6.72L Cr", "pe": "27.3", "volume": "3.8M", "sector": "IT" },
+    { "name": "ICICI Bank", "symbol": "ICICIBANK", "price": "1,085.40", "change": "+14.20", "changePercent": "+1.33%", "isPositive": true, "marketCap": "₹7.61L Cr", "pe": "17.9", "volume": "6.1M", "sector": "Banking" },
+    { "name": "State Bank of India", "symbol": "SBIN", "price": "765.30", "change": "-5.80", "changePercent": "-0.75%", "isPositive": false, "marketCap": "₹6.83L Cr", "pe": "10.8", "volume": "9.2M", "sector": "Banking" },
+    { "name": "Bharti Airtel", "symbol": "BHARTIARTL", "price": "1,240.15", "change": "+11.40", "changePercent": "+0.93%", "isPositive": true, "marketCap": "₹7.12L Cr", "pe": "44.2", "volume": "4.5M", "sector": "Telecom" },
+    { "name": "Larsen & Toubro", "symbol": "LT", "price": "3,750.60", "change": "+55.80", "changePercent": "+1.51%", "isPositive": true, "marketCap": "₹5.15L Cr", "pe": "34.7", "volume": "1.8M", "sector": "Construction" },
+    { "name": "ITC Limited", "symbol": "ITC", "price": "432.50", "change": "-2.10", "changePercent": "-0.48%", "isPositive": false, "marketCap": "₹5.39L Cr", "pe": "26.5", "volume": "7.3M", "sector": "FMCG" },
+    { "name": "Tata Motors", "symbol": "TATAMOTORS", "price": "985.70", "change": "+31.20", "changePercent": "+3.27%", "isPositive": true, "marketCap": "₹3.27L Cr", "pe": "15.4", "volume": "12.4M", "sector": "Automobile" }
+  ]
+}

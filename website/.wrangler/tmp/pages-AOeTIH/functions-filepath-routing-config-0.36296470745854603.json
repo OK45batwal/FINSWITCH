@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/ai",
+      "mountPath": "/api",
+      "method": "",
+      "module": [
+        "api/ai.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/downloads/finswitch.apk",
+      "mountPath": "/downloads",
+      "method": "",
+      "module": [
+        "downloads/finswitch.apk.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/downloads/:path*",
+      "mountPath": "/downloads",
+      "method": "",
+      "module": [
+        "downloads/[[path]].js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/",
+      "mountPath": "/",
+      "method": "",
+      "middleware": [
+        "_middleware.js:onRequest"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}

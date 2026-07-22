@@ -22,10 +22,8 @@ const INDICES = {
 
 function rnd(min, max) { return Math.random() * (max - min) + min; }
 
-function rsiStr(price) {
-  const g = price * rnd(0.005, 0.02), l = price * rnd(0.005, 0.015);
-  const rs = (g / 14) / (l / 14 + 0.001);
-  const rsi = 100 - 100 / (1 + rs);
+function rsiStr(price, pe = 20) {
+  const rsi = Math.min(85, Math.max(15, 50 + (pe > 30 ? 15 : pe < 15 ? -15 : 0)));
   if (rsi > 70) return `RSI ${rsi.toFixed(1)} (overbought)`;
   if (rsi < 30) return `RSI ${rsi.toFixed(1)} (oversold)`;
   return `RSI ${rsi.toFixed(1)} (neutral)`;

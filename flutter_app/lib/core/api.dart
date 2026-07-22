@@ -17,7 +17,26 @@ class Api {
   }
 
   static set host(String h) => _host = h;
-  static set useLocal(bool v) => _useLocal = v;
+  static DateTime? _lastFallbackTime;
+  static const _fallbackCooldown = Duration(seconds: 30);
+
+  static set useLocal(bool v) {
+    _useLocal = v;
+    if (v) _lastFallbackTime = DateTime.now();
+  }
+
+  static bool get shouldAttemptBackend {
+    if (_useLocal) {
+      if (_lastFallbackTime != null &&
+          DateTime.now().difference(_lastFallbackTime!) > _fallbackCooldown) {
+        _useLocal = false;
+        _lastFallbackTime = null;
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
 
   static Future<dynamic> get(String path) async {
     // 1. Attempt fetching from Supabase Database first
@@ -25,7 +44,7 @@ class Api {
     if (supabaseData != null) return supabaseData;
 
     // 2. If Supabase is empty/offline, attempt HTTP API backend
-    if (!_useLocal) {
+    if (shouldAttemptBackend) {
       try {
         final res = await http
             .get(Uri.parse('$host$path'))
@@ -35,6 +54,7 @@ class Api {
         return body;
       } catch (_) {
         _useLocal = true;
+        _lastFallbackTime = DateTime.now();
       }
     }
 
@@ -43,7 +63,7 @@ class Api {
   }
 
   static Future<dynamic> post(String path, Map<String, dynamic> body) async {
-    if (!_useLocal) {
+    if (shouldAttemptBackend) {
       try {
         final res = await http
             .post(Uri.parse('$host$path'),
@@ -55,6 +75,7 @@ class Api {
         return decoded;
       } catch (_) {
         _useLocal = true;
+        _lastFallbackTime = DateTime.now();
       }
     }
     return _localPost(path, body);

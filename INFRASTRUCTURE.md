@@ -72,8 +72,8 @@ graph TB
 | **Database** | Supabase PostgreSQL | Managed Postgres with built-in Auth, Storage, and Row-Level Security. Reduces operational overhead by 60% compared to self-hosted. |
 | **Auth** | Supabase Auth | Drop-in Google OAuth, magic link, password reset. JWT validation middleware in FastAPI validates Supabase JWTs. No custom auth server. |
 | **AI** | OpenAI (analysis) + Gemini (fallback) | OpenAI for structured financial analysis. Gemini as cheaper fallback for simpler queries. Both called server-side only. |
-| **Hosting (MVP)** | Render | Free tier (512MB RAM), auto-deploy from GitHub, Docker support, automatic HTTPS, no credit card needed. |
-| **Hosting (Prod)** | DigitalOcean App Platform | Dedicated CPU, predictable pricing ($12-168/mo), managed Postgres option, 99.99% SLA. Easy to migrate from Render. |
+| **Hosting (MVP & Prod)** | Cloudflare + Supabase | Cloudflare Pages for web frontend, Supabase for Database/Auth/Storage, Cloudflare Workers/Edge for serverless. Zero cold starts, global edge network, generous free tier. |
+| **Hosting (Prod)** | Cloudflare + Supabase | Enterprise SLA, edge distribution, managed Postgres option, 99.99% SLA. Seamless scale-up on Cloudflare Enterprise & Supabase Enterprise. |
 | **CI/CD** | GitHub Actions | Tight GitHub integration, free for public repos, matrix builds for Flutter (Android + iOS). |
 | **Monitoring** | Sentry + Grafana + UptimeRobot | Sentry for errors, Grafana Cloud for metrics, UptimeRobot for free uptime alerts. |
 
@@ -350,7 +350,7 @@ jobs:
 
 ```
 main          → Production (protected, auto-deploy)
-├── develop   → Staging (auto-deploy to Render)
+├── develop   → Staging (auto-deploy preview to Cloudflare Pages)
 ├── feat/*    → Feature branches
 ├── fix/*     → Bug fixes
 └── release/* → Release candidates
@@ -446,24 +446,18 @@ psql "$SUPABASE_DB_URL" -f database/schema.sql
 #    news-images (public read)
 ```
 
-### 9.2 Backend Deployment (Render — MVP)
+### 9.2 Backend & API Deployment (Cloudflare & Supabase)
 
 ```bash
-# 1. Push code to GitHub (already done)
+# 1. Supabase Edge Functions / FastAPI on Cloudflare Workers:
+#    Deploy backend API services to Cloudflare Workers or Supabase Edge Functions
 
-# 2. Go to https://dashboard.render.com
-#    New → Web Service → Connect GitHub repo
+# 2. Configure Environment Variables in Cloudflare & Supabase Dashboards:
+#    SUPABASE_URL, SUPABASE_SERVICE_KEY, OPENAI_API_KEY, GEMINI_API_KEY
 
-# 3. Settings:
-#    Runtime: Docker
-#    Dockerfile Path: backend/Dockerfile
-#    Health Check Path: /health
-
-# 4. Add env vars in Render Dashboard:
-#    SUPABASE_URL, SUPABASE_SERVICE_KEY, OPENAI_API_KEY, etc.
-
-# 5. Deploy — Render auto-builds from Dockerfile
-#    Auto-deploy on every git push to main
+# 3. Database Migration & RLS Setup:
+#    Apply SQL migrations directly via Supabase CLI or Dashboard SQL Editor
+psql "$SUPABASE_DB_URL" -f database/schema.sql
 ```
 
 ### 9.3 Website Deployment (Cloudflare Pages)
@@ -536,24 +530,24 @@ Tier 3 (nice): AI chat history, learning progress
 
 | Stage | Users | Bottleneck | Solution | Est. Cost |
 |-------|-------|------------|----------|-----------|
-| **MVP** | 100 | Backend cold start | Render free tier (sleeps on idle) | ~$0/mo |
-| **Launch** | 1,000 | API latency | Render Starter (1CPU/2GB) + no sleep | ~$29/mo |
-| **Growth** | 10,000 | DB queries | Supabase Pro ($25) + PgBouncer + API caching (Redis) | ~$150/mo |
-| **Scale** | 100,000 | Backend CPU | Horizontal scaling: multiple containers behind Render LB | ~$500/mo |
-| **Enterprise** | 1M+ | Everything | DigitalOcean dedicated droplets, read replicas, CDN, Redis cluster, Kubernetes | ~$3k/mo |
+| **MVP** | 100 | Cold starts | Cloudflare Workers + Supabase Free | ~$0/mo |
+| **Launch** | 1,000 | API latency | Cloudflare Workers / Workers KV + Supabase | ~$0-25/mo |
+| **Growth** | 10,000 | DB queries | Supabase Pro ($25) + PgBouncer + Upstash Redis | ~$120/mo |
+| **Scale** | 100,000 | Backend CPU | Cloudflare Enterprise / Supabase Pro Scaling | ~$350/mo |
+| **Enterprise** | 1M+ | Everything | Dedicated Cloudflare Edge Workers, Read Replicas, Redis cluster | ~$1.5k/mo |
 
 **Caching strategy in order:**
 1. **Cloudflare Cache** — Static assets, stock quotes (TTL 60s)
-2. **FastAPI in-memory** — Market snapshot (TTL 15s) per worker
-3. **Redis** — Session data, AI rate limit counters (Render Redis or Upstash)
+2. **Cloudflare KV / Edge Cache** — Market snapshot (TTL 15s)
+3. **Redis** — Session data, AI rate limit counters (Upstash Redis)
 4. **Database** — Connection pooling with PgBouncer, read replicas for news/courses
 
 ## 13. Production Checklist
 
 - [ ] Supabase project created with RLS on all tables
 - [ ] Google OAuth + Email auth enabled in Supabase
-- [ ] Environment variables set in Render, Cloudflare, GitHub Secrets
-- [ ] JWT validation middleware implemented in FastAPI
+- [ ] Environment variables set in Cloudflare, Supabase, GitHub Secrets
+- [ ] JWT validation middleware implemented in FastAPI / Workers
 - [ ] CORS restricted to production domains
 - [ ] Rate limiting enabled (100 req/hr per user, 1000/hr per IP)
 - [ ] Cloudflare WAF rules: block SQLi, XSS, known bad IPs
@@ -574,34 +568,32 @@ Tier 3 (nice): AI chat history, learning progress
 
 | Service | Cost/mo |
 |---------|---------|
-| Render (free tier, 512MB RAM) | $0 |
+| Cloudflare Workers & Pages (free tier) | $0 |
 | Supabase Free (500MB DB, 5GB bandwidth) | $0 |
-| Cloudflare Pages (free tier) | $0 |
 | OpenAI API (100 chats/mo) | ~$2 |
 | Firebase (free tier) | $0 |
 | Sentry Free | $0 |
 | UptimeRobot Free | $0 |
 | Domain (finswitch.com) | $1/mo amortized |
-| **Total** | **~$8/mo** |
+| **Total** | **~$3/mo** |
 
 ### Production (10,000 users)
 
 | Service | Cost/mo |
 |---------|---------|
-| Render Starter (1CPU/2GB RAM) | $29 |
+| Cloudflare Workers Paid ($5) + Pages (free) | $5 |
 | Supabase Pro (8GB DB, 50GB bandwidth, PITR) | $25 |
-| Cloudflare Pages (free) | $0 |
 | Redis (Upstash, 100MB) | $5 |
 | OpenAI API (10k chats/mo) | ~$30 |
 | Firebase (free tier) | $0 |
 | Sentry Team | $29 |
 | UptimeRobot Pro | $7 |
-| **Total** | **~$146/mo** |
+| **Total** | **~$101/mo** |
 
 ## 15. Future Improvements
 
-1. **WebSocket for live prices** — Replace polling with real-time stock updates via Supabase Realtime or WebSocket
-2. **Kubernetes migration** — When Render costs exceed $200/mo, migrate to DigitalOcean K8s ($40/mo + nodes)
+1. **WebSocket for live prices** — Replace polling with real-time stock updates via Supabase Realtime or Cloudflare Durable Objects
+2. **Edge compute scaling** — Cloudflare Workers for zero-latency globally distributed API execution
 3. **Multi-region** — Supabase doesn't support read replicas yet. When needed: AWS Aurora for DB, Cloudflare for edge
 4. **Feature flags** — LaunchDarkly or custom Supabase-based flags for gradual rollouts
 5. **Terraform/Pulumi** — Infrastructure-as-code for reproducible environments

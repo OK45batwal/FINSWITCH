@@ -5,24 +5,20 @@
 ```
 ┌────────────────────────────────────────────────────┐
 │                    Cloudflare                        │
-│           DNS · CDN · DDoS Protection               │
+│     DNS · CDN · DDoS Protection · Cloudflare Pages   │
 └──────────────────┬─────────────────────────────────┘
                    │
 ┌──────────────────▼─────────────────────────────────┐
-│              AWS / GCP Load Balancer                 │
-└──────────────────┬─────────────────────────────────┘
-                   │
-┌──────────────────▼─────────────────────────────────┐
-│                   ECS / GKE                          │
+│                Cloudflare Edge / Workers             │
 │  ┌─────────────┐ ┌─────────────┐ ┌──────────────┐ │
-│  │ API Server  │ │ API Server  │ │  API Server  │ │
-│  │ (AutoScale) │ │ (AutoScale) │ │  (AutoScale) │ │
+│  │ API Workers │ │ API Workers │ │  API Workers │ │
 │  └─────────────┘ └─────────────┘ └──────────────┘ │
 └──────────────────┬─────────────────────────────────┘
                    │
 ┌──────────────────▼─────────────────────────────────┐
-│   RDS (PostgreSQL) │ ElastiCache (Redis) │ S3      │
-│   Multi-AZ         │ Cluster Mode        │ Assets  │
+│                 Supabase Platform                    │
+│   PostgreSQL DB │ Supabase Auth │ Storage Buckets   │
+│   (Row Security)│ (JWT / OAuth) │ (Assets & Media)  │
 └────────────────────────────────────────────────────┘
 ```
 
@@ -42,7 +38,8 @@
 
 - **Landing Site:** Cloudflare Pages (static)
 - **Admin Panel:** Cloudflare Pages (SPA)
-- **API:** Docker containers on ECS/GKE
+- **API:** Cloudflare Workers & Supabase Edge Functions
+- **Database & Auth:** Supabase (Managed PostgreSQL & Auth)
 
 ## CI/CD Pipeline
 
@@ -81,9 +78,9 @@ Git Push → GitHub Actions
 
 | Service | Cost | Notes |
 |---------|------|-------|
-| API Servers (3x t3.medium) | ~$150 | Auto-scaling |
-| RDS PostgreSQL (db.t3.medium) | ~$80 | Multi-AZ |
-| ElastiCache Redis (cache.t3.micro) | ~$20 | |
-| Cloudflare Pro | $20 | CDN + DNS |
-| Sentry | Free tier | |
-| Total | ~$270/mo | Startup phase |
+| Cloudflare Workers & Pages | $0 - $5 | Free tier / Workers Paid |
+| Supabase Pro (PostgreSQL + Auth + Storage) | $25 | Managed PostgreSQL + Auth |
+| Upstash Redis | $0 - $5 | Rate limiting & cache |
+| Cloudflare DNS & CDN | Free | Free tier |
+| Sentry | Free tier | Error monitoring |
+| Total | ~$25 - $35/mo | Startup phase |

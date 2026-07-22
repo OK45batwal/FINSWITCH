@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getStockDetail, analyzeStock, getChartData, type StockDetail, type ChartPoint } from '@/lib/api';
+import { getStockDetail, analyzeStockAI, getChartData, type StockDetail, type ChartPoint } from '@/lib/api';
 import { formatCurrency, formatPercent, formatLargeNumber } from '@/lib/utils';
 
 const sparkline = (data: ChartPoint[]) => {
@@ -85,7 +85,7 @@ export default function StockDetailPage() {
         onClick={async () => {
           setAnalysis('Analyzing...');
           try {
-            const res = await analyzeStock(symbol);
+            const res = await analyzeStockAI(symbol);
             setAnalysis(res.response);
           } catch { setAnalysis('Analysis failed'); }
         }}

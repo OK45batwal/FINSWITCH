@@ -2,30 +2,43 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getStocks, type Stock } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
+import { getStocks, getWatchlist, addToWatchlist, removeFromWatchlist, Stock } from '@/lib/api';
 import { formatCurrency, formatPercent } from '@/lib/utils';
 
-const STORAGE_KEY = 'finswitch_watchlist';
-
-function loadWatchlist(): string[] {
-  if (typeof window === 'undefined') return [];
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
-}
+export const dynamic = 'force-dynamic';
 
 export default function WatchlistPage() {
   const [stocks, setStocks] = useState<Stock[]>([]);
-  const [watchlist, setWatchlist] = useState<string[]>(loadWatchlist);
-
-  useEffect(() => { getStocks().then(setStocks).catch(() => {}); }, []);
+  const [watchlist, setWatchlist] = useState<string[]>([]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(watchlist));
-  }, [watchlist]);
+    getStocks().then(setStocks);
+    if (!supabase) return;
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        const wl = await getWatchlist(session.user.id);
+        setWatchlist(wl);
+      } else {
+        setWatchlist([]);
+      }
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) getWatchlist(session.user.id).then(setWatchlist);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
-  const toggle = (symbol: string) => {
-    setWatchlist((prev) =>
-      prev.includes(symbol) ? prev.filter((s) => s !== symbol) : [...prev, symbol]
-    );
+  const toggle = async (symbol: string) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return;
+    if (watchlist.includes(symbol)) {
+      await removeFromWatchlist(session.user.id, symbol);
+      setWatchlist((prev) => prev.filter((s) => s !== symbol));
+    } else {
+      await addToWatchlist(session.user.id, symbol);
+      setWatchlist((prev) => [...prev, symbol]);
+    }
   };
 
   const watched = stocks.filter((s) => watchlist.includes(s.symbol));

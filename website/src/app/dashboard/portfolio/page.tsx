@@ -2,16 +2,38 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getPortfolio, getHoldings, type Holding } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
+import { getPortfolio, getHoldings, Holding } from '@/lib/api';
 import { formatCurrency, formatPercent } from '@/lib/utils';
+
+export const dynamic = 'force-dynamic';
 
 export default function PortfolioPage() {
   const [pf, setPf] = useState<{ total_value: number; total_returns: number; returns_percent: number } | null>(null);
   const [holdings, setHoldings] = useState<Holding[]>([]);
 
   useEffect(() => {
-    getPortfolio().then(setPf).catch(() => {});
-    getHoldings().then(setHoldings).catch(() => {});
+    const load = async () => {
+      if (!supabase) return;
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const [p, h] = await Promise.all([getPortfolio(session.user.id), getHoldings(session.user.id)]);
+        setPf(p);
+        setHoldings(h);
+      }
+    };
+    load();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        const [p, h] = await Promise.all([getPortfolio(session.user.id), getHoldings(session.user.id)]);
+        setPf(p);
+        setHoldings(h);
+      } else {
+        setPf(null);
+        setHoldings([]);
+      }
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
   return (

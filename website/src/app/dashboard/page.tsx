@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 import { getIndices, getGainers, getLosers, getNews, getPortfolio, Index, GainersLosers, type NewsItem } from '@/lib/api';
 import { formatCurrency, formatPercent } from '@/lib/utils';
+
+export const dynamic = 'force-dynamic';
 
 export default function DashboardHome() {
   const [indices, setIndices] = useState<Index[]>([]);
@@ -17,7 +20,12 @@ export default function DashboardHome() {
     getGainers().then(setGainers).catch(() => {});
     getLosers().then(setLosers).catch(() => {});
     getNews().then(setNews).catch(() => {});
-    getPortfolio().then(setPortfolio).catch(() => {});
+
+    (async () => {
+      if (!supabase) return;
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.id) getPortfolio(session.user.id).then(setPortfolio);
+    })();
   }, []);
 
   return (

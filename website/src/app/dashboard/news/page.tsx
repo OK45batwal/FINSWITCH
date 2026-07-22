@@ -16,7 +16,7 @@ export default function NewsPage() {
           <a key={a.id} href={a.url} target="_blank" rel="noopener noreferrer"
             className="block bg-card border border-border rounded-xl p-4 hover:border-brand/50 transition-colors">
             <div className="text-sm text-gray-500 mb-1">
-              {a.source} · {a.symbol && `${a.symbol} · `}{new Date(a.published_at).toLocaleDateString()}
+              {a.source} · {a.symbols?.[0] && `${a.symbols[0]} · `}{new Date(a.published_at).toLocaleDateString()}
             </div>
             <div className="font-medium mb-1">{a.title}</div>
             <div className="text-sm text-gray-400">{a.summary}</div>

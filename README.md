@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="website/public/logo.svg" alt="FinSwitch Monogram" width="120" height="120">
+  <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/website/public/logo.svg" alt="FinSwitch Monogram" width="120" height="120">
   
   <br>
 
@@ -131,11 +131,11 @@ graph TD
 
 <table>
   <tr>
-    <td width="50%"><img src="assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
-    <td width="50%"><img src="assets/website-desktop.png" alt="Desktop Dashboard" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-desktop.png" alt="Desktop Dashboard" style="border-radius: 12px;"></td>
   </tr>
   <tr>
-    <td align="center"><em>Bento Grid Hero Section</em></td>
+    <td align="center"><em>Bento Grid Hero Section (Light & Dark Theme)</em></td>
     <td align="center"><em>Desktop Market Dashboard</em></td>
   </tr>
 </table>
@@ -144,11 +144,11 @@ graph TD
 
 <table>
   <tr>
-    <td width="20%"><img src="assets/App-Home.png" alt="App Home" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-Markets.png" alt="App Markets" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-AI.png" alt="App AI Chat" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-Portfolio.png" alt="App Portfolio" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-News.png" alt="App News" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Home.png" alt="App Home" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Markets.png" alt="App Markets" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-AI.png" alt="App AI Chat" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Portfolio.png" alt="App Portfolio" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-News.png" alt="App News" style="border-radius: 12px;"></td>
   </tr>
   <tr>
     <td align="center"><em>Home Dashboard</em></td>

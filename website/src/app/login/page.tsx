@@ -50,6 +50,9 @@ export default function LoginPage() {
 
     if (isValid) {
       try {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('finswitch_session', JSON.stringify({ user: identifier.trim(), token: entered, loggedInAt: Date.now() }));
+        }
         if (identifier.includes('@')) {
           await supabase.auth.verifyOtp({
             email: identifier.trim(),

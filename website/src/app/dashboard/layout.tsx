@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 const links = [
   { href: '/dashboard', label: 'Home', icon: '📊' },
@@ -15,7 +16,45 @@ const links = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const { data } = await supabase.auth.getSession();
+        const localSession = typeof window !== 'undefined' ? localStorage.getItem('finswitch_session') : null;
+        if (!data?.session && !localSession) {
+          router.replace('/login');
+          return;
+        }
+      } catch (_) {
+        // Fallback
+      }
+      setCheckingAuth(false);
+    }
+    checkAuth();
+  }, [router]);
+
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background text-gray-400">
+        <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin mb-3"></div>
+        <p className="text-xs font-medium">Verifying session...</p>
+      </div>
+    );
+  }
+
+  const handleSignOut = async () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('finswitch_session');
+    }
+    try {
+      await supabase.auth.signOut();
+    } catch (_) {}
+    router.replace('/login');
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -40,15 +79,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             );
           })}
         </nav>
-        <div className="p-4 border-t border-border">
-          <a href="/" className="text-xs text-gray-500 hover:text-gray-300">← Back to site</a>
+        <div className="p-4 border-t border-border flex items-center justify-between">
+          <Link href="/" className="text-xs text-gray-500 hover:text-gray-300">← Back to site</Link>
+          <button onClick={handleSignOut} className="text-xs text-red-400 hover:text-red-300 font-medium">Sign Out</button>
         </div>
       </aside>
       {open && <div className="fixed inset-0 bg-black/50 z-30 md:hidden" onClick={() => setOpen(false)} />}
       <div className="flex-1 flex flex-col min-h-screen">
-        <header className="h-14 border-b border-border flex items-center px-4 bg-surface/50 backdrop-blur-sm sticky top-0 z-20">
-          <button className="md:hidden mr-3 text-gray-400" onClick={() => setOpen(!open)}>☰</button>
-          <h1 className="text-sm font-medium text-gray-300">Dashboard</h1>
+        <header className="h-14 border-b border-border flex items-center justify-between px-4 bg-surface/50 backdrop-blur-sm sticky top-0 z-20">
+          <div className="flex items-center gap-3">
+            <button className="md:hidden text-gray-400" onClick={() => setOpen(!open)}>☰</button>
+            <h1 className="text-sm font-medium text-gray-300">Dashboard</h1>
+          </div>
+          <button onClick={handleSignOut} className="text-xs text-gray-400 hover:text-white md:hidden">Sign Out</button>
         </header>
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>

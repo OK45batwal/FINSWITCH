@@ -27,8 +27,8 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto text-center">
               <div>
-                <div className="text-3xl font-bold text-brand mb-1">100+</div>
-                <div className="text-gray-500 text-sm">Stocks Tracked</div>
+                <div className="text-3xl font-bold text-brand mb-1">10,000+</div>
+                <div className="text-gray-500 text-sm">Market Coverage</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-brand mb-1">60d</div>

@@ -2,7 +2,7 @@ name: Deploy Website to Cloudflare Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
     paths: ['website/**']
 
 jobs:

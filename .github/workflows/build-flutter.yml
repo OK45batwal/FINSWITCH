@@ -1,7 +1,7 @@
 name: Build Flutter
 on:
   push:
-    branches: [main]
+    branches: [main, master]
     paths: ['flutter_app/**']
 
 jobs:

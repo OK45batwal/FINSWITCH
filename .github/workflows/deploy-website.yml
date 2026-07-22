@@ -37,3 +37,4 @@ jobs:
           projectName: finswitch
           directory: website/out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: '3'

@@ -26,6 +26,12 @@ class AppTheme {
   static const lightInput = Color(0xFFF1F5F9);
   static const lightBorder = Colors.black12;
 
+  static Color cardOf(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkCard : lightCard;
+  static Color mutedOf(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkMuted : lightMuted;
+  static Color textOf(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkText : lightText;
+  static Color bgOf(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkBg : lightBg;
+  static Color borderOf(BuildContext context) => Theme.of(context).brightness == Brightness.dark ? darkBorder : lightBorder;
+
   static ThemeData get darkTheme => _buildTheme(Brightness.dark, darkBg, darkCard, darkText, darkMuted, darkNav, darkInput, darkBorder);
   static ThemeData get lightTheme => _buildTheme(Brightness.light, lightBg, lightCard, lightText, lightMuted, lightNav, lightInput, lightBorder);
 

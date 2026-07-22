@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
 import '../../../core/api.dart';
+import '../../../core/app_update_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppUpdateService.checkForUpdate(context);
+    });
   }
 
   Future<void> _load() async {

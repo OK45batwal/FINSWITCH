@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../app/config/theme.dart';
+import '../../../core/app_update_service.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -36,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
             _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
+            _MenuTile(icon: Icons.system_update_rounded, title: 'Check for Updates', subtitle: 'v1.0.0 installed', onTap: () => AppUpdateService.checkForUpdate(context, silent: false)),
             _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
             _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version 1.0.0', trailing: Text('1.0.0', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13))),
             const SizedBox(height: 24),

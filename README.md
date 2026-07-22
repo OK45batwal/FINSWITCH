@@ -5,8 +5,11 @@
   <p align="center">Switch from confusion to confident financial decisions.</p>
 
   <p align="center">
-    <a href="https://github.com/OK45batwal/FINSWITCH/raw/master/assets/finswitch.apk">
-      <img src="https://img.shields.io/badge/Download_APK-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
+    <a href="https://finswitch.pages.dev">
+      <img src="https://img.shields.io/badge/Live_Website-finswitch.pages.dev-2563EB?style=for-the-badge&logo=cloudflare&logoColor=white&labelColor=0B1220" alt="Live Website">
+    </a>
+    <a href="https://finswitch.pages.dev/downloads/finswitch.apk">
+      <img src="https://img.shields.io/badge/Download_APK-54.5MB-10B981?style=for-the-badge&logo=android&logoColor=white&labelColor=0B1220" alt="Download APK">
     </a>
     <a href="https://github.com/OK45batwal/FINSWITCH">
       <img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&labelColor=0B1220&color=2563EB" alt="Version">
@@ -18,10 +21,10 @@
       <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge&labelColor=0B1220&color=10B981" alt="License">
     </a>
     <br>
+    <img src="https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js">
+    <img src="https://img.shields.io/badge/Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white" alt="Cloudflare Pages">
     <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
-    <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
-    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-    <img src="https://img.shields.io/badge/Material_3-757575?style=for-the-badge&logo=materialdesign&logoColor=white" alt="Material 3">
+    <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
   </p>
 </div>
 
@@ -271,8 +274,9 @@ MIT License — see [LICENSE](LICENSE) for details.
 <div align="center">
   <p>Built with ❤️ for smarter investing in India</p>
   <p>
+    <a href="https://finswitch.pages.dev">🌐 Live Website</a> ·
+    <a href="https://finswitch.pages.dev/downloads/finswitch.apk">📱 Download APK</a> ·
     <a href="https://github.com/OK45batwal/FINSWITCH">GitHub</a> ·
-    <a href="website/index.html">Live Demo</a> ·
     <a href="API.md">API Docs</a>
   </p>
 </div>

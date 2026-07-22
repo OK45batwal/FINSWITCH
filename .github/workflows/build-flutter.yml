@@ -1,0 +1,23 @@
+name: Build Flutter
+on:
+  push:
+    branches: [main]
+    paths: ['flutter_app/**']
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: 'stable'
+      - run: flutter pub get
+        working-directory: flutter_app
+      - run: flutter build apk --release --split-per-abi
+        working-directory: flutter_app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: finswitch-apk
+          path: flutter_app/build/app/outputs/flutter-apk/*.apk

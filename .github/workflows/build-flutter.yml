@@ -2,6 +2,9 @@ name: Build Flutter
 on:
   workflow_dispatch:
   push:
+    branches: [main, master, staging, 'feature/**']
+    paths: ['flutter_app/**']
+  pull_request:
     branches: [main, master]
     paths: ['flutter_app/**']
 
@@ -18,10 +21,18 @@ jobs:
         with:
           flutter-version: '3.x'
           channel: 'stable'
-      - run: flutter pub get
+      - name: Install Dependencies
+        run: flutter pub get
         working-directory: flutter_app
-      - run: flutter build apk --release --split-per-abi
+
+      - name: Analyze & Lint Code
+        run: flutter analyze
         working-directory: flutter_app
+
+      - name: Build APK Release
+        run: flutter build apk --release --split-per-abi
+        working-directory: flutter_app
+
       - uses: actions/upload-artifact@v4
         with:
           name: finswitch-apk

@@ -23,7 +23,7 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
 
   Future<void> _load() async {
     try {
-      final d = await Api.get('/markets/${widget.symbol}');
+      final d = await Api.get('/markets/stocks/${widget.symbol}');
       if (mounted) setState(() { _data = d is Map ? d : null; _loading = false; });
     } catch (_) {
       if (mounted) setState(() => _loading = false);
@@ -78,7 +78,7 @@ class _StockBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final d = data;
-    final ltp = (d?['ltp'] ?? 0) as num;
+    final ltp = (d?['last_price'] ?? 0) as num;
     final chg = (d?['change'] ?? 0) as num;
     final pct = (d?['change_percent'] ?? 0) as num;
     final up = chg >= 0;
@@ -133,7 +133,7 @@ class _QuickStats extends StatelessWidget {
       _StatCard(label: 'High', value: '₹${(data?['high'] ?? 0).toStringAsFixed(2)}'),
       _StatCard(label: 'Low', value: '₹${(data?['low'] ?? 0).toStringAsFixed(2)}'),
       _StatCard(label: 'Volume', value: '${data?['volume'] ?? '--'}'),
-      _StatCard(label: 'P/E', value: '${data?['pe'] ?? '--'}'),
+      _StatCard(label: 'P/E', value: '${data?['pe_ratio'] ?? '--'}'),
     ]);
   }
 }

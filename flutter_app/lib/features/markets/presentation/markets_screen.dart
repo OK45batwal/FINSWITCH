@@ -126,11 +126,11 @@ class _StockList extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(s['symbol'] ?? '', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.text)),
-              if (s['name'] != null) Text(s['name'], style: const TextStyle(color: AppTheme.muted, fontSize: 12)),
+              Text(s['name'] ?? '', style: const TextStyle(color: AppTheme.muted, fontSize: 12)),
             ])),
             const SizedBox(width: 8),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text('₹${(s['ltp'] ?? 0).toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.text)),
+              Text('₹${(s['last_price'] ?? 0).toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.text)),
               const SizedBox(height: 2),
               Text('${(s['change_percent'] ?? 0) >= 0 ? '+' : ''}${(s['change_percent'] ?? 0).toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: (s['change_percent'] ?? 0) >= 0 ? AppTheme.emeraldGreen : AppTheme.red)),
             ]),

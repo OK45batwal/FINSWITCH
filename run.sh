@@ -16,11 +16,11 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload &
 BACKEND_PID=$!
 echo "  Backend PID: $BACKEND_PID (port 8000)"
 
-# Website
+# Website (Next.js)
 echo ""
-echo "→ Starting website..."
+echo "→ Starting website (Next.js)..."
 cd "$(dirname "$0")/website"
-python3 -m http.server 3000 --bind 127.0.0.1 &
+npm run dev &
 WEB_PID=$!
 echo "  Website PID: $WEB_PID (port 3000)"
 

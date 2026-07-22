@@ -3,14 +3,13 @@
 ## Phase 1 — Core Platform (MVP) — ✅ Complete
 - [x] Brand identity and design system
 - [x] Landing website (live, connected to API)
-- [x] Backend API structure (FastAPI, mock data endpoints)
+- [x] Supabase data access and Cloudflare Pages AI endpoint
 - [x] Flutter app scaffold (GoRouter, bottom navigation, 6 screens)
-- [x] All Flutter screens wired to live API (Home, Markets, News, AI, Portfolio, Stock Detail, Profile)
-- [x] API service layer (auto-extracts `data` from backend responses)
+- [x] All Flutter screens wired to Supabase and the Pages AI endpoint
 - [x] Basic market data (indices, stock list with LTP/changes)
 - [x] Portfolio tracking (holdings, summary, P&L)
 - [x] AI Copilot (real chat via POST `/ai/chat`)
-- [x] News feed from backend
+- [x] News feed from Supabase
 - [x] Mobile app bottom navigation with 5 tabs
 
 ## Phase 2 — Analytics & Intelligence — Q3 2026
@@ -56,4 +55,4 @@
 - [ ] Watchlist CRUD
 - [ ] SIP calculator
 - [ ] Learning courses listing
-- [ ] User profile synced to backend (hardcoded currently)
+- [ ] User profile synced to Supabase (hardcoded currently)

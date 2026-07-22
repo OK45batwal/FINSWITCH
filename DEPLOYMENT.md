@@ -55,11 +55,11 @@ Git Push → GitHub Actions
 
 ## Monitoring
 
-- **Errors:** Sentry (mobile + backend)
+- **Errors:** Sentry (mobile + website)
 - **Performance:** Datadog / New Relic
 - **Uptime:** Better Uptime / Pingdom
 - **Analytics:** Mixpanel / Firebase Analytics
-- **Metrics:** Prometheus + Grafana (backend)
+- **Metrics:** Cloudflare and Supabase dashboards
 
 ## Security Checklist
 

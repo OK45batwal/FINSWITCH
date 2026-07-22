@@ -23,7 +23,7 @@ Navigate to **SQL Editor** in the Supabase Dashboard, or connect via CLI/psql, a
 
 ```sql
 -- 1. Apply Schema
--- Run backend/database/schema.sql or the Supabase optimized schema:
+-- Run supabase/schema.sql:
 ```
 
 ### Schema & RLS SQL

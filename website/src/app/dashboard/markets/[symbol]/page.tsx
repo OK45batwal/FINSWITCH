@@ -1,4 +1,3 @@
-import { getStockDetail, analyzeStockAI, getChartData, type StockDetail, type ChartPoint } from '@/lib/api';
 import StockDetailClient from './StockDetailClient';
 
 export function generateStaticParams() {

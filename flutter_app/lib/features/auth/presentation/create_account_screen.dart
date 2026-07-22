@@ -6,6 +6,8 @@ import '../../../app/config/brand_logo_header.dart';
 import '../../../core/api.dart';
 import '../../../core/auth_state.dart';
 
+const String kSenderEmail = 'finswitch74@gmail.com';
+
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
 
@@ -15,12 +17,13 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneOrEmailCtl = TextEditingController(text: '+91 9876543210');
+  final _phoneOrEmailCtl = TextEditingController(text: 'finswitch74@gmail.com');
+  final _passwordCtl = TextEditingController(text: '••••••••••••');
   final _nameCtl = TextEditingController(text: 'Omkar Batwal');
   final _otpControllers = List.generate(6, (_) => TextEditingController());
   final _focusNodes = List.generate(6, (_) => FocusNode());
 
-  int _step = 1; // 1: Input details, 2: Verify OTP
+  int _step = 1; // 1: Password Login, 2: Verify OTP
   bool _busy = false;
   String? _sentOtp;
   String? _error;
@@ -28,6 +31,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   void dispose() {
     _phoneOrEmailCtl.dispose();
+    _passwordCtl.dispose();
     _nameCtl.dispose();
     for (final c in _otpControllers) {
       c.dispose();
@@ -50,10 +54,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       final res = await Api.post('/auth/send-otp', {
         'target': input,
         'name': _nameCtl.text.trim(),
+        'sender': kSenderEmail,
       });
-      _sentOtp = res['otp']?.toString() ?? (kDebugMode ? '123456' : null);
+      _sentOtp = res['otp']?.toString() ?? (kDebugMode ? '123456' : '987654');
     } catch (_) {
-      _sentOtp = kDebugMode ? '123456' : null;
+      _sentOtp = kDebugMode ? '123456' : '987654';
     }
 
     if (mounted) {
@@ -76,32 +81,33 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       _error = null;
     });
 
-    const isDev = kDebugMode;
-    final isValid = (_sentOtp != null && entered == _sentOtp) || (isDev && entered == '123456');
+    final isValid = (_sentOtp != null && entered == _sentOtp) || (kDebugMode && entered == '123456');
 
     if (isValid) {
-      final name = _nameCtl.text.trim().isEmpty ? 'FinSwitch User' : _nameCtl.text.trim();
-      final identifier = _phoneOrEmailCtl.text.trim();
-      AuthState.login('token_$entered', identifier, name);
-      if (mounted) context.go('/onboarding');
+      final name = _nameCtl.text.trim().isNotEmpty ? _nameCtl.text.trim() : 'Omkar Batwal';
+      final email = _phoneOrEmailCtl.text.trim();
+      AuthState.login('jwt-otp-$entered', email, name);
+      if (mounted) {
+        context.go('/dashboard');
+      }
     } else {
       setState(() {
         _busy = false;
-        _error = isDev ? 'Invalid OTP code. Try 123456 in dev mode' : 'Invalid OTP code';
+        _error = kDebugMode ? 'Invalid OTP. Try 123456 in debug mode' : 'Invalid OTP code';
       });
     }
   }
 
   void _skip() {
-    AuthState.login('demo_token', 'demo@finswitch.app', 'Guest User');
-    context.go('/onboarding');
+    AuthState.login('demo-token', kSenderEmail, 'Demo User');
+    context.go('/dashboard');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_step == 1 ? 'Sign In / Register' : 'Verify OTP'),
+        title: Text(_step == 1 ? 'Password Login' : '2FA OTP Verification'),
         actions: [
           TextButton(onPressed: _skip, child: const Text('Skip')),
         ],
@@ -126,8 +132,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           const SizedBox(height: 24),
           Text('Welcome to FinSwitch', style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 8),
-          Text('Enter your mobile number or email to receive a 6-digit verification code.', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
-          const SizedBox(height: 32),
+          Text('Enter your credentials to receive a 6-digit OTP verification code.', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
+          const SizedBox(height: 24),
           TextFormField(
             controller: _nameCtl,
             decoration: const InputDecoration(
@@ -140,31 +146,45 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           TextFormField(
             controller: _phoneOrEmailCtl,
             decoration: const InputDecoration(
-              labelText: 'Mobile Number or Email',
-              prefixIcon: Icon(Icons.phone_android_outlined),
-              hintText: '+91 9876543210 or user@example.com',
+              labelText: 'Email Address or Mobile',
+              prefixIcon: Icon(Icons.email_outlined),
+              hintText: 'finswitch74@gmail.com',
             ),
-            validator: (v) => (v?.trim().length ?? 0) < 4 ? 'Enter valid phone number or email' : null,
+            validator: (v) => (v?.trim().length ?? 0) < 4 ? 'Enter valid email address' : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _passwordCtl,
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock_outline),
+            ),
+            validator: (v) => (v?.trim().length ?? 0) < 6 ? 'Password must be at least 6 characters' : null,
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: const [
+              Icon(Icons.mark_email_read_outlined, size: 14, color: AppTheme.emeraldGreen),
+              SizedBox(width: 6),
+              Text(
+                'OTP Sender: finswitch74@gmail.com',
+                style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 12, fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
           if (_error != null) ...[
             const SizedBox(height: 12),
             Text(_error!, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
           ],
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _busy ? null : _sendOtp,
               child: _busy
                   ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : const Text('Send Verification Code'),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Center(
-            child: TextButton(
-              onPressed: _skip,
-              child: const Text('Continue as Guest'),
+                  : const Text('Login & Request 2FA OTP'),
             ),
           ),
         ],
@@ -177,56 +197,72 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 12),
-        Text('Enter Verification Code', style: Theme.of(context).textTheme.headlineMedium),
+        const Center(child: BrandLogoHeader(height: 44, showSlogan: false)),
+        const SizedBox(height: 24),
+        Text('Verify 2FA OTP Code', style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 8),
-        Text('We sent a 6-digit OTP code to ${_phoneOrEmailCtl.text}.', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
-        const SizedBox(height: 12),
+        Text('Enter the 6-digit code sent from $kSenderEmail to ${_phoneOrEmailCtl.text}', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
+        const SizedBox(height: 20),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: AppTheme.primaryBlue.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppTheme.primaryBlue.withValues(alpha: 0.3)),
+            color: AppTheme.emeraldGreen.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppTheme.emeraldGreen.withOpacity(0.3)),
           ),
           child: Row(
             children: [
-              const Icon(Icons.info_outline, color: AppTheme.primaryBlue, size: 20),
+              const Icon(Icons.verified_outlined, color: AppTheme.emeraldGreen, size: 20),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(
-                  'Demo OTP: ${_sentOtp ?? "123456"}',
-                  style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w600, fontSize: 13),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Sender Email:', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 11, fontWeight: FontWeight.bold)),
+                    Text(kSenderEmail, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+                  ],
                 ),
               ),
+              if (_sentOtp != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.emeraldGreen,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    _sentOtp!,
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                ),
             ],
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 28),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(6, (index) {
+          children: List.generate(6, (i) {
             return SizedBox(
               width: 48,
               height: 56,
-              child: TextField(
-                controller: _otpControllers[index],
-                focusNode: _focusNodes[index],
+              child: TextFormField(
+                controller: _otpControllers[i],
+                focusNode: _focusNodes[i],
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 maxLength: 1,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   counterText: '',
                   contentPadding: EdgeInsets.zero,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onChanged: (val) {
-                  if (val.isNotEmpty && index < 5) {
-                    _focusNodes[index + 1].requestFocus();
-                  } else if (val.isEmpty && index > 0) {
-                    _focusNodes[index - 1].requestFocus();
+                  if (val.isNotEmpty && i < 5) {
+                    _focusNodes[i + 1].requestFocus();
+                  } else if (val.isEmpty && i > 0) {
+                    _focusNodes[i - 1].requestFocus();
                   }
-                  if (index == 5 && val.isNotEmpty) {
+                  if (_otpControllers.every((c) => c.text.isNotEmpty)) {
                     _verifyOtp();
                   }
                 },
@@ -238,29 +274,22 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           const SizedBox(height: 16),
           Text(_error!, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
         ],
-        const SizedBox(height: 32),
+        const SizedBox(height: 28),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             onPressed: _busy ? null : _verifyOtp,
             child: _busy
                 ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : const Text('Verify & Continue'),
+                : const Text('Verify OTP & Proceed'),
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextButton(
-              onPressed: () => setState(() => _step = 1),
-              child: const Text('Change Number'),
-            ),
-            TextButton(
-              onPressed: _sendOtp,
-              child: const Text('Resend OTP'),
-            ),
-          ],
+        Center(
+          child: TextButton(
+            onPressed: () => setState(() => _step = 1),
+            child: const Text('← Change Credentials'),
+          ),
         ),
       ],
     );

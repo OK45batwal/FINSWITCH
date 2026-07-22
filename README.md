@@ -37,7 +37,6 @@
     <img src="https://img.shields.io/badge/Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white" alt="Cloudflare Pages">
     <img src="https://img.shields.io/badge/Flutter_3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
     <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase">
-    <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
   </p>
 
 </div>
@@ -116,11 +115,9 @@ graph TD
     User --> |Mobile App| FlutterApp[Flutter 3.x Mobile App]
     
     WebApp --> |Theme Engine & Edge Routing| CF[Cloudflare Pages CDN & Workers]
-    FlutterApp --> |REST API| Backend[Python FastAPI Backend]
-    
-    CF --> |Static / Data| StocksJSON[Single Source: stocks.json]
-    Backend --> |REST Client| Supabase[(Supabase Database)]
-    Backend --> |LLM Prompts| LLM[Gemini 1.5 Flash / OpenAI API]
+    FlutterApp --> |Data & Auth| Supabase[(Supabase Database)]
+    WebApp --> |Data & Auth| Supabase
+    FlutterApp --> |AI| CF
 ```
 
 ---
@@ -189,48 +186,13 @@ flutter analyze
 flutter run
 ```
 
-### 3. Backend Service (FastAPI)
-```bash
-# Navigate to backend directory
-cd backend
-
-# Create virtual environment & install requirements
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Run FastAPI dev server
-uvicorn app.main:app --reload --port 8000
-# API docs available at http://localhost:8000/docs
-```
-
----
-
-## ✦ API Endpoints
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/auth/send-otp` | Generate and dispatch 6-digit verification code | No |
-| `POST` | `/api/v1/auth/verify-otp` | Verify 6-digit code & obtain access token | No |
-| `GET` | `/api/v1/markets/indices` | Fetch live market indices (Nifty, Sensex, Bank Nifty) | No |
-| `GET` | `/api/v1/markets/stocks` | Fetch stock screener list with filters & volume | No |
-| `GET` | `/api/v1/markets/stocks/{symbol}` | Fetch stock details, RSI, SMA, and historical chart | No |
-| `POST` | `/api/v1/ai/chat` | AI Copilot conversational analysis | Optional |
-| `GET` | `/api/v1/portfolio/summary` | Portfolio total value, invested capital, and P&L | Yes |
-| `GET` | `/api/v1/news` | Financial news feed with sentiment tags | No |
-
-Full API Specification: [`API.md`](API.md)
-
 ---
 
 ## ✦ Security & Production Hardening
 
 - 🔒 **Zero Hardcoded Secrets**: Credentials, Supabase keys, and tokens are read exclusively from environment variables / GitHub Secrets.
-- 🛡️ **Enforced Production `SECRET_KEY`**: FastAPI startup validator rejects default development keys when `DEBUG=False`.
-- 🔐 **Restricted Production CORS**: Cross-Origin Resource Sharing is strictly scoped to production domain (`https://finswitch.pages.dev`).
 - 🔑 **Guarded Dev OTP Bypass**: Test OTP bypass (`123456`) is restricted to `kDebugMode` in Flutter and `NODE_ENV === 'development'` on the web.
-- ⏱️ **Auto-Resetting Network Retry Timer**: 30-second cooldown timer for transient backend offline fallbacks.
-- 🚦 **CI/CD Quality Gates**: Automated `flutter analyze`, `npm run lint`, and Python syntax checks on all pull requests and pushes.
+- 🚦 **CI/CD Quality Gates**: Automated `flutter analyze` and `npm run lint` on all pull requests and pushes.
 
 ---
 

@@ -43,15 +43,23 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       AuthState.login(t, _emailCtl.text.trim(), _nameCtl.text.trim());
       if (mounted) context.go('/onboarding');
     } catch (_) {
+      AuthState.login('demo_token', _emailCtl.text.trim(), _nameCtl.text.trim());
       if (mounted) context.go('/onboarding');
     }
     if (mounted) setState(() => _busy = false);
   }
 
+  void _skip() {
+    AuthState.login('demo_token', 'demo@finswitch.app', 'Guest User');
+    context.go('/onboarding');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Account')),
+      appBar: AppBar(title: const Text('Create Account'), actions: [
+        TextButton(onPressed: _skip, child: const Text('Skip')),
+      ]),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -75,7 +83,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               const SizedBox(height: 16),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text('Already have an account?', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13)),
-                TextButton(onPressed: () => context.go('/onboarding'), child: const Text('Skip')),
+                TextButton(onPressed: _skip, child: const Text('Skip')),
               ]),
             ]),
           ),

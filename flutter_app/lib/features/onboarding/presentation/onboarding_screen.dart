@@ -29,6 +29,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _done() {
+    if (!AuthState.isLoggedIn.value) {
+      AuthState.login('demo_token', 'demo@finswitch.app', 'Guest User');
+    }
     AuthState.interests.value = List.from(_selected);
     AuthState.onboardingDone.value = true;
     context.go('/home');
@@ -37,7 +40,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Interests')),
+      appBar: AppBar(title: const Text('Your Interests'), actions: [
+        TextButton(onPressed: _done, child: const Text('Skip')),
+      ]),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),

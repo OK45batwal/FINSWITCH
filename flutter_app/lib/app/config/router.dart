@@ -21,7 +21,7 @@ class AppRouter {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: '/home',
-      refreshListenable: AuthState.isLoggedIn,
+      refreshListenable: Listenable.merge([AuthState.isLoggedIn, AuthState.onboardingDone]),
       redirect: (context, state) {
         final loggedIn = AuthState.isLoggedIn.value;
         final onboarded = AuthState.onboardingDone.value;

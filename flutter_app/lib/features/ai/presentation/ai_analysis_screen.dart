@@ -29,6 +29,7 @@ class _AIAnalysisBody extends StatefulWidget {
 class _AIAnalysisBodyState extends State<_AIAnalysisBody> {
   Map? _analysis;
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -37,19 +38,21 @@ class _AIAnalysisBodyState extends State<_AIAnalysisBody> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final r = await Api.post('/ai/chat', {'message': 'Analyze ${widget.symbol} in detail with fundamentals, technicals, and recommendation'});
       final msg = r['response'] as String? ?? 'No analysis available.';
       final d = await Api.get('/markets/stocks/${widget.symbol}');
       if (mounted) setState(() { _analysis = {'analysis': msg, 'data': d is Map ? d : null}; _loading = false; });
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _error = 'Failed to load analysis'; _loading = false; });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Center(child: CircularProgressIndicator());
+    if (_error != null) return ErrorWithRetry(message: _error!, onRetry: _load);
     final data = _analysis?['data'] as Map<String, dynamic>?;
     final ltp = (data?['last_price'] ?? 0) as num;
     final chg = (data?['change'] ?? 0) as num;

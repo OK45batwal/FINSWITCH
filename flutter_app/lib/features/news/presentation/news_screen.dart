@@ -12,6 +12,7 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   List _articles = [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -20,6 +21,7 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final n = await Api.get('/news');
       if (mounted) setState(() {
@@ -27,7 +29,7 @@ class _NewsScreenState extends State<NewsScreen> {
         _loading = false;
       });
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _error = 'Failed to load news'; _loading = false; });
     }
   }
 
@@ -38,7 +40,9 @@ class _NewsScreenState extends State<NewsScreen> {
       body: SafeArea(
         child: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _error != null
+              ? ErrorWithRetry(message: _error!, onRetry: _load)
+              : RefreshIndicator(
               onRefresh: _load,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),

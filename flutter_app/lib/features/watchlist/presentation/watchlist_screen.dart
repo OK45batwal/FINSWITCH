@@ -13,6 +13,7 @@ class WatchlistScreen extends StatefulWidget {
 class _WatchlistScreenState extends State<WatchlistScreen> {
   List _items = [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -21,25 +22,14 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final r = await Api.get('/watchlist');
       final lists = r is List ? r : (r['data'] is List ? r['data'] : []);
       _items = lists.isNotEmpty ? (lists.first['items'] ?? []) : [];
-      if (_items.isEmpty) {
-        _items = [
-          {'symbol': 'RELIANCE', 'name': 'Reliance Industries'},
-          {'symbol': 'TCS', 'name': 'Tata Consultancy Services'},
-          {'symbol': 'HDFCBANK', 'name': 'HDFC Bank'},
-        ];
-      }
       if (mounted) setState(() => _loading = false);
     } catch (_) {
-      _items = [
-        {'symbol': 'RELIANCE', 'name': 'Reliance Industries'},
-        {'symbol': 'TCS', 'name': 'Tata Consultancy Services'},
-        {'symbol': 'HDFCBANK', 'name': 'HDFC Bank'},
-      ];
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _error = 'Failed to load watchlist'; _loading = false; });
     }
   }
 
@@ -50,7 +40,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
       body: SafeArea(
         child: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _error != null
+              ? ErrorWithRetry(message: _error!, onRetry: _load)
+              : RefreshIndicator(
               onRefresh: _load,
               child: _items.isEmpty
                 ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [

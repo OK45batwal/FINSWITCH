@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List _news = [];
   List _insights = [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -29,32 +30,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final results = await Future.wait([
         Api.get('/portfolio/summary'),
         Api.get('/markets/indices'),
         Api.get('/news'),
-        Api.post('/ai/chat', {'message': 'Daily market insights and key levels for today July 22, 2026'}),
+        Api.post('/ai/chat', {'message': 'Daily market insights and key levels for today'}),
       ]);
       if (mounted) setState(() {
         _portfolio = results[0] is Map ? results[0] : null;
         _indices = (results[1] is List ? results[1] : <dynamic>[]).cast<Map<String, dynamic>>();
         _news = (results[2] is List ? results[2] : <dynamic>[]).take(3).toList();
         final aiResponse = results[3] is Map ? results[3]['response'] as String? : null;
-        _insights = aiResponse != null ? aiResponse.split('\n').where((l) => l.trim().isNotEmpty && !l.startsWith('**')).take(4).toList() : _defaultInsights();
+        _insights = aiResponse != null ? aiResponse.split('\n').where((l) => l.trim().isNotEmpty && !l.startsWith('**')).take(4).toList() : [];
         _loading = false;
       });
     } catch (_) {
-      if (mounted) setState(() { _insights = _defaultInsights(); _loading = false; });
+      if (mounted) setState(() { _error = 'Failed to load dashboard data'; _loading = false; });
     }
   }
-
-  List<String> _defaultInsights() => [
-    'Nifty support at 23,200, resistance at 23,600. Banking and energy leading.',
-    'FII outflows of ₹2,100 Cr offset by DII buying of ₹1,850 Cr.',
-    'IT sector under pressure from global rate uncertainty. Watch INFY, TCS.',
-    'Gold hits all-time high at ₹76,500. Safe-haven demand rising.',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _error != null
+              ? ErrorWithRetry(message: _error!, onRetry: _load)
+              : RefreshIndicator(
               onRefresh: _load,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),

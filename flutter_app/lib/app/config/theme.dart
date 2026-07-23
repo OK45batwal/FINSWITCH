@@ -3,6 +3,33 @@ import 'package:google_fonts/google_fonts.dart';
 
 final themeNotifier = ValueNotifier(ThemeMode.dark);
 
+class ErrorWithRetry extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+  const ErrorWithRetry({super.key, this.message = 'Something went wrong', required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline_rounded, size: 48, color: Colors.amber),
+            const SizedBox(height: 16),
+            Text(message, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Check your connection and try again', style: TextStyle(color: Colors.grey, fontSize: 13)),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh_rounded), label: const Text('Retry')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class AppTheme {
   static const emeraldGreen = Color(0xFF10B981);
   static const brandNavy = Color(0xFF0A192F);

@@ -14,6 +14,7 @@ class _MarketsScreenState extends State<MarketsScreen> {
   List _indices = [];
   List _stocks = [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -22,6 +23,7 @@ class _MarketsScreenState extends State<MarketsScreen> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final i = await Api.get('/markets/indices');
       final s = await Api.get('/markets/stocks');
@@ -31,7 +33,7 @@ class _MarketsScreenState extends State<MarketsScreen> {
         _loading = false;
       });
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _error = 'Failed to load market data'; _loading = false; });
     }
   }
 
@@ -42,7 +44,9 @@ class _MarketsScreenState extends State<MarketsScreen> {
       body: SafeArea(
         child: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _error != null
+              ? ErrorWithRetry(message: _error!, onRetry: _load)
+              : RefreshIndicator(
               onRefresh: _load,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),

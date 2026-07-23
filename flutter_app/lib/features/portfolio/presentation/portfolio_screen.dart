@@ -13,6 +13,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   Map? _summary;
   List _holdings = [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -21,6 +22,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   }
 
   Future<void> _load() async {
+    setState(() { _error = null; _loading = true; });
     try {
       final s = await Api.get('/portfolio/summary');
       final h = await Api.get('/portfolio/holdings');
@@ -30,7 +32,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
         _loading = false;
       });
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      if (mounted) setState(() { _error = 'Failed to load portfolio'; _loading = false; });
     }
   }
 
@@ -41,7 +43,9 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       body: SafeArea(
         child: _loading
           ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
+          : _error != null
+              ? ErrorWithRetry(message: _error!, onRetry: _load)
+              : RefreshIndicator(
               onRefresh: _load,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),

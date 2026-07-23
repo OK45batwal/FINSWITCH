@@ -1,5 +1,4 @@
-![FinSwitch logo](https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/website/public/logo.svg#gh-dark-mode-only)
-![FinSwitch logo](https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/website/public/logo.svg#gh-light-mode-only)
+![FinSwitch logo](https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/website/public/logo.svg)
 
 # FinSwitch
 
@@ -66,9 +65,9 @@ Both ──────────▶ Cloudflare Function /api/ai
 ## Auto Update Flow
 
 ```
-Developer ──scripts/release.sh──▶ GitHub ──tag v*──▶ GitHub Actions
+Dev ──scripts/release.sh──▶ GitHub ──push tag v*──▶ GitHub Actions
 Actions ──Build APK──▶ GitHub Release
-User App ──checkForUpdate──▶ GitHub raw pubspec.yaml
+App ──checkForUpdate──▶ GitHub raw pubspec.yaml
 New version? ──▶ Auto-download APK ──▶ Tap Install ──▶ System Installer
 ```
 

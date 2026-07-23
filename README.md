@@ -106,59 +106,23 @@
 
 ---
 
-## ✦ Web Platform
+## ✦ Web Platform Showcase
 
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-hero.png" alt="FinSwitch Hero Landing Page" style="border-radius: 10px;">
-      <br><sub><b>Landing Page & Hero Banner</b></sub>
-    </td>
-    <td width="50%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-desktop.png" alt="FinSwitch Market Intelligence Dashboard" style="border-radius: 10px;">
-      <br><sub><b>Market Intelligence Dashboard</b></sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-login.png" alt="FinSwitch Traditional Sign In" style="border-radius: 10px;">
-      <br><sub><b>Traditional Sign In & Register System</b></sub>
-    </td>
-    <td width="50%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-mobile.png" alt="FinSwitch Mobile Web Viewport" style="border-radius: 10px;">
-      <br><sub><b>Responsive Mobile Web Interface</b></sub>
-    </td>
-  </tr>
-</table>
+| Landing Page & Hero Banner | Market Intelligence Dashboard |
+| :---: | :---: |
+| ![Landing Page & Hero Banner](assets/website-hero.png) | ![Market Intelligence Dashboard](assets/website-desktop.png) |
+
+| Traditional Sign In & Register System | Responsive Mobile Web Interface |
+| :---: | :---: |
+| ![Traditional Sign In & Register System](assets/website-login.png) | ![Responsive Mobile Web Interface](assets/website-mobile.png) |
 
 ---
 
-## ✦ Mobile Application
+## ✦ Mobile Application Showcase
 
-<table>
-  <tr>
-    <td width="20%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Home.png" alt="Mobile App Home" style="border-radius: 12px;">
-      <br><sub><b>Home Overview</b></sub>
-    </td>
-    <td width="20%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Markets.png" alt="Mobile App Markets" style="border-radius: 12px;">
-      <br><sub><b>Live Markets</b></sub>
-    </td>
-    <td width="20%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-AI.png" alt="Mobile App AI Copilot" style="border-radius: 12px;">
-      <br><sub><b>AI Copilot</b></sub>
-    </td>
-    <td width="20%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Portfolio.png" alt="Mobile App Portfolio" style="border-radius: 12px;">
-      <br><sub><b>Portfolio Tracker</b></sub>
-    </td>
-    <td width="20%" align="center">
-      <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-News.png" alt="Mobile App News" style="border-radius: 12px;">
-      <br><sub><b>Financial News</b></sub>
-    </td>
-  </tr>
-</table>
+| Home Overview | Live Markets | AI Copilot | Portfolio | News Feed |
+| :---: | :---: | :---: | :---: | :---: |
+| ![Mobile App Home](assets/App-Home.png) | ![Mobile App Markets](assets/App-Markets.png) | ![Mobile App AI Copilot](assets/App-AI.png) | ![Mobile App Portfolio](assets/App-Portfolio.png) | ![Mobile App News](assets/App-News.png) |
 
 ---
 

@@ -20,27 +20,6 @@ jobs:
         run: flutter pub get
         working-directory: flutter_app
 
-      - name: Setup Release Keystore (if configured)
-        env:
-          RELEASE_KEYSTORE_BASE64: ${{ secrets[format('{0}', 'RELEASE_KEYSTORE_BASE64')] }}
-          RELEASE_KEYSTORE_PASSWORD: ${{ secrets[format('{0}', 'RELEASE_KEYSTORE_PASSWORD')] }}
-          RELEASE_KEY_PASSWORD: ${{ secrets[format('{0}', 'RELEASE_KEY_PASSWORD')] }}
-          RELEASE_KEY_ALIAS: ${{ secrets[format('{0}', 'RELEASE_KEY_ALIAS')] }}
-        run: |
-          if [ -n "$RELEASE_KEYSTORE_BASE64" ]; then
-            echo "Setting up production release signing key..."
-            echo "$RELEASE_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
-            cat <<EOF > android/key.properties
-          storePassword=$RELEASE_KEYSTORE_PASSWORD
-          keyPassword=$RELEASE_KEY_PASSWORD
-          keyAlias=$RELEASE_KEY_ALIAS
-          storeFile=release.keystore
-          EOF
-          else
-            echo "No custom release keystore secret found; using standard release build config."
-          fi
-        working-directory: flutter_app
-
       - name: Build Release APK
         run: flutter build apk --release
         working-directory: flutter_app

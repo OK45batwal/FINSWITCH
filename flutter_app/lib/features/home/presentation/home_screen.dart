@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(children: [
                     Text('AI Insights', style: Theme.of(context).textTheme.titleLarge),
                     const Spacer(),
-                    Icon(Icons.auto_awesome_rounded, color: AppTheme.accent, size: 16),
+                    const Icon(Icons.auto_awesome_rounded, color: AppTheme.accent, size: 16),
                   ]),
                   const SizedBox(height: 12),
                   Container(
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _insights.map((i) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 6, right: 10), decoration: BoxDecoration(color: AppTheme.accent, shape: BoxShape.circle)),
+                        Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 6, right: 10), decoration: const BoxDecoration(color: AppTheme.accent, shape: BoxShape.circle)),
                         Expanded(child: Text(i, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13, height: 1.4))),
                       ]),
                     )).toList()),

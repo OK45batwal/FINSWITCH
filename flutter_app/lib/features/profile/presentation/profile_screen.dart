@@ -69,10 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () => themeNotifier.value = isDark ? ThemeMode.light : ThemeMode.dark,
               ),
             ),
-            _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
-            _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
+            const _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
+            const _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
             _MenuTile(icon: Icons.system_update_rounded, title: 'Check for Updates', subtitle: 'v$_appVersion installed', onTap: () => AppUpdateService.checkForUpdate(context, silent: false)),
-            _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
+            const _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
             _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version $_appVersion', trailing: Text(_appVersion, style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 13))),
             const SizedBox(height: 24),
             SizedBox(

@@ -20,7 +20,7 @@ class ErrorWithRetry extends StatelessWidget {
             const SizedBox(height: 16),
             Text(message, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),
-            Text('Check your connection and try again', style: TextStyle(color: Colors.grey, fontSize: 13)),
+            const Text('Check your connection and try again', style: TextStyle(color: Colors.grey, fontSize: 13)),
             const SizedBox(height: 24),
             ElevatedButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh_rounded), label: const Text('Retry')),
           ],

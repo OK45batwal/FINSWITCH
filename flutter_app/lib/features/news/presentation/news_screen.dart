@@ -97,7 +97,7 @@ class _FeaturedArticle extends StatelessWidget {
         const SizedBox(height: 8),
         Text(article['title'] ?? '', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700, height: 1.2)),
         const SizedBox(height: 6),
-        Text(article['summary'] ?? '', style: TextStyle(color: Colors.white70, fontSize: 13), maxLines: 2),
+        Text(article['summary'] ?? '', style: const TextStyle(color: Colors.white70, fontSize: 13), maxLines: 2),
       ]),
     );
   }

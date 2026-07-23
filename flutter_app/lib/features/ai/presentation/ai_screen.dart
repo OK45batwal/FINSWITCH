@@ -44,10 +44,10 @@ class _AIScreenState extends State<AIScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Row(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.auto_awesome_rounded, color: AppTheme.accent, size: 20),
-        const SizedBox(width: 6),
-        const Text('FinSwitch AI'),
+      appBar: AppBar(title: const Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.auto_awesome_rounded, color: AppTheme.accent, size: 20),
+        SizedBox(width: 6),
+        Text('FinSwitch AI'),
       ])),
       body: SafeArea(
         child: Column(children: [

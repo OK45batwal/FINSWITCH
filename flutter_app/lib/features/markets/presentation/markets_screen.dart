@@ -116,7 +116,7 @@ class _StockList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (stocks.isEmpty) {
-      return Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No stocks available', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)))));
+      return Padding(padding: const EdgeInsets.all(32), child: Center(child: Text('No stocks available', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)))));
     }
     return Column(
       children: stocks.map((s) => GestureDetector(

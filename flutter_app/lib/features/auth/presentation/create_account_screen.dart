@@ -216,7 +216,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                       TextButton(
                         onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Password reset not yet available.')),
+                          const SnackBar(content: Text('Password reset not yet available.')),
                         ),
                         child: const Text('Forgot password?', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 13)),
                       ),
@@ -268,9 +268,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant, width: 0.5),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.mark_email_read_outlined, size: 16, color: AppTheme.emeraldGreen),
                       SizedBox(width: 8),
                       Text('Official Support: ', style: TextStyle(fontSize: 12, color: Colors.grey)),

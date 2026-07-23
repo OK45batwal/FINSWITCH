@@ -193,7 +193,7 @@ class _ActionButtons extends StatelessWidget {
     return Row(children: [
       Expanded(child: ElevatedButton(onPressed: () {}, child: const Text('Buy'))),
       const SizedBox(width: 12),
-      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface, side: const BorderSide(color: AppTheme.emeraldGreen), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: Text('Sell'))),
+      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface, side: const BorderSide(color: AppTheme.emeraldGreen), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: const Text('Sell'))),
     ]);
   }
 }

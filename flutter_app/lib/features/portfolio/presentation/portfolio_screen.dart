@@ -55,7 +55,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   Text('Holdings', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 12),
                   if (_holdings.isEmpty)
-                    Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No holdings', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)))))
+                    Padding(padding: const EdgeInsets.all(32), child: Center(child: Text('No holdings', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)))))
                   else
                     ..._holdings.map((h) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),

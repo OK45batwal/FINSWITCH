@@ -86,8 +86,16 @@ export async function getStockDetail(symbol: string): Promise<StockDetail | null
   return fallback.data ? mapDetail(fallback.data) : null;
 }
 
-function mapDetail(r: DbRecord): StockDetail {
+export function mapDetail(r: DbRecord): StockDetail {
   return { symbol: r.symbol || '', name: r.name || '', sector: r.sector || '', industry: r.industry || '', price: r.price || 0, change: r.change || 0, change_percent: r.change_percent || 0, volume: r.volume || 0, avg_volume: r.avg_volume || 0, pe_ratio: r.pe_ratio || 0, dividend_yield: r.dividend_yield || 0, high_52w: r.high_52w || 0, low_52w: r.low_52w || 0, market_cap: r.market_cap || 0, description: r.description || '' };
+}
+
+export function calculatePnl(quantity: number, avgPrice: number, currentPrice: number) {
+  const value = quantity * currentPrice;
+  const invested = quantity * avgPrice;
+  const returns = value - invested;
+  const returnsPercent = invested ? (returns / invested) * 100 : 0;
+  return { total_value: value, total_returns: returns, returns_percent: returnsPercent };
 }
 
 export async function getGainers(): Promise<Stock[]> {

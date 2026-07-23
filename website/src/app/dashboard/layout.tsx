@@ -22,10 +22,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    const localSession = typeof window !== 'undefined' ? localStorage.getItem('finswitch_session') : null;
-
     supabase.auth.getSession().then(({ data }) => {
-      if (!data?.session && !localSession) {
+      if (!data?.session) {
         router.replace('/login');
         return;
       }
@@ -34,7 +32,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_OUT') {
-        localStorage.removeItem('finswitch_session');
         router.replace('/login');
       }
     });
@@ -52,7 +49,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const handleSignOut = async () => {
-    localStorage.removeItem('finswitch_session');
     await supabase.auth.signOut();
     router.replace('/login');
   };

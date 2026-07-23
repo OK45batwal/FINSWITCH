@@ -9,7 +9,7 @@ echo "Current version: $CURRENT"
 read -rp "New version (e.g. 1.1.0): " VERSION
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid semver"; exit 1; }
 
-sed -i '' "s/^version: .*/version: $VERSION+1/" flutter_app/pubspec.yaml
+sed -i.bak "s/^version: .*/version: $VERSION+1/" flutter_app/pubspec.yaml && rm -f flutter_app/pubspec.yaml.bak
 
 if command -v java &>/dev/null; then
   echo "==> Building APK"

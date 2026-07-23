@@ -37,7 +37,7 @@ export default function LoginPage() {
 
     try {
       if (mode === 'register') {
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,
           options: { data: { full_name: name.trim() } },
@@ -48,6 +48,10 @@ export default function LoginPage() {
           } else {
             setError(signUpError.message);
           }
+          setLoading(false); return;
+        }
+        if (!signUpData.session) {
+          setError(`Account created! Please check your email (${email.trim()}) for a confirmation link.`);
           setLoading(false); return;
         }
       } else {
@@ -67,15 +71,28 @@ export default function LoginPage() {
 
       router.push('/dashboard');
     } catch {
-      if (!SUPABASE_CONFIGURED) {
-        localStorage.setItem('finswitch_session',
-          JSON.stringify({ user: email.trim(), name: name.trim() || 'User', loggedInAt: Date.now(), remember: rememberMe }));
-        router.push('/dashboard');
-      } else {
-        setError('Connection error. Please try again.');
-      }
+      setError('Connection error. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !email.includes('@')) {
+      setError('Please enter your email address above to reset password');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    const { error: resetErr } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/login`,
+    });
+    setLoading(false);
+    if (resetErr) {
+      setError(resetErr.message);
+    } else {
+      setError(`Password reset instructions sent to ${email.trim()}`);
     }
   };
 
@@ -160,7 +177,7 @@ export default function LoginPage() {
                   className="rounded border-border bg-background text-brand focus:ring-brand" />
                 <span>Remember me</span>
               </label>
-              <a href="#" onClick={(e) => { e.preventDefault(); setError('Password reset not yet available through this interface.'); }}
+              <a href="#" onClick={handleForgotPassword}
                 className="text-brand hover:underline">Forgot password?</a>
             </div>
           )}

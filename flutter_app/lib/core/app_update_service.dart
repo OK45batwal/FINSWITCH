@@ -7,7 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class AppUpdateService {
   static const String apkDownloadUrl =
-      'https://github.com/OK45batwal/FINSWITCH/releases/latest/download/app-arm64-v8a-release.apk';
+      'https://github.com/OK45batwal/FINSWITCH/releases/latest/download/app-release.apk';
   static const String githubReleaseApiUrl =
       'https://api.github.com/repos/OK45batwal/FINSWITCH/releases/latest';
   static const String remotePubspecUrl =

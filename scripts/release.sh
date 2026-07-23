@@ -16,7 +16,7 @@ if command -v java &>/dev/null; then
   cd flutter_app
   flutter clean >/dev/null 2>&1 || true
   flutter pub get
-  flutter build apk --release --split-per-abi
+  flutter build apk --release
   cd ..
 else
   echo "==> No Java found. GitHub Actions will build the APK on tag push."

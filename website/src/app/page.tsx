@@ -21,7 +21,7 @@ export default function Home() {
               <Link href="/dashboard" className="bg-brand hover:bg-brand-hover text-black px-8 py-3 rounded-lg text-lg font-semibold">
                 Launch Dashboard
               </Link>
-              <a href="/downloads/finswitch.apk" className="border border-border hover:border-brand text-foreground px-8 py-3 rounded-lg text-lg">
+              <a href="https://github.com/OK45batwal/FINSWITCH/releases/latest/download/app-arm64-v8a-release.apk" className="border border-border hover:border-brand text-foreground px-8 py-3 rounded-lg text-lg">
                 Download Android App
               </a>
             </div>
@@ -71,7 +71,7 @@ export default function Home() {
               <Link href="/dashboard" className="bg-brand hover:bg-brand-hover text-black px-8 py-3 rounded-lg font-semibold">
                 Web Dashboard
               </Link>
-              <a href="/downloads/finswitch.apk" className="border border-border hover:border-brand text-foreground px-8 py-3 rounded-lg">
+              <a href="https://github.com/OK45batwal/FINSWITCH/releases/latest/download/app-arm64-v8a-release.apk" className="border border-border hover:border-brand text-foreground px-8 py-3 rounded-lg">
                 Download APK
               </a>
             </div>

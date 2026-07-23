@@ -63,7 +63,7 @@ class _AIScreenState extends State<AIScreen> {
           if (_busy) const Padding(padding: EdgeInsets.only(bottom: 8), child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppTheme.cardOf(context), border: Border(top: BorderSide(color: AppTheme.borderOf(context)))),
+            decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, border: Border(top: BorderSide(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant))),
             child: Row(children: [
               Expanded(
                 child: TextField(
@@ -115,7 +115,7 @@ class _ChatBubble extends StatelessWidget {
                 bottomLeft: Radius.circular(message.isBot ? 4 : 16), bottomRight: Radius.circular(message.isBot ? 16 : 4),
               ),
             ),
-            child: Text(message.text, style: TextStyle(fontSize: 14, height: 1.5, color: message.isBot ? AppTheme.textOf(context) : Colors.white)),
+            child: Text(message.text, style: TextStyle(fontSize: 14, height: 1.5, color: message.isBot ? Theme.of(context).colorScheme.onSurface : Colors.white)),
           ),
         ),
       ],

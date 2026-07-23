@@ -92,12 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity, padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
+                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _insights.map((i) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 6, right: 10), decoration: BoxDecoration(color: AppTheme.accent, shape: BoxShape.circle)),
-                        Expanded(child: Text(i, style: TextStyle(color: AppTheme.textOf(context), fontSize: 13, height: 1.4))),
+                        Expanded(child: Text(i, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13, height: 1.4))),
                       ]),
                     )).toList()),
                   ),
@@ -115,15 +115,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildNewsItem(Map n) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
           child: const Icon(Icons.article_rounded, color: AppTheme.emeraldGreen, size: 22)),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(n['title'] ?? '', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppTheme.textOf(context))),
+          Text(n['title'] ?? '', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: Theme.of(context).colorScheme.onSurface)),
           const SizedBox(height: 2),
-          Text(n['summary'] ?? '', style: TextStyle(fontSize: 12, color: AppTheme.mutedOf(context)), maxLines: 2),
+          Text(n['summary'] ?? '', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)), maxLines: 2),
         ])),
       ]),
     );
@@ -179,7 +179,7 @@ class _QuickActions extends StatelessWidget {
         Container(width: 52, height: 52, decoration: BoxDecoration(color: a.$3.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(16)),
           child: IconButton(onPressed: () {}, icon: Icon(a.$1, color: a.$3, size: 24), padding: EdgeInsets.zero)),
         const SizedBox(height: 6),
-        Text(a.$2, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12, fontWeight: FontWeight.w500)),
+        Text(a.$2, style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 12, fontWeight: FontWeight.w500)),
       ])).toList(),
     );
   }
@@ -193,15 +193,15 @@ class _MarketTicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(20), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
       child: Column(children: indices.map((d) {
         final up = (d['change_percent'] ?? 0) >= 0;
         return Column(children: [
           if (indices.indexOf(d) > 0) const Divider(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(d['symbol'] ?? '', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 14, fontWeight: FontWeight.w500)),
+            Text(d['symbol'] ?? '', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 14, fontWeight: FontWeight.w500)),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text(d['last_value']?.toStringAsFixed(2) ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.textOf(context))),
+              Text(d['last_value']?.toStringAsFixed(2) ?? '', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onSurface)),
               Text('${d['change_percent'] >= 0 ? '+' : ''}${d['change_percent']?.toStringAsFixed(2) ?? ''}%', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: up ? AppTheme.emeraldGreen : AppTheme.red)),
             ]),
           ]),

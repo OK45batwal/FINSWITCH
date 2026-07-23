@@ -71,7 +71,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   void _skip() {
     AuthState.login('demo-token', kOfficialSupportEmail, 'Demo User');
-    context.go('/dashboard');
+    context.go('/home');
   }
 
   @override
@@ -103,14 +103,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   _isRegisterMode
                       ? 'Sign up to start tracking your portfolio with AI insights.'
                       : 'Sign in to access your stock market dashboard & portfolio.',
-                  style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 14),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 14),
                 ),
                 const SizedBox(height: 24),
 
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: AppTheme.borderOf(context).withOpacity(0.15),
+                    color: (Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Row(
@@ -121,7 +121,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: !_isRegisterMode ? AppTheme.cardOf(context) : Colors.transparent,
+                              color: !_isRegisterMode ? Theme.of(context).colorScheme.surface : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             alignment: Alignment.center,
@@ -129,7 +129,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               'Sign In',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 13,
-                                color: !_isRegisterMode ? AppTheme.textOf(context) : AppTheme.mutedOf(context),
+                                color: !_isRegisterMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                               ),
                             ),
                           ),
@@ -141,7 +141,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             decoration: BoxDecoration(
-                              color: _isRegisterMode ? AppTheme.cardOf(context) : Colors.transparent,
+                              color: _isRegisterMode ? Theme.of(context).colorScheme.surface : Colors.transparent,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             alignment: Alignment.center,
@@ -149,7 +149,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               'Register',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 13,
-                                color: _isRegisterMode ? AppTheme.textOf(context) : AppTheme.mutedOf(context),
+                                color: _isRegisterMode ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                               ),
                             ),
                           ),
@@ -247,7 +247,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     onTap: () => setState(() { _isRegisterMode = !_isRegisterMode; _error = null; }),
                     child: RichText(
                       text: TextSpan(
-                        style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13),
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 13),
                         children: [
                           TextSpan(text: _isRegisterMode ? 'Already have an account? ' : 'Don\'t have an account? '),
                           TextSpan(
@@ -264,9 +264,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
-                    color: AppTheme.cardOf(context),
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.borderOf(context), width: 0.5),
+                    border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant, width: 0.5),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

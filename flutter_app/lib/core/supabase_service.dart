@@ -1,8 +1,8 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  static const String _url = 'https://dgvtznykoyyxgwgtpbqf.supabase.co';
-  static const String _anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndnR6bnlrb3l5eGd3Z3RwYnFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTgzMTUsImV4cCI6MjA5OTY5NDMxNX0.a3dgjgZbXbCK6_DTPvjn99eb_T9HDvfPKTcNq-M49Ac';
+  static const String _url = 'https://lydliyjidlzzwggywwpd.supabase.co';
+  static const String _anonKey = 'sb_publishable_wBSqQQfKwNl9ikf4YXJ0Vg_RiNvTzGs';
 
   static bool _initialized = false;
 

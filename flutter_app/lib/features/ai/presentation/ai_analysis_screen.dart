@@ -88,8 +88,8 @@ class _AIAnalysisBodyState extends State<_AIAnalysisBody> {
         const SizedBox(height: 12),
         Container(
           width: double.infinity, padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
-          child: Text(_analysis?['analysis'] as String? ?? 'No analysis available.', style: TextStyle(color: AppTheme.textOf(context), fontSize: 14, height: 1.7)),
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
+          child: Text(_analysis?['analysis'] as String? ?? 'No analysis available.', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 14, height: 1.7)),
         ),
         const SizedBox(height: 24),
         Center(child: TextButton.icon(

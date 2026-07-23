@@ -54,9 +54,9 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
               onRefresh: _load,
               child: _items.isEmpty
                 ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.visibility_off_rounded, size: 48, color: AppTheme.mutedOf(context)),
+                    Icon(Icons.visibility_off_rounded, size: 48, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)),
                     const SizedBox(height: 12),
-                    Text('No stocks in watchlist', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
+                    Text('No stocks in watchlist', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 15)),
                   ]))
                 : ListView.separated(
                     padding: const EdgeInsets.all(20),
@@ -67,7 +67,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: Row(children: [
-                            Text('${_items.length} stocks', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13)),
+                            Text('${_items.length} stocks', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 13)),
                           ]),
                         );
                       }
@@ -114,16 +114,16 @@ class _WatchlistItem extends StatelessWidget {
       onTap: () => context.push('/stock/$symbol'),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
         child: Row(children: [
           Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
             child: Center(child: Text(symbol.isNotEmpty ? symbol[0] : '?', style: const TextStyle(color: AppTheme.emeraldGreen, fontWeight: FontWeight.w800, fontSize: 16)))),
           const SizedBox(width: 12),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(symbol, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.textOf(context))),
-            if (name.isNotEmpty) Text(name, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12)),
+            Text(symbol, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
+            if (name.isNotEmpty) Text(name, style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 12)),
           ])),
-          Icon(Icons.chevron_right_rounded, color: AppTheme.mutedOf(context), size: 20),
+          Icon(Icons.chevron_right_rounded, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), size: 20),
         ]),
       ),
     );

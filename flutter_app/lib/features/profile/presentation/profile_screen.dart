@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../../app/config/theme.dart';
 import '../../../core/auth_state.dart';
 import '../../../core/app_update_service.dart';
@@ -13,6 +14,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _busy = false;
+  String _appVersion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((info) {
+      if (mounted) setState(() => _appVersion = info.version);
+    });
+  }
 
   Future<void> _signOut() async {
     setState(() => _busy = true);
@@ -61,9 +71,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             _MenuTile(icon: Icons.notifications_outlined, title: 'Notifications', subtitle: 'Alerts and updates'),
             _MenuTile(icon: Icons.security_rounded, title: 'Security', subtitle: 'PIN, biometric & 2FA'),
-            _MenuTile(icon: Icons.system_update_rounded, title: 'Check for Updates', subtitle: 'v1.0.0 installed', onTap: () => AppUpdateService.checkForUpdate(context, silent: false)),
+            _MenuTile(icon: Icons.system_update_rounded, title: 'Check for Updates', subtitle: 'v$_appVersion installed', onTap: () => AppUpdateService.checkForUpdate(context, silent: false)),
             _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
-            _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version 1.0.0', trailing: Text('1.0.0', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13))),
+            _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version $_appVersion', trailing: Text(_appVersion, style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 13))),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -97,7 +107,7 @@ class _MenuTile extends StatelessWidget {
           child: Icon(icon, color: AppTheme.emeraldGreen, size: 22)),
         title: Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
         subtitle: Text(subtitle, style: TextStyle(fontSize: 12, color: muted)),
-        trailing: trailing ?? Icon(Icons.chevron_right_rounded, color: AppTheme.mutedOf(context), size: 20),
+        trailing: trailing ?? Icon(Icons.chevron_right_rounded, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), size: 20),
         contentPadding: EdgeInsets.zero, onTap: onTap,
       ),
     );

@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const SizedBox(height: 12),
             Text('What interests you?', style: Theme.of(context).textTheme.headlineMedium),
             const SizedBox(height: 8),
-            Text('Pick at least 2 to personalize your experience', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 15)),
+            Text('Pick at least 2 to personalize your experience', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 15)),
             const SizedBox(height: 24),
             Expanded(
               child: GridView.count(
@@ -85,15 +85,15 @@ class _InterestCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: selected ? AppTheme.emeraldGreen.withValues(alpha: 0.15) : AppTheme.cardOf(context),
+          color: selected ? AppTheme.emeraldGreen.withValues(alpha: 0.15) : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? AppTheme.emeraldGreen : AppTheme.borderOf(context), width: selected ? 1.5 : 1),
+          border: Border.all(color: selected ? AppTheme.emeraldGreen : Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant, width: selected ? 1.5 : 1),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(icon, color: selected ? AppTheme.emeraldGreen : AppTheme.mutedOf(context), size: 24),
+          Icon(icon, color: selected ? AppTheme.emeraldGreen : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), size: 24),
           const SizedBox(height: 8),
-          Text(label, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.textOf(context))),
-          Text(desc, style: TextStyle(fontSize: 10, color: AppTheme.mutedOf(context)), maxLines: 1),
+          Text(label, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Theme.of(context).colorScheme.onSurface)),
+          Text(desc, style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)), maxLines: 1),
         ]),
       ),
     );

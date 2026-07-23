@@ -51,7 +51,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   Text('Holdings', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 12),
                   if (_holdings.isEmpty)
-                    Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No holdings', style: TextStyle(color: AppTheme.mutedOf(context)))))
+                    Padding(padding: EdgeInsets.all(32), child: Center(child: Text('No holdings', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)))))
                   else
                     ..._holdings.map((h) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
@@ -103,9 +103,9 @@ class _SummaryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(label, style: TextStyle(color: light ? Colors.white70 : AppTheme.mutedOf(context), fontSize: 12)),
+      Text(label, style: TextStyle(color: light ? Colors.white70 : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 12)),
       const SizedBox(height: 4),
-      Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: light ? Colors.white : AppTheme.textOf(context))),
+      Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: light ? Colors.white : Theme.of(context).colorScheme.onSurface)),
     ]);
   }
 }
@@ -128,19 +128,19 @@ class _HoldingCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: Theme.of(context).dividerTheme.color ?? Theme.of(context).colorScheme.outlineVariant)),
       child: Row(children: [
         Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
           child: Center(child: Text(sym[0], style: const TextStyle(color: AppTheme.emeraldGreen, fontWeight: FontWeight.w800, fontSize: 16)))),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(sym, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.textOf(context))),
-          if (holding['name'] != null) Text(holding['name'], style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12)),
+          Text(sym, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
+          if (holding['name'] != null) Text(holding['name'], style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 12)),
           const SizedBox(height: 4),
-          Text('${qty.toInt()} shares · Avg ₹${avg.toStringAsFixed(2)}', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 11)),
+          Text('${qty.toInt()} shares · Avg ₹${avg.toStringAsFixed(2)}', style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 11)),
         ])),
         Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          Text('₹${current.toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.textOf(context))),
+          Text('₹${current.toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
           const SizedBox(height: 2),
           Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: (up ? AppTheme.emeraldGreen : AppTheme.red).withValues(alpha: 0.15), borderRadius: BorderRadius.circular(6)),
             child: Text('${up ? '+' : ''}${plPct.toStringAsFixed(2)}%', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: up ? AppTheme.emeraldGreen : AppTheme.red))),

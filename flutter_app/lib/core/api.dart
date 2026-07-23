@@ -11,28 +11,48 @@ class Api {
     final route = Uri.parse(path).path;
     try {
       if (route == '/markets/indices') {
-        final rows = await SupabaseService.client.from('indices').select();
-        return rows.map(_mapIndex).toList();
+        final response = await http.get(Uri.parse('$_aiUrl?type=indices'));
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (json['success'] != true) return null;
+        return (json['data'] as List).map((d) => {
+          'symbol': d['symbol'],
+          'name': d['name'],
+          'last_value': (d['price'] as num).toDouble(),
+          'change': (d['change'] as num).toDouble(),
+          'change_percent': (d['change_percent'] as num).toDouble(),
+        }).toList();
       }
       if (route == '/markets/stocks') {
-        final rows = await SupabaseService.client.from('stocks').select();
-        return rows.map(_mapStock).toList();
+        final response = await http.get(Uri.parse('$_aiUrl?type=stocks'));
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (json['success'] != true) return null;
+        return json['data'];
       }
       if (route.startsWith('/markets/stocks/')) {
-        final row = await SupabaseService.client
-            .from('stocks')
-            .select()
-            .eq('symbol', route.split('/').last.toUpperCase())
-            .maybeSingle();
-        return row == null ? null : _mapStock(row);
+        final symbol = route.split('/').last.toUpperCase();
+        final response =
+            await http.get(Uri.parse('$_aiUrl?type=stock&symbol=$symbol'));
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (json['success'] != true) return null;
+        return json['data'];
       }
-      if (route == '/markets/gainers' || route == '/markets/losers') {
-        final rows = await SupabaseService.client
-            .from('stocks')
-            .select()
-            .order('change_percent', ascending: route == '/markets/losers')
-            .limit(5);
-        return rows.map(_mapStock).toList();
+      if (route == '/markets/gainers') {
+        final response = await http.get(Uri.parse('$_aiUrl?type=stocks'));
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (json['success'] != true) return null;
+        final data = (json['data'] as List).cast<Map<String, dynamic>>();
+        data.sort((a, b) =>
+            (b['change_percent'] as num).compareTo(a['change_percent'] as num));
+        return data.take(5).toList();
+      }
+      if (route == '/markets/losers') {
+        final response = await http.get(Uri.parse('$_aiUrl?type=stocks'));
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        if (json['success'] != true) return null;
+        final data = (json['data'] as List).cast<Map<String, dynamic>>();
+        data.sort((a, b) =>
+            (a['change_percent'] as num).compareTo(b['change_percent'] as num));
+        return data.take(5).toList();
       }
       if (route == '/news') {
         return await SupabaseService.client
@@ -111,31 +131,5 @@ class Api {
         'returns_percent': invested == 0 ? 0 : returns / invested * 100,
       };
     }).toList();
-  }
-
-  static Map<String, dynamic> _mapIndex(Map<String, dynamic> row) => {
-        'symbol': row['symbol'],
-        'name': row['name'],
-        'last_value': (row['price'] as num).toDouble(),
-        'change': (row['change'] as num).toDouble(),
-        'change_percent': (row['change_percent'] as num).toDouble(),
-      };
-
-  static Map<String, dynamic> _mapStock(Map<String, dynamic> row) {
-    final price = (row['price'] as num).toDouble();
-    return {
-      'symbol': row['symbol'],
-      'name': row['name'],
-      'sector': row['sector'],
-      'last_price': price,
-      'change': (row['change'] as num).toDouble(),
-      'change_percent': (row['change_percent'] as num).toDouble(),
-      'volume': row['volume'] ?? 0,
-      'pe_ratio': (row['pe_ratio'] as num?)?.toDouble() ?? 20.0,
-      'open': price * 0.99,
-      'high': (row['high_52w'] as num?)?.toDouble() ?? price * 1.05,
-      'low': (row['low_52w'] as num?)?.toDouble() ?? price * 0.95,
-      'description': row['description'] ?? '',
-    };
   }
 }

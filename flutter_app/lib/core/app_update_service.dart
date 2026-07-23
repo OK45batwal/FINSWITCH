@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_filex/open_filex.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppUpdateService {
-  static const String currentVersion = '1.0.0';
   static const String apkDownloadUrl =
       'https://finswitch.pages.dev/downloads/finswitch.apk';
   static const String githubReleaseApiUrl =
@@ -16,9 +16,21 @@ class AppUpdateService {
   static bool _dialogShown = false;
   static bool _isDownloading = false;
 
+  static Future<String?> _installedVersion() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      return info.version;
+    } catch (_) {
+      return null;
+    }
+  }
+
   static Future<void> checkForUpdate(BuildContext context,
       {bool silent = true}) async {
     try {
+      final installed = await _installedVersion();
+      if (installed == null) return;
+
       final res = await http
           .get(Uri.parse(remotePubspecUrl))
           .timeout(const Duration(seconds: 4));
@@ -33,17 +45,16 @@ class AppUpdateService {
         }
       }
 
-      if (latestVersion != null &&
-          _isVersionHigher(latestVersion, currentVersion)) {
+      if (latestVersion != null && _isVersionHigher(latestVersion, installed)) {
         if (!_dialogShown && context.mounted) {
           _dialogShown = true;
           _showAutoUpdateFlow(context, latestVersion);
         }
       } else if (!silent && context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('FinSwitch is up to date!'),
-            backgroundColor: Color(0xFF10B981),
+          SnackBar(
+            content: Text('FinSwitch is up to date (v$installed)!'),
+            backgroundColor: const Color(0xFF10B981),
           ),
         );
       }

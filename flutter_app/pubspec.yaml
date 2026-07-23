@@ -1,7 +1,7 @@
 name: finswitch
 description: AI-Powered Financial Intelligence Platform
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -16,6 +16,7 @@ dependencies:
   url_launcher: ^6.2.0
   open_filex: ^4.4.0
   fl_chart: ^0.68.0
+  package_info_plus: ^8.0.0
 
 dev_dependencies:
   flutter_test:

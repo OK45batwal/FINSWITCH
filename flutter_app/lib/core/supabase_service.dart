@@ -44,45 +44,45 @@ class SupabaseService {
     }
   }
 
-static Future<String?> signOut() async {
-     if (!_initialized) return 'Not connected';
-     try {
-       await client.auth.signOut();
-       return null;
-     } catch (e) {
-       return 'Failed to sign out: $e';
-     }
-   }
+  static Future<String?> signOut() async {
+    if (!_initialized) return 'Not connected';
+    try {
+      await client.auth.signOut();
+      return null;
+    } catch (e) {
+      return 'Failed to sign out: $e';
+    }
+  }
 
-   static Future<String?> sendOtp(String email) async {
-     if (!_initialized) return 'Not connected';
-     try {
-       await client.auth.signInWithOtp(email: email);
-       return null;
-     } catch (e) {
-       return 'Failed to send OTP: $e';
-     }
-   }
+  static Future<String?> sendOtp(String email) async {
+    if (!_initialized) return 'Not connected';
+    try {
+      await client.auth.signInWithOtp(email: email);
+      return null;
+    } catch (e) {
+      return 'Failed to send OTP: $e';
+    }
+  }
 
-   static Future<String?> verifyOtp(String email, String token) async {
-     if (!_initialized) return 'Not connected';
-     try {
-       await client.auth.verifyOTP(email: email, token: token, type: OtpType.email);
-       return null;
-     } catch (e) {
-       return 'Failed to verify OTP: $e';
-     }
-   }
+  static Future<String?> verifyOtp(String email, String token) async {
+    if (!_initialized) return 'Not connected';
+    try {
+      await client.auth.verifyOTP(email: email, token: token, type: OtpType.email);
+      return null;
+    } catch (e) {
+      return 'Failed to verify OTP: $e';
+    }
+  }
 
-   static Future<String?> resetPassword(String email) async {
-     if (!_initialized) return 'Not connected';
-     try {
-       await client.auth.resetPasswordForEmail(email);
-       return null;
-     } catch (e) {
-       return 'Failed to send reset email: $e';
-     }
-   }
+  static Future<String?> resetPassword(String email) async {
+    if (!_initialized) return 'Not connected';
+    try {
+      await client.auth.resetPasswordForEmail(email);
+      return null;
+    } catch (e) {
+      return 'Failed to send reset email: $e';
+    }
+  }
 
   static Future<String?> updateMetadata(Map<String, dynamic> data) async {
     if (!_initialized) return 'Not connected';

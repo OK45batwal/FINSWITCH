@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { chatWithAI } from '@/lib/api';
+import { supabase } from '@/lib/supabase';
 
 interface Message {
   role: 'user' | 'ai';
@@ -25,7 +26,8 @@ export default function AIChatPage() {
     setMessages((m) => [...m, { role: 'user', text: userMsg }]);
     setLoading(true);
     try {
-      const res = await chatWithAI(userMsg);
+      const { data: { user } } = await supabase.auth.getUser();
+      const res = await chatWithAI(userMsg, user?.id);
       setMessages((m) => [...m, { role: 'ai', text: res.response }]);
     } catch {
       setMessages((m) => [...m, { role: 'ai', text: 'Sorry, analysis failed. Is the backend running?' }]);

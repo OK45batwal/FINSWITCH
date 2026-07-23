@@ -161,13 +161,13 @@ export async function getNews(): Promise<NewsItem[]> {
 
 const AI_URL = '/api/ai';
 
-async function aiPost(body: { action: string; message?: string; symbol?: string }): Promise<{ data?: { response?: string } | ChartPoint[] | StockDetail }> {
+async function aiPost(body: { action: string; message?: string; symbol?: string; user_id?: string }): Promise<{ data?: { response?: string } | ChartPoint[] | StockDetail }> {
   const res = await fetch(AI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   return res.json();
 }
 
-export function chatWithAI(message: string): Promise<{ response: string }> {
-  return aiPost({ action: 'chat', message }).then(r => ({ response: (r.data as { response?: string })?.response || '' }));
+export function chatWithAI(message: string, userId?: string): Promise<{ response: string }> {
+  return aiPost({ action: 'chat', message, user_id: userId }).then(r => ({ response: (r.data as { response?: string })?.response || '' }));
 }
 
 export function analyzeStockAI(symbol: string): Promise<{ response: string }> {

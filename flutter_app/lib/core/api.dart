@@ -64,7 +64,8 @@ class Api {
       if (route == '/portfolio/summary') return _portfolioSummary();
       if (route == '/portfolio/holdings') return _holdings();
       if (route == '/watchlist') return <dynamic>[];
-    } catch (_) {
+    } catch (e, st) {
+      print('[Api Error] GET $path failed: $e\n$st');
       return null;
     }
     return null;
@@ -72,15 +73,25 @@ class Api {
 
   static Future<dynamic> post(String path, Map<String, dynamic> body) async {
     if (path != '/ai/chat') return <String, dynamic>{};
-    final response = await http.post(
-      Uri.parse(_aiUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'action': 'chat', 'message': body['message'] ?? ''}),
-    );
-    final json = jsonDecode(response.body) as Map<String, dynamic>;
-    return json['data'] is Map<String, dynamic>
-        ? json['data']
-        : <String, dynamic>{};
+    try {
+      final userId = SupabaseService.currentUser?.id;
+      final response = await http.post(
+        Uri.parse(_aiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'action': 'chat',
+          'message': body['message'] ?? '',
+          if (userId != null) 'user_id': userId,
+        }),
+      );
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      return json['data'] is Map<String, dynamic>
+          ? json['data']
+          : <String, dynamic>{};
+    } catch (e, st) {
+      print('[Api Error] POST $path failed: $e\n$st');
+      return <String, dynamic>{};
+    }
   }
 
   static Future<Map<String, dynamic>?> _portfolioSummary() async {

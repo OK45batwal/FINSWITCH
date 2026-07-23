@@ -94,13 +94,13 @@
 
 | Feature | Description | Support |
 | :--- | :--- | :---: |
-| **🤖 AI Financial Copilot** | Natural language analysis powered by LLMs with context-grounded stock evaluation and buy/sell scoring. | Web & Mobile |
+| **🤖 AI Financial Copilot** | Context-grounded natural language financial analytics with technical indicator evaluation, buy/sell scoring, and per-user portfolio insights. | Web & Mobile |
 | **🎨 Light & Dark Themes** | Seamless, dynamic theme switching (☀️ Light / 🌙 Dark) across Web and Flutter Mobile App. | Web & Mobile |
 | **📊 Real-Time Market Data** | Live tracking of Nifty 50, Sensex, Bank Nifty, and 10,000+ Indian stock instruments with interactive charts. | Web & Mobile |
 | **💼 Portfolio Tracker** | Track holdings, analyze sector allocation, and view real-time P&L with dynamic positive/negative formatting. | Web & Mobile |
 | **📈 Technical Indicators** | Mathematical, deterministic 14-period Wilder's RSI, 20-period Simple Moving Averages, and OHLCV charts. | Web & Mobile |
 | **📰 Smart News Feed** | Curated financial market news with sentiment tags and stock-specific relevance. | Web & Mobile |
-| **🔑 Password Sign In & Auth** | Clean traditional sign in & registration flow with password visibility toggle (👁️ Show/Hide). | Web & Mobile |
+| **🔑 Password & OTP Sign In** | Clean traditional sign in & registration flow with password visibility toggle (👁️ Show/Hide), plus email OTP (sendOtp/verifyOtp) support. | Web & Mobile |
 | **⚡ Offline Fallback Mode** | High-availability fallback data engine ensuring uninterrupted app usability during network outages. | Web & Mobile |
 | **📲 In-App Auto Updater** | Automatic version check and seamless APK download & installation prompts for mobile users. | Mobile |
 

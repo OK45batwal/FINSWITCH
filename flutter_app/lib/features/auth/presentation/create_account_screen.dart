@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
 import '../../../app/config/brand_logo_header.dart';
 import '../../../core/auth_state.dart';
+import '../../../core/supabase_service.dart';
 
 const String kOfficialSupportEmail = 'finswitch74@gmail.com';
 
@@ -15,9 +16,9 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailCtl = TextEditingController(text: 'finswitch74@gmail.com');
-  final _passwordCtl = TextEditingController(text: 'password123');
-  final _nameCtl = TextEditingController(text: 'Omkar Batwal');
+  final _emailCtl = TextEditingController();
+  final _passwordCtl = TextEditingController();
+  final _nameCtl = TextEditingController();
 
   bool _isRegisterMode = false;
   bool _rememberMe = true;
@@ -35,19 +36,36 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() {
-      _busy = true;
-      _error = null;
-    });
+    setState(() { _busy = true; _error = null; });
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      final email = _emailCtl.text.trim();
+      final password = _passwordCtl.text;
 
-    final name = _nameCtl.text.trim().isNotEmpty ? _nameCtl.text.trim() : 'Omkar Batwal';
-    final email = _emailCtl.text.trim();
-    AuthState.login('token-auth-success', email, name);
+      if (_isRegisterMode) {
+        final result = await SupabaseService.signUp(email: email, password: password);
+        if (result == null) {
+          setState(() => _error = 'Failed to create account. Make sure Supabase is configured.');
+          _busy = false; return;
+        }
+        if (result.session == null) {
+          setState(() => _error = 'Account created! Check your email for confirmation link.');
+          _busy = false; return;
+        }
+      } else {
+        final result = await SupabaseService.signIn(email: email, password: password);
+        if (result == null) {
+          setState(() => _error = 'Invalid email or password.');
+          _busy = false; return;
+        }
+      }
+    } catch (e) {
+      setState(() => _error = 'Connection error: $e');
+      _busy = false; return;
+    }
 
     if (mounted) {
-      context.go('/dashboard');
+      context.go('/onboarding');
     }
   }
 
@@ -89,7 +107,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Mode Toggle Segmented Control
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
@@ -111,8 +128,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             child: Text(
                               'Sign In',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontWeight: FontWeight.bold, fontSize: 13,
                                 color: !_isRegisterMode ? AppTheme.textOf(context) : AppTheme.mutedOf(context),
                               ),
                             ),
@@ -132,8 +148,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             child: Text(
                               'Register',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontWeight: FontWeight.bold, fontSize: 13,
                                 color: _isRegisterMode ? AppTheme.textOf(context) : AppTheme.mutedOf(context),
                               ),
                             ),
@@ -163,7 +178,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Email Address',
                     prefixIcon: Icon(Icons.email_outlined),
-                    hintText: 'finswitch74@gmail.com',
+                    hintText: 'you@example.com',
                   ),
                   validator: (v) => (v?.trim().length ?? 0) < 4 || !v!.contains('@') ? 'Enter a valid email address' : null,
                 ),
@@ -201,7 +216,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                       TextButton(
                         onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Password reset link sent to ${_emailCtl.text}')),
+                          SnackBar(content: Text('Password reset not yet available.')),
                         ),
                         child: const Text('Forgot password?', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 13)),
                       ),
@@ -246,8 +261,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
 
                 const SizedBox(height: 28),
-
-                // Official Support Email Display
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
@@ -261,10 +274,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       Icon(Icons.mark_email_read_outlined, size: 16, color: AppTheme.emeraldGreen),
                       SizedBox(width: 8),
                       Text('Official Support: ', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                      Text(
-                        kOfficialSupportEmail,
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emeraldGreen),
-                      ),
+                      Text(kOfficialSupportEmail,
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emeraldGreen)),
                     ],
                   ),
                 ),

@@ -50,7 +50,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   const SizedBox(height: 12),
                   ..._articles.map((a) => Container(
                     margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+                    decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
                     child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
                         child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22)),
@@ -85,7 +85,7 @@ class _FeaturedArticle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity, height: 180,
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.end, children: [
         Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3), decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),

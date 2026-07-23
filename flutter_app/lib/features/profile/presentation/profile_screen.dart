@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(children: [
             const SizedBox(height: 20),
-            Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(24)),
+            Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(24)),
               child: const Center(child: Text('OK', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)))),
             const SizedBox(height: 12),
             Text('Omkar Batwal', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onSurface)),

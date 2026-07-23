@@ -14,7 +14,6 @@ export default function WatchlistPage() {
 
   useEffect(() => {
     getStocks().then(setStocks);
-    if (!supabase) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         const wl = await getWatchlist(session.user.id);
@@ -31,7 +30,11 @@ export default function WatchlistPage() {
 
   const toggle = async (symbol: string) => {
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) return;
+    if (!session?.user) {
+      const el = document.getElementById(`wl-${symbol}`);
+      if (el) setWatchlist((p) => p.includes(symbol) ? p.filter(s => s !== symbol) : [...p, symbol]);
+      return;
+    }
     if (watchlist.includes(symbol)) {
       await removeFromWatchlist(session.user.id, symbol);
       setWatchlist((prev) => prev.filter((s) => s !== symbol));

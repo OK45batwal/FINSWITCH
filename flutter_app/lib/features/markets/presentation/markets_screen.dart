@@ -70,17 +70,17 @@ class _MarketIndices extends StatelessWidget {
     if (items.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF0F2239), Color(0xFF1A2538)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
         child: Center(child: Text('No indices available', style: TextStyle(color: AppTheme.mutedOf(context)))),
       );
     }
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF0F2239), Color(0xFF1A2538)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items.expand((d) => [
-          if (items.indexOf(d) > 0) const SizedBox(width: 1, child: VerticalDivider(color: Colors.white10)),
+          if (items.indexOf(d) > 0) SizedBox(width: 1, child: VerticalDivider(color: AppTheme.borderOf(context))),
           _IndexStat(name: d['symbol'] ?? '', value: d['last_value']?.toStringAsFixed(2) ?? '', change: '${d['change_percent'] >= 0 ? '+' : ''}${d['change_percent']?.toStringAsFixed(2) ?? ''}%', up: (d['change_percent'] ?? 0) >= 0),
         ]).toList(),
       ),
@@ -119,7 +119,7 @@ class _StockList extends StatelessWidget {
         onTap: () => context.push('/stock/${s['symbol']}'),
         child: Container(
           margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
           child: Row(children: [
             Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
               child: Center(child: Text((s['symbol'] as String? ?? '?')[0], style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w800, fontSize: 16)))),

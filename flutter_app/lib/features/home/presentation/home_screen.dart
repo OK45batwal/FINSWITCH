@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity, padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(gradient: LinearGradient(colors: [AppTheme.cardOf(context), const Color(0xFF0F1D35)]), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+                    decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _insights.map((i) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildNewsItem(Map n) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
           child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22)),
@@ -145,7 +145,7 @@ class _PortfolioOverview extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1D4ED8), Color(0xFF2563EB)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Portfolio Value', style: TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w500)),
         const SizedBox(height: 4),
@@ -193,7 +193,7 @@ class _MarketTicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
       child: Column(children: indices.map((d) {
         final up = (d['change_percent'] ?? 0) >= 0;
         return Column(children: [

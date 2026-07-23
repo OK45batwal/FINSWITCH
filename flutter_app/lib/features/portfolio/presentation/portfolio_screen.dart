@@ -73,21 +73,21 @@ class _PortfolioSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1E3A5F), Color(0xFF131D2E)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
       child: Column(children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          _SummaryItem(label: 'Total Value', value: '₹${summary?['current_value']?.toStringAsFixed(0) ?? '--'}'),
-          _SummaryItem(label: 'Invested', value: '₹${summary?['total_invested']?.toStringAsFixed(0) ?? '--'}'),
-          _SummaryItem(label: 'Returns', value: '₹${summary?['total_returns']?.toStringAsFixed(0) ?? '--'}'),
+          _SummaryItem(label: 'Total Value', value: '₹${summary?['current_value']?.toStringAsFixed(0) ?? '--'}', light: true),
+          _SummaryItem(label: 'Invested', value: '₹${summary?['total_invested']?.toStringAsFixed(0) ?? '--'}', light: true),
+          _SummaryItem(label: 'Returns', value: '₹${summary?['total_returns']?.toStringAsFixed(0) ?? '--'}', light: true),
         ]),
         const SizedBox(height: 16),
         Container(
           width: double.infinity, padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(color: (summary?['today_pl'] ?? 0) >= 0 ? AppTheme.emeraldGreen.withValues(alpha: 0.1) : AppTheme.red.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon((summary?['today_pl'] ?? 0) >= 0 ? Icons.trending_up_rounded : Icons.trending_down_rounded, color: (summary?['today_pl'] ?? 0) >= 0 ? AppTheme.emeraldGreen : AppTheme.red, size: 18),
+            Icon((summary?['today_pl'] ?? 0) >= 0 ? Icons.trending_up_rounded : Icons.trending_down_rounded, color: Colors.white, size: 18),
             const SizedBox(width: 6),
-            Text('${(summary?['today_pl'] ?? 0) >= 0 ? '+' : ''}${summary?['today_pl']?.toStringAsFixed(0) ?? '0'} today', style: TextStyle(color: (summary?['today_pl'] ?? 0) >= 0 ? AppTheme.emeraldGreen : AppTheme.red, fontSize: 13, fontWeight: FontWeight.w600)),
+            Text('${(summary?['today_pl'] ?? 0) >= 0 ? '+' : ''}${summary?['today_pl']?.toStringAsFixed(0) ?? '0'} today', style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
           ]),
         ),
       ]),
@@ -97,14 +97,15 @@ class _PortfolioSummary extends StatelessWidget {
 
 class _SummaryItem extends StatelessWidget {
   final String label, value;
-  const _SummaryItem({required this.label, required this.value});
+  final bool light;
+  const _SummaryItem({required this.label, required this.value, this.light = false});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(label, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 12)),
+      Text(label, style: TextStyle(color: light ? Colors.white70 : AppTheme.mutedOf(context), fontSize: 12)),
       const SizedBox(height: 4),
-      Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.textOf(context))),
+      Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: light ? Colors.white : AppTheme.textOf(context))),
     ]);
   }
 }
@@ -127,7 +128,7 @@ class _HoldingCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
       child: Row(children: [
         Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
           child: Center(child: Text(sym[0], style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w800, fontSize: 16)))),

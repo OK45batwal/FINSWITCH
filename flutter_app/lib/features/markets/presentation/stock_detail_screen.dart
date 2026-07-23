@@ -142,7 +142,7 @@ class _Chart extends StatelessWidget {
       List.generate(20, (i) => FlSpot(i.toDouble(), 60 + i * 3 + (i % 5) * 10));
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
       child: LineChart(LineChartData(
         gridData: const FlGridData(show: false), titlesData: const FlTitlesData(show: false), borderData: FlBorderData(show: false),
         lineBarsData: [LineChartBarData(spots: spots, isCurved: true, color: AppTheme.primaryBlue, barWidth: 2, dotData: const FlDotData(show: false), belowBarData: BarAreaData(show: true, color: AppTheme.primaryBlue.withValues(alpha: 0.1)))],
@@ -176,7 +176,7 @@ class _StatCard extends StatelessWidget {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(right: 8), padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(12), border: Border.all(color: AppTheme.borderOf(context))),
         child: Column(children: [
           Text(label, style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 11)),
           const SizedBox(height: 4),

@@ -59,7 +59,7 @@ class _AIAnalysisBodyState extends State<_AIAnalysisBody> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         if (data != null) Container(
           width: double.infinity, padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1E3A5F), Color(0xFF131D2E)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+          decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(20)),
           child: Column(children: [
             Text(widget.symbol, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.white)),
             const SizedBox(height: 4),
@@ -88,7 +88,7 @@ class _AIAnalysisBodyState extends State<_AIAnalysisBody> {
         const SizedBox(height: 12),
         Container(
           width: double.infinity, padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+          decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
           child: Text(_analysis?['analysis'] as String? ?? 'No analysis available.', style: TextStyle(color: AppTheme.textOf(context), fontSize: 14, height: 1.7)),
         ),
         const SizedBox(height: 24),

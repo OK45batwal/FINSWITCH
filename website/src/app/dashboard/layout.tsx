@@ -22,20 +22,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    async function checkAuth() {
-      try {
-        const { data } = await supabase.auth.getSession();
-        const localSession = typeof window !== 'undefined' ? localStorage.getItem('finswitch_session') : null;
-        if (!data?.session && !localSession) {
-          router.replace('/login');
-          return;
-        }
-      } catch {
-        // Fallback
+    const localSession = typeof window !== 'undefined' ? localStorage.getItem('finswitch_session') : null;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data?.session && !localSession) {
+        router.replace('/login');
+        return;
       }
       setCheckingAuth(false);
-    }
-    checkAuth();
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        localStorage.removeItem('finswitch_session');
+        router.replace('/login');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [router]);
 
   if (checkingAuth) {
@@ -48,12 +52,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const handleSignOut = async () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('finswitch_session');
-    }
-    try {
-      await supabase.auth.signOut();
-    } catch {}
+    localStorage.removeItem('finswitch_session');
+    await supabase.auth.signOut();
     router.replace('/login');
   };
 

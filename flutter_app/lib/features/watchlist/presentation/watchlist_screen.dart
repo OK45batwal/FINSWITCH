@@ -114,7 +114,7 @@ class _WatchlistItem extends StatelessWidget {
       onTap: () => context.push('/stock/$symbol'),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white10)),
+        decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
         child: Row(children: [
           Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
             child: Center(child: Text(symbol.isNotEmpty ? symbol[0] : '?', style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w800, fontSize: 16)))),

@@ -63,7 +63,7 @@ class _AIScreenState extends State<AIScreen> {
           if (_busy) const Padding(padding: EdgeInsets.only(bottom: 8), child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: AppTheme.cardOf(context), border: Border(top: const BorderSide(color: Colors.white10))),
+            decoration: BoxDecoration(color: AppTheme.cardOf(context), border: Border(top: BorderSide(color: AppTheme.borderOf(context)))),
             child: Row(children: [
               Expanded(
                 child: TextField(

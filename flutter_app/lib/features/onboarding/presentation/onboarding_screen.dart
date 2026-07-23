@@ -88,7 +88,7 @@ class _InterestCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? AppTheme.primaryBlue.withValues(alpha: 0.15) : AppTheme.cardOf(context),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? AppTheme.primaryBlue : Colors.white10, width: selected ? 1.5 : 1),
+          border: Border.all(color: selected ? AppTheme.primaryBlue : AppTheme.borderOf(context), width: selected ? 1.5 : 1),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(icon, color: selected ? AppTheme.primaryBlue : AppTheme.mutedOf(context), size: 24),

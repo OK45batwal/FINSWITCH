@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="website/public/logo.svg" alt="FinSwitch" width="90" height="90">
+  <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/website/public/logo.svg" alt="FinSwitch" width="90" height="90">
   <h1 style="font-size: 2.5em; margin: 8px 0; color: #0A192F;">FinSwitch</h1>
   <p style="font-size: 1em; letter-spacing: 3px; font-weight: 700; color: #10B981; margin: 0;">SWITCH. SAVE. SMARTER.</p>
   <p style="font-size: 1.1em; color: #64748B;"><strong>AI-Powered Financial Intelligence for Indian Markets</strong></p>
@@ -21,7 +21,7 @@
 
   <br><br>
 
-  <img src="assets/website-hero.png" alt="FinSwitch Dashboard" width="90%" style="border-radius: 16px; border: 1px solid #E2E8F0;">
+  <img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-hero.png" alt="FinSwitch Dashboard" width="90%" style="border-radius: 16px; border: 1px solid #E2E8F0;">
 </div>
 
 <br>
@@ -52,16 +52,16 @@
 
 <table>
   <tr>
-    <td width="50%"><img src="assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
-    <td width="50%"><img src="assets/website-desktop.png" alt="Dashboard" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-hero.png" alt="Hero Section" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-desktop.png" alt="Dashboard" style="border-radius: 12px;"></td>
   </tr>
   <tr>
     <td align="center"><em>Marketing landing page</em></td>
     <td align="center"><em>Market dashboard</em></td>
   </tr>
   <tr>
-    <td width="50%"><img src="assets/website-mobile.png" alt="Mobile Web" style="border-radius: 12px;"></td>
-    <td width="50%"><img src="assets/website-fullpage.png" alt="Full Page" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-mobile.png" alt="Mobile Web" style="border-radius: 12px;"></td>
+    <td width="50%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/website-fullpage.png" alt="Full Page" style="border-radius: 12px;"></td>
   </tr>
   <tr>
     <td align="center"><em>Mobile responsive view</em></td>
@@ -73,11 +73,11 @@
 
 <table>
   <tr>
-    <td width="20%"><img src="assets/App-Home.png" alt="Home" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-Markets.png" alt="Markets" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-AI.png" alt="AI Chat" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-Portfolio.png" alt="Portfolio" style="border-radius: 12px;"></td>
-    <td width="20%"><img src="assets/App-News.png" alt="News" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Home.png" alt="Home" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Markets.png" alt="Markets" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-AI.png" alt="AI Chat" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-Portfolio.png" alt="Portfolio" style="border-radius: 12px;"></td>
+    <td width="20%"><img src="https://raw.githubusercontent.com/OK45batwal/FINSWITCH/master/assets/App-News.png" alt="News" style="border-radius: 12px;"></td>
   </tr>
   <tr>
     <td align="center"><em>Home Dashboard</em></td>

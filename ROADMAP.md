@@ -1,16 +1,19 @@
 # FinSwitch Development Roadmap
 
-## Phase 1 — Core Platform (MVP) — ✅ Complete
-- [x] Brand identity and design system
-- [x] Landing website (live, connected to API)
-- [x] Supabase data access and Cloudflare Pages AI endpoint
-- [x] Flutter app scaffold (GoRouter, bottom navigation, 6 screens)
-- [x] All Flutter screens wired to Supabase and the Pages AI endpoint
-- [x] Basic market data (indices, stock list with LTP/changes)
+## Current Release — v1.0.1
+- [x] Supabase auth (register/login with JWT, password visibility toggle)
+- [x] Onboarding flow (interests, persisted to user metadata)
+- [x] Flutter app scaffold (GoRouter, bottom nav, 6 screens)
+- [x] Market data (indices, stock list with LTP/changes)
 - [x] Portfolio tracking (holdings, summary, P&L)
-- [x] AI Copilot (real chat via POST `/ai/chat`)
-- [x] News feed from Supabase
-- [x] Mobile app bottom navigation with 5 tabs
+- [x] AI Copilot (chat via Cloudflare Pages function)
+- [x] Smart news feed from Supabase
+- [x] Dark/light theme with proper emerald green palette
+- [x] Adaptive app icon (Android 8+)
+- [x] Auto-update via GitHub Releases (package_info_plus + OTA install)
+- [x] CI/CD with GitHub Actions (build + release on tag push)
+- [x] Landing page (Next.js 16, Cloudflare Pages)
+- [x] APK download redirect (GitHub Releases → _redirects)
 
 ## Phase 2 — Analytics & Intelligence — Q3 2026
 - [ ] Stock screener with advanced filters
@@ -49,10 +52,10 @@
 - [ ] Tax planning tools
 - [ ] Goal-based investment planning
 
-## Phase 6 — Missing MVP Features (Deferred)
-- [ ] User authentication (register/login) with JWT
-- [ ] Real database (SQLite/PostgreSQL — currently mock data)
-- [ ] Watchlist CRUD
-- [ ] SIP calculator
-- [ ] Learning courses listing
-- [ ] User profile synced to Supabase (hardcoded currently)
+## Phase 6 — Polish & DX
+- [ ] Flutter unit/widget tests
+- [ ] E2E test suite
+- [ ] Crash reporting (Sentry)
+- [ ] Push notifications
+- [ ] Wallet/watchlist sync across devices
+- [ ] Web push notifications

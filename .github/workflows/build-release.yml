@@ -22,10 +22,10 @@ jobs:
 
       - name: Setup Release Keystore (if configured)
         env:
-          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 || '' }}
-          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD || '' }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD || '' }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS || '' }}
+          RELEASE_KEYSTORE_BASE64: ${{ secrets[format('{0}', 'RELEASE_KEYSTORE_BASE64')] }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets[format('{0}', 'RELEASE_KEYSTORE_PASSWORD')] }}
+          RELEASE_KEY_PASSWORD: ${{ secrets[format('{0}', 'RELEASE_KEY_PASSWORD')] }}
+          RELEASE_KEY_ALIAS: ${{ secrets[format('{0}', 'RELEASE_KEY_ALIAS')] }}
         run: |
           if [ -n "$RELEASE_KEYSTORE_BASE64" ]; then
             echo "Setting up production release signing key..."

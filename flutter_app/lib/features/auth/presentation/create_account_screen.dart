@@ -38,30 +38,30 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() { _busy = true; _error = null; });
 
-    try {
-      final email = _emailCtl.text.trim();
-      final password = _passwordCtl.text;
+    final email = _emailCtl.text.trim();
+    final password = _passwordCtl.text;
 
-      if (_isRegisterMode) {
-        final result = await SupabaseService.signUp(email: email, password: password);
-        if (result == null) {
-          setState(() => _error = 'Failed to create account. Make sure Supabase is configured.');
-          _busy = false; return;
-        }
-        if (result.session == null) {
-          setState(() => _error = 'Account created! Check your email for confirmation link.');
-          _busy = false; return;
-        }
-      } else {
-        final result = await SupabaseService.signIn(email: email, password: password);
-        if (result == null) {
-          setState(() => _error = 'Invalid email or password.');
-          _busy = false; return;
-        }
+    if (_isRegisterMode) {
+      final result = await SupabaseService.signUp(email: email, password: password);
+      if (result.error != null) {
+        setState(() => _error = result.error!);
+        _busy = false; return;
       }
-    } catch (e) {
-      setState(() => _error = 'Connection error: $e');
-      _busy = false; return;
+      if (result.response?.session == null) {
+        setState(() => _error = 'Account created! Check your email for confirmation link.');
+        _busy = false; return;
+      }
+    } else {
+      final result = await SupabaseService.signIn(email: email, password: password);
+      if (result.error != null) {
+        setState(() => _error = result.error!);
+        _busy = false; return;
+      }
+    }
+
+    final session = SupabaseService.client.auth.currentSession;
+    if (session != null) {
+      AuthState.login(session.accessToken, session.user.email ?? email, session.user.userMetadata?['full_name'] as String? ?? 'User');
     }
 
     if (mounted) {

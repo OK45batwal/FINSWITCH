@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../app/config/theme.dart';
+import '../../../core/auth_state.dart';
 import '../../../core/app_update_service.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool _busy = false;
+
+  Future<void> _signOut() async {
+    setState(() => _busy = true);
+    final err = await AuthState.logout();
+    if (mounted) {
+      setState(() => _busy = false);
+      if (err != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(err)));
+      }
+      context.go('/create-account');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final name = AuthState.userName.value ?? 'User';
+    final email = AuthState.userEmail.value ?? 'user@finswitch.app';
+    final initials = name.isNotEmpty ? name[0].toUpperCase() : '?';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -19,11 +43,11 @@ class ProfileScreen extends StatelessWidget {
           child: Column(children: [
             const SizedBox(height: 20),
             Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF059669), Color(0xFF10B981)], begin: Alignment.topLeft, end: Alignment.bottomRight), borderRadius: BorderRadius.circular(24)),
-              child: const Center(child: Text('OK', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)))),
+              child: Center(child: Text(initials, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white)))),
             const SizedBox(height: 12),
-            Text('Omkar Batwal', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onSurface)),
+            Text(name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.onSurface)),
             const SizedBox(height: 4),
-            Text('omkar.batwal@example.com', style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))),
+            Text(email, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6))),
             const SizedBox(height: 24),
             ValueListenableBuilder(
               valueListenable: themeNotifier,
@@ -41,7 +65,14 @@ class ProfileScreen extends StatelessWidget {
             _MenuTile(icon: Icons.support_outlined, title: 'Support', subtitle: 'FAQs & contact us'),
             _MenuTile(icon: Icons.info_outline_rounded, title: 'About', subtitle: 'Version 1.0.0', trailing: Text('1.0.0', style: TextStyle(color: AppTheme.mutedOf(context), fontSize: 13))),
             const SizedBox(height: 24),
-            SizedBox(width: double.infinity, child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.red, side: BorderSide(color: AppTheme.red.withValues(alpha: 0.3)), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: const Text('Sign Out'))),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: _busy ? null : _signOut,
+                style: OutlinedButton.styleFrom(foregroundColor: AppTheme.red, side: BorderSide(color: AppTheme.red.withValues(alpha: 0.3)), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+                child: _busy ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.red)) : const Text('Sign Out'),
+              ),
+            ),
           ]),
         ),
       ),

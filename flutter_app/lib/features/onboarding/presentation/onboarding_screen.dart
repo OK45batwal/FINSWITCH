@@ -32,8 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (!AuthState.isLoggedIn.value) {
       AuthState.login('demo_token', 'demo@finswitch.app', 'Guest User');
     }
-    AuthState.interests.value = List.from(_selected);
-    AuthState.onboardingDone.value = true;
+    AuthState.completeOnboarding(_selected);
     context.go('/home');
   }
 

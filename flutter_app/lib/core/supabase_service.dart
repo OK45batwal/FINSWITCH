@@ -1,22 +1,17 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  static const String _defaultUrl = String.fromEnvironment('SUPABASE_URL');
-  static const String _defaultAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+  static const String _url = 'https://dgvtznykoyyxgwgtpbqf.supabase.co';
+  static const String _anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndnR6bnlrb3l5eGd3Z3RwYnFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTgzMTUsImV4cCI6MjA5OTY5NDMxNX0.a3dgjgZbXbCK6_DTPvjn99eb_T9HDvfPKTcNq-M49Ac';
 
   static bool _initialized = false;
 
-  static Future<void> initialize({String? url, String? anonKey}) async {
+  static Future<void> initialize() async {
     if (_initialized) return;
     try {
-      await Supabase.initialize(
-        url: url ?? const String.fromEnvironment('SUPABASE_URL', defaultValue: _defaultUrl),
-        anonKey: anonKey ?? const String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: _defaultAnonKey),
-      );
+      await Supabase.initialize(url: _url, publishableKey: _anonKey);
       _initialized = true;
-    } catch (_) {
-      // Fallback if offline / placeholder
-    }
+    } catch (_) {}
   }
 
   static SupabaseClient get client => Supabase.instance.client;
@@ -25,27 +20,47 @@ class SupabaseService {
 
   static bool get isAuthenticated => currentUser != null;
 
-  static Future<AuthResponse?> signIn({required String email, required String password}) async {
-    if (!_initialized) return null;
+  static Future<({String? error, AuthResponse? response})> signIn({required String email, required String password}) async {
+    if (!_initialized) return (error: 'Supabase not configured', response: null);
     try {
-      return await client.auth.signInWithPassword(email: email, password: password);
-    } catch (_) {
-      return null;
+      final r = await client.auth.signInWithPassword(email: email, password: password);
+      return (error: null, response: r);
+    } on AuthException catch (e) {
+      return (error: e.message, response: null);
+    } catch (e) {
+      return (error: 'Connection error: $e', response: null);
     }
   }
 
-  static Future<AuthResponse?> signUp({required String email, required String password}) async {
-    if (!_initialized) return null;
+  static Future<({String? error, AuthResponse? response})> signUp({required String email, required String password}) async {
+    if (!_initialized) return (error: 'Supabase not configured', response: null);
     try {
-      return await client.auth.signUp(email: email, password: password);
-    } catch (_) {
-      return null;
+      final r = await client.auth.signUp(email: email, password: password);
+      return (error: null, response: r);
+    } on AuthException catch (e) {
+      return (error: e.message, response: null);
+    } catch (e) {
+      return (error: 'Connection error: $e', response: null);
     }
   }
 
-  static Future<void> signOut() async {
-    if (_initialized) {
+  static Future<String?> signOut() async {
+    if (!_initialized) return 'Not connected';
+    try {
       await client.auth.signOut();
+      return null;
+    } catch (e) {
+      return 'Failed to sign out: $e';
+    }
+  }
+
+  static Future<String?> updateMetadata(Map<String, dynamic> data) async {
+    if (!_initialized) return 'Not connected';
+    try {
+      await client.auth.updateUser(UserAttributes(data: data));
+      return null;
+    } catch (e) {
+      return 'Failed to update: $e';
     }
   }
 }

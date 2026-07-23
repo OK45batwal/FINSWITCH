@@ -32,8 +32,8 @@ class AuthState {
       userEmail.value = session.user.email;
       userName.value = session.user.userMetadata?['full_name'] as String? ?? session.user.email ?? 'User';
       isLoggedIn.value = true;
-      // ponytail: session means user has been through onboarding already
-      onboardingDone.value = true;
+      interests.value = (session.user.userMetadata?['interests'] as List?)?.cast<String>() ?? [];
+      onboardingDone.value = session.user.userMetadata?['onboarding_completed'] == true;
     } else {
       token.value = null;
       userEmail.value = null;
@@ -51,12 +51,24 @@ class AuthState {
     isLoggedIn.value = true;
   }
 
-  static void logout() {
+  static Future<String?> completeOnboarding(List<String> selectedInterests) async {
+    interests.value = List.from(selectedInterests);
+    onboardingDone.value = true;
+    final err = await SupabaseService.updateMetadata({
+      'interests': selectedInterests,
+      'onboarding_completed': true,
+    });
+    return err;
+  }
+
+  static Future<String?> logout() async {
+    final err = await SupabaseService.signOut();
     token.value = null;
     userEmail.value = null;
     userName.value = null;
     isLoggedIn.value = false;
     onboardingDone.value = false;
     interests.value = [];
+    return err;
   }
 }

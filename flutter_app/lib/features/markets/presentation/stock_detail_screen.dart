@@ -145,7 +145,7 @@ class _Chart extends StatelessWidget {
       decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(20), border: Border.all(color: AppTheme.borderOf(context))),
       child: LineChart(LineChartData(
         gridData: const FlGridData(show: false), titlesData: const FlTitlesData(show: false), borderData: FlBorderData(show: false),
-        lineBarsData: [LineChartBarData(spots: spots, isCurved: true, color: AppTheme.primaryBlue, barWidth: 2, dotData: const FlDotData(show: false), belowBarData: BarAreaData(show: true, color: AppTheme.primaryBlue.withValues(alpha: 0.1)))],
+        lineBarsData: [LineChartBarData(spots: spots, isCurved: true, color: AppTheme.emeraldGreen, barWidth: 2, dotData: const FlDotData(show: false), belowBarData: BarAreaData(show: true, color: AppTheme.emeraldGreen.withValues(alpha: 0.1)))],
       ), duration: Duration.zero),
     );
   }
@@ -193,7 +193,7 @@ class _ActionButtons extends StatelessWidget {
     return Row(children: [
       Expanded(child: ElevatedButton(onPressed: () {}, child: const Text('Buy'))),
       const SizedBox(width: 12),
-      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.textOf(context), side: const BorderSide(color: AppTheme.primaryBlue), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: Text('Sell'))),
+      Expanded(child: OutlinedButton(onPressed: () {}, style: OutlinedButton.styleFrom(foregroundColor: AppTheme.textOf(context), side: const BorderSide(color: AppTheme.emeraldGreen), padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))), child: Text('Sell'))),
     ]);
   }
 }

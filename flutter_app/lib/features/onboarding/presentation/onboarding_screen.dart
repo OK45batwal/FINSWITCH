@@ -85,12 +85,12 @@ class _InterestCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: selected ? AppTheme.primaryBlue.withValues(alpha: 0.15) : AppTheme.cardOf(context),
+          color: selected ? AppTheme.emeraldGreen.withValues(alpha: 0.15) : AppTheme.cardOf(context),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? AppTheme.primaryBlue : AppTheme.borderOf(context), width: selected ? 1.5 : 1),
+          border: Border.all(color: selected ? AppTheme.emeraldGreen : AppTheme.borderOf(context), width: selected ? 1.5 : 1),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(icon, color: selected ? AppTheme.primaryBlue : AppTheme.mutedOf(context), size: 24),
+          Icon(icon, color: selected ? AppTheme.emeraldGreen : AppTheme.mutedOf(context), size: 24),
           const SizedBox(height: 8),
           Text(label, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.textOf(context))),
           Text(desc, style: TextStyle(fontSize: 10, color: AppTheme.mutedOf(context)), maxLines: 1),

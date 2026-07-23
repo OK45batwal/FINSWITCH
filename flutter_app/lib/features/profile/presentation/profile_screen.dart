@@ -93,8 +93,8 @@ class _MenuTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
-          child: Icon(icon, color: AppTheme.primaryBlue, size: 22)),
+        leading: Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+          child: Icon(icon, color: AppTheme.emeraldGreen, size: 22)),
         title: Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
         subtitle: Text(subtitle, style: TextStyle(fontSize: 12, color: muted)),
         trailing: trailing ?? Icon(Icons.chevron_right_rounded, color: AppTheme.mutedOf(context), size: 20),

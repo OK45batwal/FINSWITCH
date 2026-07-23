@@ -52,8 +52,8 @@ class _NewsScreenState extends State<NewsScreen> {
                     margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
                     child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
-                        child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22)),
+                      Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+                        child: const Icon(Icons.article_rounded, color: AppTheme.emeraldGreen, size: 22)),
                       const SizedBox(width: 12),
                       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Row(children: [

@@ -121,8 +121,8 @@ class _StockList extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
           child: Row(children: [
-            Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
-              child: Center(child: Text((s['symbol'] as String? ?? '?')[0], style: const TextStyle(color: AppTheme.primaryBlue, fontWeight: FontWeight.w800, fontSize: 16)))),
+            Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+              child: Center(child: Text((s['symbol'] as String? ?? '?')[0], style: const TextStyle(color: AppTheme.emeraldGreen, fontWeight: FontWeight.w800, fontSize: 16)))),
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(s['symbol'] ?? '', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppTheme.textOf(context))),

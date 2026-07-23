@@ -117,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: AppTheme.cardOf(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: AppTheme.borderOf(context))),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.primaryBlue.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
-          child: const Icon(Icons.article_rounded, color: AppTheme.primaryBlue, size: 22)),
+        Container(width: 48, height: 48, decoration: BoxDecoration(color: AppTheme.emeraldGreen.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
+          child: const Icon(Icons.article_rounded, color: AppTheme.emeraldGreen, size: 22)),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(n['title'] ?? '', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppTheme.textOf(context))),
@@ -169,7 +169,7 @@ class _QuickActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actions = [
-      (Icons.add_circle_outline, 'Invest', AppTheme.primaryBlue),
+      (Icons.add_circle_outline, 'Invest', AppTheme.emeraldGreen),
       (Icons.swap_horiz_rounded, 'SIP', AppTheme.accent),
       (Icons.sell_outlined, 'Sell', AppTheme.emeraldGreen),
       (Icons.history_rounded, 'History', const Color(0xFFA78BFA)),

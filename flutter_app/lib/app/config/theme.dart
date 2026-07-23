@@ -4,9 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 final themeNotifier = ValueNotifier(ThemeMode.dark);
 
 class AppTheme {
-  static const primaryBlue = Color(0xFF10B981);
-  static const brandNavy = Color(0xFF0A192F);
   static const emeraldGreen = Color(0xFF10B981);
+  static const brandNavy = Color(0xFF0A192F);
   static const red = Color(0xFFEF4444);
   static const accent = Color(0xFF38BDF8);
 

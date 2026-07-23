@@ -74,7 +74,7 @@ class _AIScreenState extends State<AIScreen> {
                 ),
               ),
               const SizedBox(width: 8),
-              Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.primaryBlue, borderRadius: BorderRadius.circular(14)),
+              Container(width: 44, height: 44, decoration: BoxDecoration(color: AppTheme.emeraldGreen, borderRadius: BorderRadius.circular(14)),
                 child: IconButton(icon: const Icon(Icons.arrow_upward_rounded, color: Colors.white, size: 20), onPressed: _send, padding: EdgeInsets.zero)),
             ]),
           ),
@@ -109,7 +109,7 @@ class _ChatBubble extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: message.isBot ? const Color(0xFF1A2538) : AppTheme.primaryBlue,
+              color: message.isBot ? const Color(0xFF1A2538) : AppTheme.emeraldGreen,
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(16), topRight: const Radius.circular(16),
                 bottomLeft: Radius.circular(message.isBot ? 4 : 16), bottomRight: Radius.circular(message.isBot ? 16 : 4),

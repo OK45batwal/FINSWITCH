@@ -11,17 +11,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.7'
-      - run: flutter pub get
+          flutter-version: '3.29.0'
+
+      - name: Install Dependencies
+        run: flutter pub get
         working-directory: flutter_app
-      - run: flutter build apk --release
+
+      - name: Setup Release Keystore (if configured)
+        run: |
+          if [ -n "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" ]; then
+            echo "Setting up production release signing key..."
+            echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
+            cat <<EOF > android/key.properties
+          storePassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
+          keyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
+          storeFile=release.keystore
+          EOF
+          else
+            echo "No custom release keystore secret found; using standard release build config."
+          fi
         working-directory: flutter_app
-      - name: Create Release
+
+      - name: Build Release APK
+        run: flutter build apk --release
+        working-directory: flutter_app
+
+      - name: Generate SHA256 Checksum
+        run: |
+          cd flutter_app/build/app/outputs/flutter-apk
+          sha256sum app-release.apk > app-release.apk.sha256
+          echo "Generated SHA256 checksum:"
+          cat app-release.apk.sha256
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: flutter_app/build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            flutter_app/build/app/outputs/flutter-apk/app-release.apk
+            flutter_app/build/app/outputs/flutter-apk/app-release.apk.sha256
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

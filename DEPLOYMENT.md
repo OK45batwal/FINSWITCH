@@ -24,10 +24,15 @@
 
 ## Mobile App Deployment
 
-### Android (Google Play Store)
-- Build: `flutter build appbundle --release`
+### Android (Auto-Update & Release Key Signing)
+- Build: `flutter build apk --release` (or `appbundle`)
 - Target: Android 8.0+ (API 26)
-- Features: Material 3, Edge-to-edge, Dynamic colors
+- Features: Material 3, In-App Auto-Updater with SHA-256 Checksum Verification & Streamed File Installation
+- Persistent Keystore Signing Secrets in GitHub Actions:
+  - `RELEASE_KEYSTORE_BASE64`: Base64 encoded `release.keystore` file
+  - `RELEASE_KEYSTORE_PASSWORD`: Keystore password
+  - `RELEASE_KEY_ALIAS`: Key alias
+  - `RELEASE_KEY_PASSWORD`: Key password
 
 ### iOS (Apple App Store)
 - Build: `flutter build ios --release`

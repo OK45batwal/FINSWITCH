@@ -20,7 +20,14 @@ export const metadata: Metadata = {
     "Stock Screener",
   ],
   authors: [{ name: "FinSwitch Team" }],
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "FinSwitch — Real-Time Stock Market Intelligence",
     description:

@@ -129,6 +129,10 @@ CREATE POLICY "Users access own holdings" ON public.holdings FOR ALL USING (
 CREATE POLICY "Users access own watchlist" ON public.watchlist_items FOR ALL USING (auth.uid() = user_id);
 ```
 
+### Wave 1 Schema Expansions (`supabase/schema_wave1.sql`)
+
+Execute `supabase/schema_wave1.sql` to add user preferences, AI conversations, AI bookmarks, portfolio snapshots, market events, and performance indexes.
+
 ---
 
 ## 🔑 3. Environment Variables

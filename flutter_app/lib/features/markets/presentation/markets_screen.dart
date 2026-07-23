@@ -134,7 +134,7 @@ class _StockList extends StatelessWidget {
             ])),
             const SizedBox(width: 8),
             Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Text('₹${(s['last_price'] ?? 0).toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
+              Text('₹${((s['price'] ?? s['last_price'] ?? 0) as num).toDouble().toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: Theme.of(context).colorScheme.onSurface)),
               const SizedBox(height: 2),
               Text('${(s['change_percent'] ?? 0) >= 0 ? '+' : ''}${(s['change_percent'] ?? 0).toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: (s['change_percent'] ?? 0) >= 0 ? AppTheme.emeraldGreen : AppTheme.red)),
             ]),

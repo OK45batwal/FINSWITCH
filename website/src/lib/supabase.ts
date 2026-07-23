@@ -1,10 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set');
-}
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lydliyjidlzzwggywwpd.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_wBSqQQfKwNl9ikf4YXJ0Vg_RiNvTzGs';
 
 export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);

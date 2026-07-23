@@ -22,10 +22,10 @@
       <img src="https://img.shields.io/badge/🌐_Live_Website-finswitch.pages.dev-0A192F?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Live Website">
     </a>
     <a href="https://finswitch.pages.dev/downloads/finswitch.apk">
-      <img src="https://img.shields.io/badge/📱_Download_APK-v1.0.0-10B981?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
+      <img src="https://img.shields.io/badge/📱_Download_APK-v1.0.1-10B981?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
     </a>
     <a href="https://github.com/OK45batwal/FINSWITCH/releases">
-      <img src="https://img.shields.io/badge/version-1.0.0-2563EB?style=for-the-badge" alt="Version">
+      <img src="https://img.shields.io/badge/version-1.0.1-2563EB?style=for-the-badge" alt="Version">
     </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-MIT-10B981?style=for-the-badge" alt="License">

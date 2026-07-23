@@ -60,10 +60,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       }
     } else {
       if (_isOtpMode) {
-        // Handle OTP verification
-        final result = await SupabaseService.verifyOtp(_emailCtl.text.trim(), _otpCtl.text.trim());
-        if (result.error != null) {
-          setState(() => _error = result.error!);
+        // Handle OTP verification — verifyOtp returns String? (null = success, non-null = error message)
+        final err = await SupabaseService.verifyOtp(_emailCtl.text.trim(), _otpCtl.text.trim());
+        if (err != null) {
+          setState(() => _error = err);
           _busy = false; return;
         }
         // Auto-login after successful OTP verification
@@ -92,9 +92,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   }
  
   Future<void> _forgotPassword() async {
-    final result = await SupabaseService.resetPassword(_emailCtl.text.trim());
-    if (result.error != null) {
-      setState(() => _error = result.error!);
+    // resetPassword returns String? (null = success, non-null = error message)
+    final err = await SupabaseService.resetPassword(_emailCtl.text.trim());
+    if (err != null) {
+      setState(() => _error = err);
     } else {
       setState(() => _error = 'Password reset email sent to ${_emailCtl.text.trim()}');
     }
@@ -105,10 +106,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     setState(() {
       _otpSent = true;
       _otpError = null;
-    }
-    final result = await SupabaseService.sendOtp(_emailCtl.text.trim());
-    if (result.error != null) {
-      setState(() => _error = result.error);
+    });
+    // sendOtp returns String? (null = success, non-null = error message)
+    final err = await SupabaseService.sendOtp(_emailCtl.text.trim());
+    if (err != null) {
+      setState(() => _error = err);
     }
   }
  
@@ -122,23 +124,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       _otpVerified = true;
       _otpError = null;
     });
-    final result = await SupabaseService.verifyOtp(_emailCtl.text.trim(), _otpCtl.text.trim());
-    if (result.error != null) {
-      setState(() => _otpError = result.error!);
+    // verifyOtp returns String? (null = success, non-null = error message)
+    final err = await SupabaseService.verifyOtp(_emailCtl.text.trim(), _otpCtl.text.trim());
+    if (err != null) {
+      setState(() => _otpError = err);
       _busy = false; return;
     }
     if (mounted) {
       context.go('/home');
     }
-  }
- 
-  @override
-  void dispose() {
-    _emailCtl.dispose();
-    _passwordCtl.dispose();
-    _nameCtl.dispose();
-    _otpCtl.dispose();
-    super.dispose();
   }
  
   @override
@@ -285,7 +279,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       TextButton(
                         onPressed: _forgotPassword,
                         child: const Text('Forgot password?', style: TextStyle(color: AppTheme.emeraldGreen, fontSize: 13)),
-                      ],
+                      ),
                     ],
                   ),
                 ],
@@ -302,7 +296,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _otpCtl,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'OTP Code',
                       border: OutlineInputBorder(),
                     ),
@@ -311,7 +305,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                   const SizedBox(height: 8),
                   if (_otpError != null) ...[
-                    Text(_otpError!, style: TextStyle(color: Colors.red)),
+                    Text(_otpError!, style: const TextStyle(color: Colors.red)),
                   ],
                   const SizedBox(height: 12),
                   ElevatedButton(
@@ -332,7 +326,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 20),
                 Center(
                   child: GestureDetector(
-                    onTap: () => setState(() => _isRegisterMode = !_isRegisterMode; _error = null; _isOtpMode = false; _otpSent = false; _otpVerified = false; _otpCtl.clear(); _emailCtl.clear(); _passwordCtl.clear(); _nameCtl.clear(); },
+                    onTap: () => setState(() {
+                      _isRegisterMode = !_isRegisterMode;
+                      _error = null;
+                      _isOtpMode = false;
+                      _otpSent = false;
+                      _otpVerified = false;
+                      _otpCtl.clear();
+                      _emailCtl.clear();
+                      _passwordCtl.clear();
+                      _nameCtl.clear();
+                    }),
                     child: RichText(
                       text: TextSpan(
                         style: TextStyle(
@@ -344,7 +348,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           TextSpan(
                             text: _isRegisterMode ? 'Sign In' : 'Register',
                             style: const TextStyle(color: AppTheme.emeraldGreen, fontWeight: FontWeight.bold),
-                          ],
+                          ),
                         ],
                       ),
                     ),
@@ -357,3 +361,4 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
     );
   }
+}

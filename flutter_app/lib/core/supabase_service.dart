@@ -57,7 +57,7 @@ static Future<String?> signOut() async {
    static Future<String?> sendOtp(String email) async {
      if (!_initialized) return 'Not connected';
      try {
-       final res = await client.auth.signInWithOtp(email: email);
+       await client.auth.signInWithOtp(email: email);
        return null;
      } catch (e) {
        return 'Failed to send OTP: $e';
@@ -67,7 +67,7 @@ static Future<String?> signOut() async {
    static Future<String?> verifyOtp(String email, String token) async {
      if (!_initialized) return 'Not connected';
      try {
-       await client.auth.verifyOtp(email: email, token: token, type: OtpType.email);
+       await client.auth.verifyOTP(email: email, token: token, type: OtpType.email);
        return null;
      } catch (e) {
        return 'Failed to verify OTP: $e';
@@ -77,7 +77,7 @@ static Future<String?> signOut() async {
    static Future<String?> resetPassword(String email) async {
      if (!_initialized) return 'Not connected';
      try {
-       await client.auth.resetPasswordForEmail(email: email);
+       await client.auth.resetPasswordForEmail(email);
        return null;
      } catch (e) {
        return 'Failed to send reset email: $e';
